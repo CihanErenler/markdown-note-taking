@@ -2,8 +2,9 @@
 
 .cm-scroller {
 	font-family: "Source Code Pro", monospace !important;
-	font-size: 15px;
+	font-size: 16px;
 	outline: none;
+	height: 100%;
 }
 
 .cm-scroller:focus {
@@ -13,6 +14,7 @@
 .ͼ2 .cm-gutters {
 	background-color: transparent;
 	border-right: none;
+	background: #f1f5f8;
 }
 
 .ͼ2 .cm-activeLine {
@@ -29,8 +31,17 @@
 
 .ͼ1.cm-editor {
 	background-color: transparent;
+	height: 100%;
 }
 
 .ͼ1.cm-editor.cm-focused {
 	outline: none;
+}
+
+.cm-content {
+	height: 100%;
+}
+
+.cm-theme {
+	height: 100%;
 }
