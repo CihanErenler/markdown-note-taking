@@ -26,10 +26,14 @@ const Editor = () => {
 };
 
 const StyledCodeMirror = styled.div`
-  padding: 20px;
   background-color: ${(props) => props.theme.bg2};
-  height: 100%;
+  height: calc(100vh - 55px);
   overflow: auto;
+
+  .deneme {
+    height: 100%;
+    overflow: auto;
+  }
 `;
 
 export default Editor;
