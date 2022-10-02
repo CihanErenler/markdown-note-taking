@@ -1,11 +1,13 @@
 import React from "react";
 import styled from "styled-components";
 import logo from "../../Assets/logo.svg";
+import Spaces from "./Spaces";
 
 const Parent = () => {
   return (
     <StyledParent>
       <StyledLogo src={logo} alt="logo" />
+      <Spaces />
     </StyledParent>
   );
 };
@@ -18,7 +20,7 @@ const StyledParent = styled.div`
 const StyledLogo = styled.img`
   width: 150px;
   display: block;
-  margin: 10px auto;
+  margin: 10px 20px 50px;
 `;
 
 export default Parent;

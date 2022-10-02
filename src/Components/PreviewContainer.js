@@ -4,7 +4,7 @@ import Editor from "./Editor/Editor.js";
 import Preview from "./Preview.js";
 import ViewHeader from "./ViewHeader.js";
 import Split from "react-split";
-import "./PreviewContainer.css";
+import "../Split.css"
 
 const PreviewContainer = ({ code }) => {
   return (

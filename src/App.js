@@ -5,6 +5,8 @@ import themes from "./theme";
 import PreviewContainer from "./Components/PreviewContainer";
 import Sidebar from "./Components/Sidebar/Sidebar";
 import styled from "styled-components";
+import Split from "react-split";
+import "./Split.css";
 
 function App() {
   const [currentTheme, setCurrentTheme] = useState(false);
@@ -15,8 +17,15 @@ function App() {
       <GlobalStyles />
       <ThemeProvider theme={currentTheme ? themes.dark : themes.default}>
         <StyledContainer>
-          <Sidebar />
-          <PreviewContainer code={code} />
+          <Split
+            sizes={[20, 80]}
+            direction="horizontal"
+            cursor="col-resize"
+            className="split-flex"
+          >
+            <Sidebar />
+            <PreviewContainer code={code} />
+          </Split>
         </StyledContainer>
       </ThemeProvider>
     </Main>

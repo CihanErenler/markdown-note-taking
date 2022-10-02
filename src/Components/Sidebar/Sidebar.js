@@ -7,13 +7,13 @@ const Sidebar = () => {
   return (
     <StyledSidebar>
       <Parent />
-      <Child />
+      {/* <Child /> */}
     </StyledSidebar>
   );
 };
 
 const StyledSidebar = styled.section`
-  width: 400px;
+  width: 300px;
   display: flex;
   border-right: 1px solid ${(props) => props.theme.inputBorder};
 `;
