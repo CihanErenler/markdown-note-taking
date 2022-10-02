@@ -4,18 +4,20 @@ import Parent from "./Parent";
 import Child from "./Child";
 
 const Sidebar = () => {
-  return (
-    <StyledSidebar>
-      <Parent />
-      {/* <Child /> */}
-    </StyledSidebar>
-  );
+	return (
+		<StyledSidebar>
+			<Parent />
+			{/* <Child /> */}
+		</StyledSidebar>
+	);
 };
 
 const StyledSidebar = styled.section`
-  width: 300px;
-  display: flex;
-  border-right: 1px solid ${(props) => props.theme.inputBorder};
+	width: 300px;
+	max-width: 500px;
+	min-width: 200px;
+	display: flex;
+	border-right: 1px solid ${(props) => props.theme.inputBorder};
 `;
 
 export default Sidebar;

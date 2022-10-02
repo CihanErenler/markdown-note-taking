@@ -1,28 +1,44 @@
 import React from "react";
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 
-const Button = ({ children }) => {
-  return <StyledButton>{children}</StyledButton>;
+const Button = ({ children, variant }) => {
+	if (variant === "cancel") {
+		return <StyledCancelButton>{children}</StyledCancelButton>;
+	}
+	return <StyledButton>{children}</StyledButton>;
 };
 
-const StyledButton = styled.button`
-  width: 100px;
-  height: 45px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background-color: ${(props) => props.theme.primary};
-  border: none;
-  border-radius: 6px;
-  font-size: 18px;
-  font-weight: 600;
-  color: ${(props) => props.theme.bg1};
-  cursor: pointer;
-  transition: all 0.3s ease;
+const CommonStyles = css`
+	width: 100px;
+	height: 45px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	border: none;
+	border-radius: 6px;
+	font-size: 18px;
+	font-weight: 600;
+	color: ${(props) => props.theme.bg1};
+	cursor: pointer;
+	transition: all 0.3s ease;
+`;
 
-  :hover {
-    background-color: ${(props) => props.theme.primaryDarker};
-  }
+const StyledButton = styled.button`
+	${CommonStyles}
+	background-color: ${(props) => props.theme.primary};
+
+	:hover {
+		background-color: ${(props) => props.theme.primaryDarker};
+	}
+`;
+
+const StyledCancelButton = styled.button`
+	${CommonStyles}
+	background-color: ${(props) => props.theme.danger};
+
+	:hover {
+		background-color: ${(props) => props.theme.primaryDarker};
+	}
 `;
 
 export default Button;
