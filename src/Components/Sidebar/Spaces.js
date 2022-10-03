@@ -1,16 +1,13 @@
 import React from "react";
 import styled from "styled-components";
-import { MdAddCircleOutline } from "react-icons/md";
 import IconButton from "../IconButton";
 
-const Spaces = ({ title }) => {
+const Spaces = ({ title, action, icon }) => {
   return (
     <StyledSpaces>
       <div className="space-title-wrapper">
-        <h1 className="space-title">Folders</h1>
-        <IconButton>
-          <MdAddCircleOutline size={26} />
-        </IconButton>
+        <h1 className="space-title">{title}</h1>
+        <IconButton action={action}>{icon}</IconButton>
       </div>
     </StyledSpaces>
   );

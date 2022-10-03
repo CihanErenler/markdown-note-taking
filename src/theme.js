@@ -11,6 +11,7 @@ const theme = {
     textColorLighter: "#868787",
     buttonColor: "#fff",
     inputButtonColor: "#445c79",
+    inputFocus: "#91ffc9",
     buttonHover: "#2563b0",
     buttonFocus: "#A1CFF1",
     inputBg: "#f4f4f4",

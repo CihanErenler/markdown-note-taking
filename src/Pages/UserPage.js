@@ -1,31 +1,45 @@
-import { useState } from "react";
+import { useEffect } from "react";
 import PreviewContainer from "../Components/PreviewContainer";
 import Sidebar from "../Components/Sidebar/Sidebar";
 import styled from "styled-components";
 import Split from "react-split";
 import Modal from "../Components/Modal";
+import { useEditorContext } from "../Context/EditorContext";
 
 const UserPage = ({ code }) => {
-	const [isModalOpen, setIsModalOpen] = useState(true);
+  const { isModalOpen, closeModal } = useEditorContext();
 
-	return (
-		<StyledUserPage>
-			<Split
-				sizes={[20, 80]}
-				direction="horizontal"
-				cursor="col-resize"
-				className="split-flex"
-			>
-				<Sidebar />
-				<PreviewContainer code={code} />
-			</Split>
-			{isModalOpen ? <Modal /> : ""}
-		</StyledUserPage>
-	);
+  useEffect(() => {
+    const handleKeypress = (e) => {
+      if (e.key === "Escape") {
+        closeModal();
+      }
+    };
+    document.addEventListener("keydown", handleKeypress);
+    // cleanup
+    return () => {
+      document.removeEventListener("keypress", handleKeypress);
+    };
+  }, []);
+
+  return (
+    <StyledUserPage>
+      <Split
+        sizes={[20, 80]}
+        direction="horizontal"
+        cursor="col-resize"
+        className="split-flex"
+      >
+        <Sidebar />
+        <PreviewContainer code={code} />
+      </Split>
+      {isModalOpen ? <Modal /> : ""}
+    </StyledUserPage>
+  );
 };
 
 const StyledUserPage = styled.section`
-	position: relative;
+  position: relative;
 `;
 
 export default UserPage;

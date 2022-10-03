@@ -6,10 +6,10 @@ import { useEditorContext } from "../../Context/EditorContext";
 import styled from "styled-components";
 
 const Editor = () => {
-  const { code, setCode } = useEditorContext();
+  const { code, updateCode } = useEditorContext();
 
   const handleChange = (value, viewUpdate) => {
-    setCode(value);
+    updateCode(value);
   };
 
   return (

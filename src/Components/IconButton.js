@@ -1,8 +1,8 @@
 import React from "react";
 import styled from "styled-components";
 
-const IconButton = ({ children }) => {
-  return <StyledIconButton>{children}</StyledIconButton>;
+const IconButton = ({ children, action }) => {
+  return <StyledIconButton onClick={action}>{children}</StyledIconButton>;
 };
 
 const StyledIconButton = styled.button`
