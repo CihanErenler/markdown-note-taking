@@ -11,7 +11,7 @@ const FolderTree = () => {
       <Folder
         explorer={files}
         action={openModal}
-        icon={<FaFolderPlus size={22} />}
+        icon={<FaFolderPlus size={20} />}
       />
     </section>
   );

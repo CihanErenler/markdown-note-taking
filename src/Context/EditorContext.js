@@ -28,14 +28,24 @@ As you can see from above it looks awesome 🚀
   files: {
     name: "Folders",
     isFolder: true,
+    isOpen: false,
     items: [
       { name: "do something", isFolder: false, items: [] },
       {
         name: "school",
         isFolder: true,
+        isOpen: false,
         items: [
           { name: "lets do this shit", isFolder: false, items: [] },
           { name: "oh yeah", isFolder: false, items: [] },
+          {
+            name: "hadi bakalim",
+            isFolder: true,
+            items: [
+              { name: "title1", isFolder: false, items: [] },
+              { name: "title2", isFolder: false, items: [] },
+            ],
+          },
         ],
       },
     ],
