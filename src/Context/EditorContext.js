@@ -1,5 +1,9 @@
 import React, { useContext, useReducer } from "react";
-import reducer, { CLOSE_MODAL, OPEN_MODAL } from "../Reducers/EditorReducer";
+import reducer, {
+  CLOSE_MODAL,
+  CREATE_FOLDER,
+  OPEN_MODAL,
+} from "../Reducers/EditorReducer";
 import { UPDATE_CODE } from "../Reducers/EditorReducer";
 
 const EditorContext = React.createContext();
@@ -21,7 +25,23 @@ Now I will show you some example code
 As you can see from above it looks awesome 🚀
 `,
   isModalOpen: false,
-  files: {},
+  files: {
+    name: "Folders",
+    isFolder: true,
+    items: [
+      { name: "do something", isFolder: false, items: [] },
+      {
+        name: "school",
+        isFolder: true,
+        items: [
+          { name: "lets do this shit", isFolder: false, items: [] },
+          { name: "oh yeah", isFolder: false, items: [] },
+        ],
+      },
+    ],
+  },
+  currentFile: {},
+  selectedFolder: "root",
 };
 
 const EditorProvider = ({ children }) => {
@@ -39,9 +59,13 @@ const EditorProvider = ({ children }) => {
     dispatch({ type: CLOSE_MODAL });
   };
 
+  const createFolder = (folderName) => {
+    dispatch({ type: CREATE_FOLDER, payload: folderName });
+  };
+
   return (
     <EditorContext.Provider
-      value={{ ...state, updateCode, openModal, closeModal }}
+      value={{ ...state, updateCode, openModal, closeModal, createFolder }}
     >
       {children}
     </EditorContext.Provider>

@@ -1,18 +1,22 @@
 import React from "react";
 import styled, { css } from "styled-components";
 
-const Button = ({ children, variant, type }) => {
+const Button = ({ children, variant, type, disabled, action }) => {
   if (type === "cancel") {
-    return <StyledCancelButton>{children}</StyledCancelButton>;
+    return <StyledCancelButton disabled={disabled} onClick={action}>{children}</StyledCancelButton>;
+  }
+
+  if(variant === "secondary") {
+    return <StyledSecondary disabled={disabled} onClick={action}>{children}</StyledSecondary>
   }
 
   if (variant === "outlined") {
-    return <StyledOutlined>{children}</StyledOutlined>;
+    return <StyledOutlined disabled={disabled} onClick={action}>{children}</StyledOutlined>;
   }
   if (variant === "outlined-danger") {
-    return <StyledOutlinedDanger>{children}</StyledOutlinedDanger>;
+    return <StyledOutlinedDanger disabled={disabled} onClick={action}>{children}</StyledOutlinedDanger>;
   }
-  return <StyledButton>{children}</StyledButton>;
+  return <StyledButton disabled={disabled} onClick={action}>{children}</StyledButton>;
 };
 
 const CommonStyles = css`
@@ -29,24 +33,26 @@ const CommonStyles = css`
   cursor: pointer;
   background-color: transparent;
   transition: all 0.3s ease;
+  opacity: .9;
+
+  &:not(:disabled):hover {
+    opacity: 1;
+  }
+
+  &:disabled {
+    cursor: default;
+    opacity: .5;
+  }
 `;
 
 const StyledButton = styled.button`
   ${CommonStyles}
   background-color: ${(props) => props.theme.primary};
-
-  :hover {
-    background-color: ${(props) => props.theme.primaryDarker};
-  }
 `;
 
 const StyledCancelButton = styled.button`
   ${CommonStyles}
   background-color: ${(props) => props.theme.danger};
-
-  :hover {
-    background-color: ${(props) => props.theme.primaryDarker};
-  }
 `;
 
 const StyledOutlinedDanger = styled.button`
@@ -60,5 +66,10 @@ const StyledOutlined = styled.button`
   border: 2px solid ${(props) => props.theme.primary};
   color: ${(props) => props.theme.primary};
 `;
+
+const StyledSecondary = styled.button`
+  ${CommonStyles}
+  background-color: ${props => props.theme.sidebarBg} ;
+`
 
 export default Button;

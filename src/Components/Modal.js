@@ -5,7 +5,7 @@ import Input from "./Input";
 import { useEditorContext } from "../Context/EditorContext";
 
 const Modal = () => {
-  const { closeModal } = useEditorContext();
+  const { closeModal, createFolder } = useEditorContext();
   const [value, setValue] = useState("Untitled");
   const element = useRef(null);
 
@@ -36,8 +36,8 @@ const Modal = () => {
         <h1>New Folder</h1>
         <Input value={value} action={handleInputChange} focused={true} />
         <section>
-          <Button variant="outlined-danger">Cancel</Button>
-          <Button variant="outlined">Create</Button>
+          <Button variant="secondary" action={closeModal}>Cancel</Button>
+          <Button disabled={!value} action={() => createFolder(value)}>Create</Button>
         </section>
       </div>
     </StyledModal>

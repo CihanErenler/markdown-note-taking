@@ -1,20 +1,14 @@
 import React from "react";
 import styled from "styled-components";
 import logo from "../../Assets/logo.svg";
-import Spaces from "./Spaces";
-import { MdAddCircleOutline } from "react-icons/md";
-import { useEditorContext } from "../../Context/EditorContext";
+
+import FolderTree from "../Folders/FolderTree";
 
 const Parent = () => {
-  const { openModal } = useEditorContext();
   return (
     <StyledParent>
       <StyledLogo src={logo} alt="logo" />
-      <Spaces
-        title="Folders"
-        action={openModal}
-        icon={<MdAddCircleOutline size={26} />}
-      />
+      <FolderTree />
     </StyledParent>
   );
 };

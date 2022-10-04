@@ -32,18 +32,18 @@ const StyledInput = styled.input`
 
   ::-moz-selection {
     color: ${(props) => props.theme.bg1};
-    background: ${(props) => props.theme.sidebarBg};
+    background: ${(props) => props.theme.primary};
   }
 
   ::selection {
     color: ${(props) => props.theme.bg1};
-    background: ${(props) => props.theme.sidebarBg};
+    background: ${(props) => props.theme.primary};
   }
 
   :focus {
     outline: none;
-    border-color: ${(props) => props.theme.buttonHover};
-    box-shadow: 0px 0px 0px 5px ${(props) => props.theme.buttonFocus};
+    border-color: ${(props) => props.theme.primary};
+    box-shadow: 0px 0px 0px 3px ${(props) => props.theme.inputBorderFocus};
     background-color: ${(props) => props.theme.inputBg};
   }
 `;

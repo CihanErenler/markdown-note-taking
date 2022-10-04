@@ -133,7 +133,7 @@ const StyledPreview = styled.div`
         content: "";
         width: 20px;
         height: 20px;
-        border: 1px solid ${(props) => props.theme.borderColor};
+        border: 1px solid ${(props) => props.theme.textColorLighter};
         border-radius: 3px;
         background-color: ${(props) => props.theme.bg2};
       }
