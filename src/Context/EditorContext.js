@@ -30,20 +30,26 @@ As you can see from above it looks awesome 🚀
     isFolder: true,
     isOpen: false,
     items: [
-      { name: "do something", isFolder: false, items: [] },
+      { name: "do something", isFolder: false, isOpen: false, items: [] },
       {
         name: "school",
         isFolder: true,
         isOpen: false,
         items: [
-          { name: "lets do this shit", isFolder: false, items: [] },
-          { name: "oh yeah", isFolder: false, items: [] },
+          {
+            name: "lets do this shit",
+            isFolder: false,
+            isOpen: false,
+            items: [],
+          },
+          { name: "oh yeah", isFolder: false, isOpen: false, items: [] },
           {
             name: "hadi bakalim",
             isFolder: true,
+            isOpen: false,
             items: [
-              { name: "title1", isFolder: false, items: [] },
-              { name: "title2", isFolder: false, items: [] },
+              { name: "title1", isFolder: false, isOpen: false, items: [] },
+              { name: "title2", isFolder: false, isOpen: false, items: [] },
             ],
           },
         ],

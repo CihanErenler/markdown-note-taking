@@ -8,21 +8,21 @@ import UserPage from "./Pages/UserPage";
 import "./Split.css";
 
 function App() {
-	const [currentTheme, setCurrentTheme] = useState(false);
-	const [code, setCode] = useState("");
+  const [currentTheme, setCurrentTheme] = useState(false);
+  const [code, setCode] = useState("");
 
-	return (
-		<Main>
-			<GlobalStyles />
-			<ThemeProvider theme={currentTheme ? themes.dark : themes.default}>
-				<UserPage code={code} />
-			</ThemeProvider>
-		</Main>
-	);
+  return (
+    <Main>
+      <GlobalStyles />
+      <ThemeProvider theme={currentTheme ? themes.dark : themes.default}>
+        <UserPage code={code} />
+      </ThemeProvider>
+    </Main>
+  );
 }
 
 const Main = styled.main`
-	height: 100vh;
+  height: 100vh;
 `;
 
 export default App;

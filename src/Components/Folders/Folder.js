@@ -28,19 +28,27 @@ function Folder({ explorer, icon, action }) {
             ""
           )}
           {!explorer.isFolder ? (
-            <BsFillMarkdownFill size={18} color="#fff" />
+            <BsFillMarkdownFill
+              size={18}
+              color="#eee"
+              style={{ marginLeft: explorer.isFolder ? 10 : 12 }}
+            />
           ) : expand ? (
-            <AiFillFolderOpen size={20} color="#fff" />
+            <AiFillFolderOpen size={20} color="#E3DE8F" />
           ) : (
-            <AiFillFolder size={20} color="#fff" />
+            <AiFillFolder size={20} color="#E3DE8F" />
           )}
           <h1 className={`space-title ${explorer.isFolder ? "bold" : ""}`}>
             {explorer.name}
           </h1>
         </div>
-        <div className="buttons">
-          <IconButton action={action}>{icon}</IconButton>
-        </div>
+        {explorer.isFolder ? (
+          <div className="buttons">
+            <IconButton action={action}>{icon}</IconButton>
+          </div>
+        ) : (
+          ""
+        )}
       </div>
       <div
         className="content"
@@ -63,10 +71,6 @@ const StyledFolder = styled.section`
     justify-content: space-between;
     padding: 4px 10px;
     cursor: pointer;
-
-    .content {
-      border-left: 1px solid ${(props) => props.theme.textColor};
-    }
 
     .arrows {
       display: grid;
