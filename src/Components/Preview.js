@@ -161,7 +161,7 @@ const StyledPreview = styled.div`
 
   pre > div {
     border-radius: 8px;
-    font-size: 16px;
+    font-size: 15px;
   }
 `;
 

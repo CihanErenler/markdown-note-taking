@@ -2,7 +2,7 @@
 export const UPDATE_CODE = "UPDATE_CODE";
 export const OPEN_MODAL = "OPEN_MODAL";
 export const CLOSE_MODAL = "CLOSE_MODAL";
-export const CREATE_FOLDER = "CREATE_FOLDER";
+export const TOGGLE_FOLDER_TREE = "TOGGLE_FOLDER_TREE";
 
 const editorReducer = (state, action) => {
   if (action.type === UPDATE_CODE) {
@@ -20,59 +20,26 @@ const editorReducer = (state, action) => {
     return tempState;
   }
 
-  if (action.type === CREATE_FOLDER) {
-    console.log("girdi");
-    const folderName = action.payload;
+  if (action.type === TOGGLE_FOLDER_TREE) {
     const tempFiles = state.files;
+    const tempId = action.payload;
 
-    const folderObj = {
-      name: folderName,
-      parent: true,
-      children: [],
-      isOpen: false,
-    };
-
-    const checkName = (curName) => {
-      const filtered = tempFiles.children.find(
-        (item) => item.name === folderName
-      );
-
-      if(filtered) {
-        const seperated = filtered.name.split("-")
-        const num = isNaN(Number(seperated[seperated.length - 1]))
-
-        if(num) {
-          folderObj.name = `${curName}-1`
-        } else {
-          const number = Number(seperated[seperated.length - 1])
-          seperated.pop()
-          const newName = `${seperated.join("-")}-${number + 1}`
-          checkName(newName)
-          folderObj.name = newName
-        }
-      }
-    }
-
-    const addFolder = (files) => {
-      if (state.selectedFolder === "root") {
-        checkName()
-        files.children.unshift(folderObj);
-      } else {
-        files.children.forEach((file) => {
-          if (file.parent) {
-            if (file.name === state.selectedFolder) {
-              file.children.shift(folderObj);
-              return;
-            } else {
-              addFolder(file.children);
-            }
+    const toggleFolder = (array, id) => {
+      array.forEach((item) => {
+        if (item.isFolder) {
+          if (item.id === id) {
+            item.isOpen = !item.isOpen;
+          } else {
+            toggleFolder(item.items, id);
           }
-        });
-      }
+        }
+      });
     };
 
-    addFolder(tempFiles);
-    return { ...state, files: tempFiles };
+    toggleFolder(tempFiles.items, tempId);
+    const tempState = { ...state, files: tempFiles };
+
+    return tempState;
   }
 
   return state;
