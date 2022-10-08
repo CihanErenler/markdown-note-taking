@@ -13,7 +13,7 @@ const Sidebar = () => {
 const StyledSidebar = styled.section`
 	width: 300px;
 	max-width: 500px;
-	min-width: 200px;
+	min-width: 220px;
 	display: flex;
 	border-right: 1px solid ${(props) => props.theme.inputBorder};
 `;

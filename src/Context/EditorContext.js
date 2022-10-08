@@ -3,6 +3,7 @@ import reducer, {
 	CLOSE_MODAL,
 	OPEN_MODAL,
 	TOGGLE_FOLDER_TREE,
+	TOGGLE_FULLSCREEN,
 } from "../Reducers/EditorReducer";
 import { UPDATE_CODE } from "../Reducers/EditorReducer";
 
@@ -66,6 +67,7 @@ const initialStates = {
 	},
 	currentFile: {},
 	selectedFolder: "root",
+	fullscreen: "",
 };
 
 const EditorProvider = ({ children }) => {
@@ -93,6 +95,10 @@ const EditorProvider = ({ children }) => {
 		dispatch({ type: TOGGLE_FOLDER_TREE, payload: tempFiles });
 	};
 
+	const toggleFullscreen = (viewName) => {
+		dispatch({ type: TOGGLE_FULLSCREEN, payload: viewName });
+	};
+
 	const toggleFolder = (array, id) => {
 		array.forEach((item) => {
 			if (item.isFolder) {
@@ -114,6 +120,7 @@ const EditorProvider = ({ children }) => {
 				closeModal,
 				createFolder,
 				toggleFolderTree,
+				toggleFullscreen,
 			}}
 		>
 			{children}

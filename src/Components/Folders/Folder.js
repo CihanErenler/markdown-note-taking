@@ -20,9 +20,9 @@ function Folder({ explorer, icon, action }) {
 					{explorer.isFolder ? (
 						<div className="arrows">
 							{explorer.isOpen ? (
-								<IoIosArrowDown size={20} color="#fff" />
+								<IoIosArrowDown size={18} color="#ddd" />
 							) : (
-								<IoIosArrowForward size={20} color="#fff" />
+								<IoIosArrowForward size={18} color="#ddd" />
 							)}
 						</div>
 					) : (
@@ -32,7 +32,7 @@ function Folder({ explorer, icon, action }) {
 						<BsFillMarkdownFill
 							size={18}
 							color="#FFD166"
-							style={{ marginLeft: explorer.isFolder ? 10 : 5 }}
+							style={{ marginLeft: explorer.isFolder ? 10 : 2 }}
 						/>
 					) : explorer.isOpen ? (
 						<AiFillFolderOpen size={20} color="#06D6A0" />
@@ -75,13 +75,17 @@ const StyledFolder = styled.section`
 		display: flex;
 		align-items: center;
 		justify-content: space-between;
-		padding: 4px 10px;
+		padding: 2px 10px 2px 30px;
 		cursor: pointer;
 
 		.arrows {
 			display: grid;
 			align-items: center;
 			margin-right: 5px;
+			position: absolute;
+			left: -22px;
+			top: 50%;
+			transform: translateY(-50%);
 		}
 
 		.bold {
@@ -93,6 +97,7 @@ const StyledFolder = styled.section`
 			align-items: center;
 			justify-content: flex-start;
 			flex: 1;
+			position: relative;
 		}
 
 		.space-title {

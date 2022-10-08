@@ -3,6 +3,7 @@ export const UPDATE_CODE = "UPDATE_CODE";
 export const OPEN_MODAL = "OPEN_MODAL";
 export const CLOSE_MODAL = "CLOSE_MODAL";
 export const TOGGLE_FOLDER_TREE = "TOGGLE_FOLDER_TREE";
+export const TOGGLE_FULLSCREEN = "TOGGLE_FULLSCREEN";
 
 const editorReducer = (state, action) => {
 	if (action.type === UPDATE_CODE) {
@@ -24,6 +25,13 @@ const editorReducer = (state, action) => {
 		const files = action.payload;
 		const tempState = { ...state, files };
 
+		return tempState;
+	}
+
+	if (action.type === TOGGLE_FULLSCREEN) {
+		const tempVal = state.fullscreen === action.payload ? "" : action.payload;
+		console.log(tempVal);
+		const tempState = { ...state, fullscreen: tempVal };
 		return tempState;
 	}
 
