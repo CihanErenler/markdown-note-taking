@@ -4,17 +4,21 @@ import { FaFolderPlus } from "react-icons/fa";
 import { useEditorContext } from "../../Context/EditorContext";
 
 const FolderTree = () => {
-  const { files, openModal } = useEditorContext();
+	const { files, openModal } = useEditorContext();
 
-  return (
-    <section>
-      <Folder
-        explorer={files}
-        action={openModal}
-        icon={<FaFolderPlus size={20} />}
-      />
-    </section>
-  );
+	return (
+		<section>
+			{files.items.map((item) => {
+				return (
+					<Folder
+						explorer={item}
+						action={openModal}
+						icon={<FaFolderPlus size={20} />}
+					/>
+				);
+			})}
+		</section>
+	);
 };
 
 export default FolderTree;
