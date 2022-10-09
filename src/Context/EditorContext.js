@@ -77,7 +77,8 @@ const EditorProvider = ({ children }) => {
 		dispatch({ type: UPDATE_CODE, payload: value });
 	};
 
-	const openModal = () => {
+	const openModal = (id) => {
+		console.log(id);
 		dispatch({ type: OPEN_MODAL });
 	};
 

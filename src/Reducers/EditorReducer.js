@@ -4,6 +4,7 @@ export const OPEN_MODAL = "OPEN_MODAL";
 export const CLOSE_MODAL = "CLOSE_MODAL";
 export const TOGGLE_FOLDER_TREE = "TOGGLE_FOLDER_TREE";
 export const TOGGLE_FULLSCREEN = "TOGGLE_FULLSCREEN";
+export const UPDATE_NEW_FOLDER_PARENT = "UPDATE_NEW_FOLDER_PARENT";
 
 const editorReducer = (state, action) => {
 	if (action.type === UPDATE_CODE) {

@@ -1,6 +1,6 @@
 import React from "react";
 import Folder from "./Folder";
-import { FaFolderPlus } from "react-icons/fa";
+
 import { useEditorContext } from "../../Context/EditorContext";
 import styled from "styled-components";
 
@@ -11,20 +11,15 @@ const FolderTree = () => {
 		<StyledFolderTree>
 			<h1 className="folder-tree-title">Folders</h1>
 			{files.items.map((item) => {
-				return (
-					<Folder
-						key={item.id}
-						explorer={item}
-						action={openModal}
-						icon={<FaFolderPlus size={20} />}
-					/>
-				);
+				return <Folder key={item.id} explorer={item} action={openModal} />;
 			})}
 		</StyledFolderTree>
 	);
 };
 
 const StyledFolderTree = styled.section`
+	position: relative;
+
 	h1.folder-tree-title {
 		color: ${(props) => props.theme.bg1};
 		text-transform: uppercase;

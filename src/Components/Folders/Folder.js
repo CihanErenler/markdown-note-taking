@@ -5,10 +5,10 @@ import { AiFillFolder, AiFillFolderOpen } from "react-icons/ai";
 import { BsFillMarkdownFill } from "react-icons/bs";
 import { IoIosArrowDown, IoIosArrowForward } from "react-icons/io";
 import { useEditorContext } from "../../Context/EditorContext";
+import { FaFolderPlus } from "react-icons/fa";
 
-function Folder({ explorer, icon, action }) {
-	const { toggleFolderTree } = useEditorContext();
-	const [expand, setExpand] = useState(false);
+function Folder({ explorer, action }) {
+	const { toggleFolderTree, openModal } = useEditorContext();
 
 	const handleClick = (item) => {
 		if (item.isFolder) toggleFolderTree(item.id);
@@ -39,13 +39,16 @@ function Folder({ explorer, icon, action }) {
 					) : (
 						<AiFillFolder size={20} color="#06D6A0" />
 					)}
+
 					<h1 className={`space-title ${explorer.isFolder ? "bold" : ""}`}>
 						{explorer.name}
 					</h1>
 				</div>
 				{explorer.isFolder ? (
 					<div className="buttons">
-						<IconButton action={action}>{icon}</IconButton>
+						<IconButton action={() => openModal(explorer.id)}>
+							{<FaFolderPlus size={20} />}
+						</IconButton>
 					</div>
 				) : (
 					""
@@ -55,12 +58,13 @@ function Folder({ explorer, icon, action }) {
 				className="content"
 				style={{
 					display: explorer.isOpen ? "block" : "none",
-					marginLeft: 15,
+					marginLeft: 16,
+					borderLeft: "1px solid #303042",
 				}}
 			>
 				{explorer.isFolder
 					? explorer.items.map((explore) => (
-							<Folder key={explore.id} icon={icon} explorer={explore} />
+							<Folder key={explore.id} explorer={explore} />
 					  ))
 					: ""}
 			</div>
@@ -70,6 +74,23 @@ function Folder({ explorer, icon, action }) {
 
 const StyledFolder = styled.section`
 	color: ${(props) => props.theme.bg1};
+
+	/* ::before {
+		position: absolute;
+		content: "";
+		left: 0;
+		right: 0;
+		width: 100%;
+		height: 26px;
+		background-color: transparent;
+	}
+
+	:hover::before {
+		background-color: ${(props) => props.theme.textColor};
+	} */
+
+	.content {
+	}
 
 	.space-title-wrapper {
 		display: flex;
@@ -102,7 +123,7 @@ const StyledFolder = styled.section`
 
 		.space-title {
 			text-transform: capitalize;
-			font-size: 15px;
+			font-size: 14px;
 			margin: 0 10px;
 			flex: 1;
 			font-weight: 200;
@@ -116,6 +137,7 @@ const StyledFolder = styled.section`
 			-moz-user-select: none;
 			-ms-user-select: none;
 			user-select: none;
+			position: relative;
 		}
 
 		.buttons {
