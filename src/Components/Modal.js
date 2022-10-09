@@ -5,104 +5,114 @@ import Input from "./Input";
 import { useEditorContext } from "../Context/EditorContext";
 
 const Modal = () => {
-	const { closeModal, createFolder, modalValue, updateModalValue, modalMode } =
-		useEditorContext();
-	const element = useRef(null);
+  const {
+    closeModal,
+    createFolder,
+    createFile,
+    modalValue,
+    updateModalValue,
+    modalMode,
+  } = useEditorContext();
+  const element = useRef(null);
 
-	const generateModalTitle = (mode) => {
-		let title = "New Folder";
-		if (mode === "create-file") title = "New File";
-		if (mode === "edit-file") title = "Edit File";
-		if (mode === "edit-folder") title = "Rename Folder";
-		return title;
-	};
+  const generateModalTitle = (mode) => {
+    let title = "New Folder";
+    if (mode === "create-file") title = "New File";
+    if (mode === "edit-file") title = "Edit File";
+    if (mode === "edit-folder") title = "Rename Folder";
+    return title;
+  };
 
-	useEffect(() => {
-		const tempElem = element.current;
-		const handleClick = (e) => {
-			if (
-				e.target.classList.contains("modal") ||
-				e.target.textContent === "Cancel"
-			) {
-				closeModal();
-			}
-		};
+  const handleClick = () => {
+    if (modalMode === "create-folder") createFolder();
+    if (modalMode === "create-file") createFile();
+    if (modalMode === "edit-folder" || modalMode === "edit-file")
+      console.log("edit");
+  };
 
-		tempElem.addEventListener("click", handleClick);
-		return () => {
-			tempElem.removeEventListener("click", handleClick);
-		};
-	}, []);
+  useEffect(() => {
+    const tempElem = element.current;
+    const handleClick = (e) => {
+      if (
+        e.target.classList.contains("modal") ||
+        e.target.textContent === "Cancel"
+      ) {
+        closeModal();
+      }
+    };
 
-	const generatedTitle = generateModalTitle(modalMode);
+    tempElem.addEventListener("click", handleClick);
+    return () => {
+      tempElem.removeEventListener("click", handleClick);
+    };
+  }, []);
 
-	return (
-		<StyledModal className="modal" ref={element}>
-			<div>
-				<h1>{generatedTitle}</h1>
-				<Input value={modalValue} action={updateModalValue} focused={true} />
-				<section>
-					<Button variant="secondary" action={closeModal}>
-						Cancel
-					</Button>
-					<Button
-						disabled={!modalValue}
-						action={() => createFolder(modalValue)}
-					>
-						Create
-					</Button>
-				</section>
-			</div>
-		</StyledModal>
-	);
+  const generatedTitle = generateModalTitle(modalMode);
+
+  return (
+    <StyledModal className="modal" ref={element}>
+      <div>
+        <h1>{generatedTitle}</h1>
+        <Input value={modalValue} action={updateModalValue} focused={true} />
+        <section>
+          <Button variant="secondary" action={closeModal}>
+            Cancel
+          </Button>
+          <Button disabled={!modalValue} action={handleClick}>
+            Create
+          </Button>
+        </section>
+      </div>
+    </StyledModal>
+  );
 };
 
 const StyledModal = styled.div`
-	position: absolute;
-	height: 100%;
-	width: 100%;
-	top: 0;
-	left: 0;
-	background-color: rgba(0, 10, 20, 0.6);
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	transition: all 0.3s ease;
-	opacity: 0;
-	animation: fadein 0.3s forwards ease;
-	z-index: 9999;
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  top: 0;
+  left: 0;
+  background-color: rgba(0, 10, 20, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+  opacity: 0;
+  animation: fadein 0.3s forwards ease;
+  z-index: 9999;
 
-	@keyframes fadein {
-		from {
-			opacity: 0;
-		}
-		to {
-			opacity: 1;
-			transform: scale(1);
-		}
-	}
+  @keyframes fadein {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
 
-	div {
-		background-color: ${(props) => props.theme.bg1};
-		width: 500px;
-		padding: 40px;
-		border-radius: 4px;
-		animation: fadein 0.3s forwards ease;
-		opacity: 0;
-		transform: scale(0.9);
+  div {
+    background-color: ${(props) => props.theme.bg1};
+    width: 500px;
+    padding: 40px;
+    border-radius: 4px;
+    animation: fadein 0.3s forwards ease;
+    opacity: 0;
+    transform: scale(0.9);
 
-		h1 {
-			padding-bottom: 20px;
-			font-weight: 500;
-		}
-	}
+    h1 {
+      padding-bottom: 20px;
+      font-weight: 500;
+    }
+  }
 
-	section {
-		padding-top: 30px;
-		display: flex;
-		align-items: center;
-		justify-content: space-between;
-	}
+  section {
+    padding-top: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
 `;
 
 export default Modal;

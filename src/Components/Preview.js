@@ -7,193 +7,193 @@ import dark from "react-syntax-highlighter/dist/esm/styles/prism/coldark-dark";
 import { BsFullscreenExit, BsFullscreen } from "react-icons/bs";
 
 const Preview = () => {
-	const { code, fullscreen, toggleFullscreen } = useEditorContext();
-	return (
-		<StyledPreview>
-			<span className="toggle-btn" onClick={() => toggleFullscreen("preview")}>
-				{fullscreen !== "preview" ? (
-					<BsFullscreen size={16} />
-				) : (
-					<BsFullscreenExit size={16} />
-				)}
-			</span>
-			<ReactMarkdown
-				remarkPlugins={[remarkGfm]}
-				components={{
-					code({ node, inline, className, children, ...props }) {
-						const match = /language-(\w+)/.exec(className || "");
-						return !inline && match ? (
-							<SyntaxHighlighter
-								children={String(children).replace(/\n$/, "")}
-								style={dark}
-								language={match[1]}
-								PreTag="div"
-								{...props}
-							/>
-						) : (
-							<code className={className} {...props}>
-								{children}
-							</code>
-						);
-					},
-				}}
-			>
-				{code}
-			</ReactMarkdown>
-		</StyledPreview>
-	);
+  const { code, fullscreen, toggleFullscreen } = useEditorContext();
+  return (
+    <StyledPreview>
+      <span className="toggle-btn" onClick={() => toggleFullscreen("preview")}>
+        {fullscreen !== "preview" ? (
+          <BsFullscreen size={16} />
+        ) : (
+          <BsFullscreenExit size={16} />
+        )}
+      </span>
+      <ReactMarkdown
+        remarkPlugins={[remarkGfm]}
+        components={{
+          code({ node, inline, className, children, ...props }) {
+            const match = /language-(\w+)/.exec(className || "");
+            return !inline && match ? (
+              <SyntaxHighlighter
+                children={String(children).replace(/\n$/, "")}
+                style={dark}
+                language={match[1]}
+                PreTag="div"
+                {...props}
+              />
+            ) : (
+              <code className={className} {...props}>
+                {children}
+              </code>
+            );
+          },
+        }}
+      >
+        {code}
+      </ReactMarkdown>
+    </StyledPreview>
+  );
 };
 
 const StyledPreview = styled.div`
-	padding: 20px;
-	font-size: 16px;
-	border-left: 1px solid ${(props) => props.theme.inputBorder};
-	height: calc(100vh - 55px);
-	overflow: auto;
-	position: relative;
+  padding: 20px;
+  font-size: 16px;
+  border-left: 1px solid ${(props) => props.theme.inputBorder};
+  height: calc(100vh - 55px);
+  overflow: auto;
+  position: relative;
 
-	.toggle-btn {
-		background-color: ${(props) => props.theme.bg1};
-		border: 1px solid #e3e0e0;
-		border-radius: 4px;
-		position: absolute;
-		top: 5px;
-		right: 5px;
-		z-index: 99;
-		width: 35px;
-		height: 35px;
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		cursor: pointer;
-		transition: all 0.3s ease;
+  .toggle-btn {
+    background-color: ${(props) => props.theme.bg1};
+    border: 1px solid #e3e0e0;
+    border-radius: 4px;
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    z-index: 99;
+    width: 35px;
+    height: 35px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
 
-		:hover {
-			border-color: ${(props) => props.theme.textSelect};
-			background-color: ${(props) => props.theme.bg3};
-			color: ${(props) => props.theme.textSelect};
-		}
-	}
+    :hover {
+      border-color: ${(props) => props.theme.textSelect};
+      background-color: ${(props) => props.theme.bg3};
+      color: ${(props) => props.theme.textSelect};
+    }
+  }
 
-	h1,
-	h2,
-	h3,
-	h4,
-	h5,
-	h6,
-	p,
-	hr,
-	ul,
-	ol,
-	blockquote {
-		margin-bottom: 10px;
-	}
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6,
+  p,
+  hr,
+  ul,
+  ol,
+  blockquote {
+    margin-bottom: 10px;
+  }
 
-	h1 {
-		font-size: 46px;
-	}
-	h2 {
-		font-size: 36px;
-	}
-	h3 {
-		font-size: 28px;
-	}
-	h4 {
-		font-size: 24px;
-	}
-	h5 {
-		font-size: 20px;
-	}
-	h6 {
-		font-size: 16px;
-	}
+  h1 {
+    font-size: 46px;
+  }
+  h2 {
+    font-size: 36px;
+  }
+  h3 {
+    font-size: 28px;
+  }
+  h4 {
+    font-size: 24px;
+  }
+  h5 {
+    font-size: 20px;
+  }
+  h6 {
+    font-size: 16px;
+  }
 
-	ol,
-	ul {
-		padding: 20px 20px 0 20px;
-	}
+  ol,
+  ul {
+    padding: 20px 20px 0 20px;
+  }
 
-	hr {
-		border: 0.1px solid ${(props) => props.theme.inputBorder};
-	}
+  hr {
+    border: 0.1px solid ${(props) => props.theme.inputBorder};
+  }
 
-	blockquote {
-		padding: 10px 30px;
-		background-color: #f4f4f4;
-		border-left: 5px solid #ccc;
-	}
+  blockquote {
+    padding: 10px 30px;
+    background-color: #f4f4f4;
+    border-left: 5px solid #ccc;
+  }
 
-	blockquote p {
-		margin-bottom: 0;
-	}
+  blockquote p {
+    margin-bottom: 0;
+  }
 
-	blockquote h1 {
-		margin-bottom: 0;
-	}
-	blockquote h2 {
-		margin-bottom: 0;
-	}
-	blockquote h3 {
-		margin-bottom: 0;
-	}
-	blockquote h4 {
-		margin-bottom: 0;
-	}
-	blockquote h5 {
-		margin-bottom: 0;
-	}
-	blockquote h6 {
-		margin-bottom: 0;
-	}
+  blockquote h1 {
+    margin-bottom: 0;
+  }
+  blockquote h2 {
+    margin-bottom: 0;
+  }
+  blockquote h3 {
+    margin-bottom: 0;
+  }
+  blockquote h4 {
+    margin-bottom: 0;
+  }
+  blockquote h5 {
+    margin-bottom: 0;
+  }
+  blockquote h6 {
+    margin-bottom: 0;
+  }
 
-	.task-list-item {
-		display: flex;
-		align-items: center;
-		position: relative;
-		margin-bottom: 6px;
+  .task-list-item {
+    display: flex;
+    align-items: center;
+    position: relative;
+    margin-bottom: 6px;
 
-		input[type="checkbox"] {
-			display: flex;
-			align-items: center;
-			width: 22px;
-			margin-right: 10px;
-			position: relative;
+    input[type="checkbox"] {
+      display: flex;
+      align-items: center;
+      width: 22px;
+      margin-right: 10px;
+      position: relative;
 
-			::before {
-				display: block;
-				content: "";
-				width: 20px;
-				height: 20px;
-				border: 1px solid ${(props) => props.theme.textColorLighter};
-				border-radius: 3px;
-				background-color: ${(props) => props.theme.bg2};
-			}
+      ::before {
+        display: block;
+        content: "";
+        width: 20px;
+        height: 20px;
+        border: 1px solid ${(props) => props.theme.textColorLighter};
+        border-radius: 3px;
+        background-color: ${(props) => props.theme.bg2};
+      }
 
-			:checked {
-				::before {
-					background-color: dodgerblue;
-					border-color: dodgerblue;
-				}
+      :checked {
+        ::before {
+          background-color: dodgerblue;
+          border-color: dodgerblue;
+        }
 
-				::after {
-					content: "";
-					position: absolute;
-					height: 13px;
-					width: 7px;
-					top: 50%;
-					left: 5px;
-					border-bottom: 3px solid #fff;
-					border-right: 3px solid #fff;
-					transform: rotate(45deg) translate(-50%, -50%);
-				}
-			}
-		}
-	}
+        ::after {
+          content: "";
+          position: absolute;
+          height: 13px;
+          width: 7px;
+          top: 50%;
+          left: 5px;
+          border-bottom: 3px solid #fff;
+          border-right: 3px solid #fff;
+          transform: rotate(45deg) translate(-50%, -50%);
+        }
+      }
+    }
+  }
 
-	pre > div {
-		border-radius: 8px;
-		font-size: 15px;
-	}
+  pre > div {
+    border-radius: 8px;
+    font-size: 15px;
+  }
 `;
 
 export default Preview;
