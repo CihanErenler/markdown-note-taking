@@ -1,4 +1,3 @@
-import { useState } from "react";
 import styled from "styled-components";
 import Editor from "./Editor/Editor.js";
 import Preview from "./Preview.js";

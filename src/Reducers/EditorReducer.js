@@ -7,6 +7,7 @@ export const TOGGLE_FULLSCREEN = "TOGGLE_FULLSCREEN";
 export const FIND_ITEM = "FIND_ITEM";
 export const UPDATE_PARENT = "UPDATE_PARENT";
 export const UPDATE_MODAL = "UPDATE_MODAL";
+export const CREATE_FOLDER = "CREATE_FOLDER";
 
 const editorReducer = (state, action) => {
 	if (action.type === UPDATE_CODE) {
@@ -15,12 +16,18 @@ const editorReducer = (state, action) => {
 	}
 
 	if (action.type === OPEN_MODAL) {
-		const newState = { ...state, isModalOpen: true };
+		const newState = { ...state, isModalOpen: true, modalMode: action.payload };
 		return newState;
 	}
 
 	if (action.type === CLOSE_MODAL) {
-		const newState = { ...state, isModalOpen: false };
+		const newState = {
+			...state,
+			isModalOpen: false,
+			modalMode: "",
+			modalValue: "",
+			parent: null,
+		};
 		return newState;
 	}
 
@@ -40,6 +47,16 @@ const editorReducer = (state, action) => {
 
 	if (action.type === UPDATE_PARENT) {
 		const newState = { ...state, parent: action.payload };
+		return newState;
+	}
+
+	if (action.type === CREATE_FOLDER) {
+		const newState = { ...state, files: action.payload };
+		return newState;
+	}
+
+	if (action.type === UPDATE_MODAL) {
+		const newState = { ...state, modalValue: action.payload };
 		return newState;
 	}
 

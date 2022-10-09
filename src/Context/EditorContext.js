@@ -7,8 +7,11 @@ import reducer, {
 	TOGGLE_FULLSCREEN,
 	UPDATE_MODAL,
 	UPDATE_PARENT,
+	CREATE_FOLDER,
 } from "../Reducers/EditorReducer";
 import { UPDATE_CODE } from "../Reducers/EditorReducer";
+import { v4 as uuidv4 } from "uuid";
+import { toggleFolder, addFolder } from "../helpers";
 
 const EditorContext = React.createContext();
 
@@ -84,14 +87,14 @@ const EditorProvider = ({ children }) => {
 		dispatch({ type: UPDATE_CODE, payload: value });
 	};
 
-	const openModal = (id, mode) => {
+	const openModal = (id, mode, type) => {
 		if (mode === "create") {
 			dispatch({ type: UPDATE_PARENT, payload: id });
-			dispatch({ type: OPEN_MODAL });
+			dispatch({ type: OPEN_MODAL, payload: type });
 		}
 		if (mode === "edit") {
 			dispatch({ type: FIND_ITEM, payload: id });
-			dispatch({ type: OPEN_MODAL });
+			dispatch({ type: OPEN_MODAL, payload: type });
 		}
 	};
 
@@ -99,8 +102,21 @@ const EditorProvider = ({ children }) => {
 		dispatch({ type: CLOSE_MODAL });
 	};
 
-	const createFolder = (folderName) => {
-		// dispatch({ type: CREATE_FOLDER, payload: folderName });
+	const createFolder = () => {
+		const tempFiles = state.files;
+		// const newId = uuidv4();
+		const newFolder = {
+			id: Date.now(),
+			name: state.modalValue,
+			isFolder: true,
+			isOpen: false,
+			items: [],
+		};
+		console.log(newFolder);
+		addFolder(tempFiles.items, state.parent, newFolder);
+		console.log(tempFiles);
+		dispatch({ type: CREATE_FOLDER, payload: tempFiles });
+		dispatch({ type: CLOSE_MODAL });
 	};
 
 	const toggleFolderTree = (id) => {
@@ -115,18 +131,6 @@ const EditorProvider = ({ children }) => {
 
 	const updateModalValue = (e) => {
 		dispatch({ type: UPDATE_MODAL, payload: e.target.value });
-	};
-
-	const toggleFolder = (array, id) => {
-		array.forEach((item) => {
-			if (item.isFolder) {
-				if (item.id === id) {
-					item.isOpen = !item.isOpen;
-				} else {
-					toggleFolder(item.items, id);
-				}
-			}
-		});
 	};
 
 	return (

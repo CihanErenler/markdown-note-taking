@@ -5,9 +5,17 @@ import Input from "./Input";
 import { useEditorContext } from "../Context/EditorContext";
 
 const Modal = () => {
-	const { closeModal, createFolder, modalValue, updateModalValue } =
+	const { closeModal, createFolder, modalValue, updateModalValue, modalMode } =
 		useEditorContext();
 	const element = useRef(null);
+
+	const generateModalTitle = (mode) => {
+		let title = "New Folder";
+		if (mode === "create-file") title = "New File";
+		if (mode === "edit-file") title = "Edit File";
+		if (mode === "edit-folder") title = "Rename Folder";
+		return title;
+	};
 
 	useEffect(() => {
 		const tempElem = element.current;
@@ -26,10 +34,12 @@ const Modal = () => {
 		};
 	}, []);
 
+	const generatedTitle = generateModalTitle(modalMode);
+
 	return (
 		<StyledModal className="modal" ref={element}>
 			<div>
-				<h1>New Folder</h1>
+				<h1>{generatedTitle}</h1>
 				<Input value={modalValue} action={updateModalValue} focused={true} />
 				<section>
 					<Button variant="secondary" action={closeModal}>

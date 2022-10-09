@@ -19,7 +19,7 @@ const StyledIconButton = styled.button`
 
 	:hover {
 		svg {
-			fill: ${(props) => props.theme.primary};
+			fill: ${(props) => props.theme.bg1};
 		}
 	}
 `;

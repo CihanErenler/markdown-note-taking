@@ -20,9 +20,9 @@ function Folder({ explorer }) {
 					{explorer.isFolder ? (
 						<div className="arrows">
 							{explorer.isOpen ? (
-								<IoIosArrowDown size={18} color="#ddd" />
+								<IoIosArrowDown size={16} color="#ddd" />
 							) : (
-								<IoIosArrowForward size={18} color="#ddd" />
+								<IoIosArrowForward size={16} color="#ddd" />
 							)}
 						</div>
 					) : (
@@ -46,13 +46,17 @@ function Folder({ explorer }) {
 				</div>
 				{explorer.isFolder ? (
 					<div className="buttons">
-						<IconButton action={() => openModal(explorer.id, "create")}>
+						<IconButton
+							action={() => openModal(explorer.id, "create", "create-folder")}
+						>
 							{<FaFolderPlus size={16} />}
 						</IconButton>
 						<IconButton action={() => console.log("Delete")}>
 							{<MdDelete size={20} />}
 						</IconButton>
-						<IconButton action={() => console.log("Edit")}>
+						<IconButton
+							action={() => openModal(explorer.id, "edit", "edit-folder")}
+						>
 							{<MdModeEditOutline size={20} />}
 						</IconButton>
 					</div>
@@ -117,7 +121,7 @@ const StyledFolder = styled.section`
 			align-items: center;
 			margin-right: 5px;
 			position: absolute;
-			left: -22px;
+			left: -20px;
 			top: 50%;
 			transform: translateY(-50%);
 		}
