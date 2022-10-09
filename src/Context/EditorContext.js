@@ -1,9 +1,12 @@
 import React, { useContext, useReducer } from "react";
 import reducer, {
 	CLOSE_MODAL,
+	FIND_ITEM,
 	OPEN_MODAL,
 	TOGGLE_FOLDER_TREE,
 	TOGGLE_FULLSCREEN,
+	UPDATE_MODAL,
+	UPDATE_PARENT,
 } from "../Reducers/EditorReducer";
 import { UPDATE_CODE } from "../Reducers/EditorReducer";
 
@@ -68,6 +71,10 @@ const initialStates = {
 	currentFile: {},
 	selectedFolder: "root",
 	fullscreen: "",
+	modalMode: "",
+	newFolderName: "",
+	parent: null,
+	modalValue: "Untitled",
 };
 
 const EditorProvider = ({ children }) => {
@@ -77,9 +84,15 @@ const EditorProvider = ({ children }) => {
 		dispatch({ type: UPDATE_CODE, payload: value });
 	};
 
-	const openModal = (id) => {
-		console.log(id);
-		dispatch({ type: OPEN_MODAL });
+	const openModal = (id, mode) => {
+		if (mode === "create") {
+			dispatch({ type: UPDATE_PARENT, payload: id });
+			dispatch({ type: OPEN_MODAL });
+		}
+		if (mode === "edit") {
+			dispatch({ type: FIND_ITEM, payload: id });
+			dispatch({ type: OPEN_MODAL });
+		}
 	};
 
 	const closeModal = () => {
@@ -98,6 +111,10 @@ const EditorProvider = ({ children }) => {
 
 	const toggleFullscreen = (viewName) => {
 		dispatch({ type: TOGGLE_FULLSCREEN, payload: viewName });
+	};
+
+	const updateModalValue = (e) => {
+		dispatch({ type: UPDATE_MODAL, payload: e.target.value });
 	};
 
 	const toggleFolder = (array, id) => {
@@ -122,6 +139,7 @@ const EditorProvider = ({ children }) => {
 				createFolder,
 				toggleFolderTree,
 				toggleFullscreen,
+				updateModalValue,
 			}}
 		>
 			{children}

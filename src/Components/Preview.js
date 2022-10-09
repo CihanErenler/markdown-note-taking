@@ -1,4 +1,3 @@
-import React from "react";
 import ReactMarkdown from "react-markdown";
 import { useEditorContext } from "../Context/EditorContext";
 import remarkGfm from "https://esm.sh/remark-gfm@3";

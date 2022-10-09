@@ -1,17 +1,15 @@
-import React from "react";
 import Folder from "./Folder";
-
 import { useEditorContext } from "../../Context/EditorContext";
 import styled from "styled-components";
 
 const FolderTree = () => {
-	const { files, openModal } = useEditorContext();
+	const { files } = useEditorContext();
 
 	return (
 		<StyledFolderTree>
 			<h1 className="folder-tree-title">Folders</h1>
 			{files.items.map((item) => {
-				return <Folder key={item.id} explorer={item} action={openModal} />;
+				return <Folder key={item.id} explorer={item} />;
 			})}
 		</StyledFolderTree>
 	);

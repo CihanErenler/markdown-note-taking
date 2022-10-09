@@ -1,4 +1,3 @@
-import { useState } from "react";
 import IconButton from "../IconButton";
 import styled from "styled-components";
 import { AiFillFolder, AiFillFolderOpen } from "react-icons/ai";
@@ -6,8 +5,9 @@ import { BsFillMarkdownFill } from "react-icons/bs";
 import { IoIosArrowDown, IoIosArrowForward } from "react-icons/io";
 import { useEditorContext } from "../../Context/EditorContext";
 import { FaFolderPlus } from "react-icons/fa";
+import { MdModeEditOutline, MdDelete } from "react-icons/md";
 
-function Folder({ explorer, action }) {
+function Folder({ explorer }) {
 	const { toggleFolderTree, openModal } = useEditorContext();
 
 	const handleClick = (item) => {
@@ -46,12 +46,25 @@ function Folder({ explorer, action }) {
 				</div>
 				{explorer.isFolder ? (
 					<div className="buttons">
-						<IconButton action={() => openModal(explorer.id)}>
-							{<FaFolderPlus size={20} />}
+						<IconButton action={() => openModal(explorer.id, "create")}>
+							{<FaFolderPlus size={16} />}
+						</IconButton>
+						<IconButton action={() => console.log("Delete")}>
+							{<MdDelete size={20} />}
+						</IconButton>
+						<IconButton action={() => console.log("Edit")}>
+							{<MdModeEditOutline size={20} />}
 						</IconButton>
 					</div>
 				) : (
-					""
+					<div className="buttons">
+						<IconButton action={() => console.log("Delete")}>
+							{<MdDelete size={20} />}
+						</IconButton>
+						<IconButton action={() => console.log("Edit")}>
+							{<MdModeEditOutline size={20} />}
+						</IconButton>
+					</div>
 				)}
 			</div>
 			<div
@@ -145,7 +158,7 @@ const StyledFolder = styled.section`
 		}
 
 		:hover .buttons {
-			display: block;
+			display: flex;
 		}
 
 		:hover {

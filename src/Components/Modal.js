@@ -1,17 +1,13 @@
-import { useState, useEffect, useRef } from "react";
+import { useEffect, useRef } from "react";
 import styled from "styled-components";
 import Button from "./Button";
 import Input from "./Input";
 import { useEditorContext } from "../Context/EditorContext";
 
 const Modal = () => {
-	const { closeModal, createFolder } = useEditorContext();
-	const [value, setValue] = useState("Untitled");
+	const { closeModal, createFolder, modalValue, updateModalValue } =
+		useEditorContext();
 	const element = useRef(null);
-
-	const handleInputChange = (e) => {
-		setValue(e.target.value);
-	};
 
 	useEffect(() => {
 		const tempElem = element.current;
@@ -34,12 +30,15 @@ const Modal = () => {
 		<StyledModal className="modal" ref={element}>
 			<div>
 				<h1>New Folder</h1>
-				<Input value={value} action={handleInputChange} focused={true} />
+				<Input value={modalValue} action={updateModalValue} focused={true} />
 				<section>
 					<Button variant="secondary" action={closeModal}>
 						Cancel
 					</Button>
-					<Button disabled={!value} action={() => createFolder(value)}>
+					<Button
+						disabled={!modalValue}
+						action={() => createFolder(modalValue)}
+					>
 						Create
 					</Button>
 				</section>
