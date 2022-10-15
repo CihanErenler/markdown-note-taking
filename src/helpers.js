@@ -53,6 +53,9 @@ const renameItem = (array, id, newName) => {
 const deleteItem = (array, id) => {
   array.forEach((item, index) => {
     if (item.id === id) {
+      if (index > 0 && item.isSelected) array[index - 1].isSelected = true;
+      else if (array.length > 1 && item.isSelected)
+        array[index + 1].isSelected = true;
       array.splice(index, 1);
     } else {
       if (item.isFolder) deleteItem(item.items, id);
