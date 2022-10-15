@@ -12,6 +12,7 @@ const Modal = () => {
     modalValue,
     updateModalValue,
     modalMode,
+    rename,
   } = useEditorContext();
   const element = useRef(null);
 
@@ -26,8 +27,7 @@ const Modal = () => {
   const handleClick = () => {
     if (modalMode === "create-folder") createFolder();
     if (modalMode === "create-file") createFile();
-    if (modalMode === "edit-folder" || modalMode === "edit-file")
-      console.log("edit");
+    if (modalMode === "edit-folder" || modalMode === "edit-file") rename();
   };
 
   useEffect(() => {
@@ -59,7 +59,9 @@ const Modal = () => {
             Cancel
           </Button>
           <Button disabled={!modalValue} action={handleClick}>
-            Create
+            {modalMode === "edit-folder" || modalMode === "edit-file"
+              ? "Save"
+              : "Create"}
           </Button>
         </section>
       </div>

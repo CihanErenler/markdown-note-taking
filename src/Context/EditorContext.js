@@ -12,6 +12,7 @@ import reducer, {
 import { UPDATE_CODE } from "../Reducers/EditorReducer";
 import { v4 as uuidv4 } from "uuid";
 import { toggleFolder, addToParent } from "../helpers";
+import { toast } from "react-toastify";
 
 const EditorContext = React.createContext();
 
@@ -93,7 +94,7 @@ const EditorProvider = ({ children }) => {
       dispatch({ type: OPEN_MODAL, payload: type });
     }
     if (mode === "edit") {
-      dispatch({ type: FIND_ITEM, payload: id });
+      dispatch({ type: FIND_ITEM, payload: { id: id.id, name: id.name } });
       dispatch({ type: OPEN_MODAL, payload: type });
     }
   };
@@ -105,32 +106,49 @@ const EditorProvider = ({ children }) => {
   const createFolder = () => {
     const tempFiles = state.files;
     const newId = uuidv4();
-    const newFolder = {
-      id: newId,
-      name: state.modalValue,
-      isFolder: true,
-      isOpen: false,
-      items: [],
-    };
-    addToParent(tempFiles.items, state.parent, newFolder);
-    dispatch({ type: APPEND_CHILD, payload: tempFiles });
-    dispatch({ type: CLOSE_MODAL });
+    const newValue = state.modalValue.trim();
+
+    if (newValue) {
+      const newFolder = {
+        id: newId,
+        name: state.modalValue.trim(),
+        isFolder: true,
+        isOpen: false,
+        items: [],
+      };
+      if (state.parent === 1) {
+        tempFiles.items.unshift(newFolder);
+        dispatch({ type: CLOSE_MODAL });
+      } else {
+        addToParent(tempFiles.items, state.parent, newFolder);
+        dispatch({ type: APPEND_CHILD, payload: tempFiles });
+        dispatch({ type: CLOSE_MODAL });
+      }
+    } else {
+      toast.error("Please enter a folder name");
+    }
   };
 
   const createFile = () => {
     const tempFiles = state.files;
     const newId = uuidv4();
-    const newFile = {
-      id: newId,
-      name: state.modalValue,
-      body: "",
-      isFolder: false,
-      isOpen: false,
-      items: [],
-    };
-    addToParent(tempFiles.items, state.parent, newFile);
-    dispatch({ type: APPEND_CHILD, payload: tempFiles });
-    dispatch({ type: CLOSE_MODAL });
+    const newValue = state.modalValue.trim();
+
+    if (newValue) {
+      const newFile = {
+        id: newId,
+        name: state.modalValue.trim(),
+        body: "",
+        isFolder: false,
+        isOpen: false,
+        items: [],
+      };
+      addToParent(tempFiles.items, state.parent, newFile);
+      dispatch({ type: APPEND_CHILD, payload: tempFiles });
+      dispatch({ type: CLOSE_MODAL });
+    } else {
+      toast.warn("Please enter a file name");
+    }
   };
 
   const toggleFolderTree = (id) => {
@@ -147,6 +165,10 @@ const EditorProvider = ({ children }) => {
     dispatch({ type: UPDATE_MODAL, payload: e.target.value });
   };
 
+  const rename = () => {
+    const tempFiles = state.files;
+  };
+
   return (
     <EditorContext.Provider
       value={{
@@ -159,6 +181,7 @@ const EditorProvider = ({ children }) => {
         toggleFolderTree,
         toggleFullscreen,
         updateModalValue,
+        rename,
       }}
     >
       {children}

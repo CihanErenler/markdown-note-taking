@@ -73,6 +73,30 @@ const StyledPreview = styled.div`
       background-color: ${(props) => props.theme.bg3};
       color: ${(props) => props.theme.textSelect};
     }
+
+    ::before {
+      position: absolute;
+      content: "Toggle Fullscreen";
+      top: 3px;
+      left: -125px;
+      background-color: ${(props) => props.theme.sidebarBg};
+      color: ${(props) => props.theme.bg1};
+      padding: 4px;
+      border-radius: 4px;
+      visibility: hidden;
+      opacity: 0;
+      transition: all 0.5s ease;
+      transition-delay: 1s;
+      font-size: 12px;
+      display: block;
+      width: 120px;
+      text-align: center;
+    }
+
+    :hover::before {
+      visibility: visible;
+      opacity: 1;
+    }
   }
 
   h1,

@@ -60,6 +60,12 @@ const editorReducer = (state, action) => {
     return newState;
   }
 
+  if (action.type === FIND_ITEM) {
+    const { id, name } = action.payload;
+    const newState = { ...state, modalValue: name, parent: id };
+    return newState;
+  }
+
   return state;
 };
 
