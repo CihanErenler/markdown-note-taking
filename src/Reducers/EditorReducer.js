@@ -8,6 +8,7 @@ export const FIND_ITEM = "FIND_ITEM";
 export const UPDATE_PARENT = "UPDATE_PARENT";
 export const UPDATE_MODAL = "UPDATE_MODAL";
 export const APPEND_CHILD = "APPEND_CHILD";
+export const CURRENTY_OPEN_FILE = "CURRENTLY_OPEN_FILE";
 
 const editorReducer = (state, action) => {
   if (action.type === UPDATE_CODE) {
@@ -16,7 +17,12 @@ const editorReducer = (state, action) => {
   }
 
   if (action.type === OPEN_MODAL) {
-    const newState = { ...state, isModalOpen: true, modalMode: action.payload };
+    const newState = {
+      ...state,
+      isModalOpen: true,
+      modalMode: action.payload,
+      modalValue: state.modalValue ? state.modalValue : "Untitled",
+    };
     return newState;
   }
 
@@ -40,7 +46,6 @@ const editorReducer = (state, action) => {
 
   if (action.type === TOGGLE_FULLSCREEN) {
     const tempVal = state.fullscreen === action.payload ? "" : action.payload;
-    console.log(tempVal);
     const newState = { ...state, fullscreen: tempVal };
     return newState;
   }

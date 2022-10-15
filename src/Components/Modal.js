@@ -13,21 +13,29 @@ const Modal = () => {
     updateModalValue,
     modalMode,
     rename,
+    isModalOpen,
   } = useEditorContext();
   const element = useRef(null);
 
   const generateModalTitle = (mode) => {
     let title = "New Folder";
     if (mode === "create-file") title = "New File";
-    if (mode === "edit-file") title = "Edit File";
+    if (mode === "edit-file") title = "Rename File";
     if (mode === "edit-folder") title = "Rename Folder";
     return title;
   };
 
   const handleClick = () => {
+    console.log(modalValue);
     if (modalMode === "create-folder") createFolder();
     if (modalMode === "create-file") createFile();
     if (modalMode === "edit-folder" || modalMode === "edit-file") rename();
+  };
+
+  const handleKeyPress = (e) => {
+    if (e.key === "Enter" && isModalOpen) {
+      handleClick();
+    }
   };
 
   useEffect(() => {
@@ -46,6 +54,15 @@ const Modal = () => {
       tempElem.removeEventListener("click", handleClick);
     };
   }, []);
+
+  useEffect(() => {
+    const tempElem = element.current;
+
+    tempElem.addEventListener("keypress", handleKeyPress);
+    return () => {
+      tempElem.removeEventListener("keypress", handleKeyPress);
+    };
+  }, [handleKeyPress]);
 
   const generatedTitle = generateModalTitle(modalMode);
 

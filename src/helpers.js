@@ -23,4 +23,14 @@ const addToParent = (array, id, newFile) => {
   });
 };
 
-export { toggleFolder, addToParent };
+const renameItem = (array, id, newName) => {
+  array.forEach((item) => {
+    if (item.id === id) {
+      item.name = newName;
+    } else {
+      if (item.isFolder) renameItem(item.items, id, newName);
+    }
+  });
+};
+
+export { toggleFolder, addToParent, renameItem };

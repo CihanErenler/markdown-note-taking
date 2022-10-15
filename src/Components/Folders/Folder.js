@@ -76,7 +76,15 @@ function Folder({ explorer }) {
             <IconButton action={() => console.log("Delete")}>
               {<MdDeleteOutline size={20} />}
             </IconButton>
-            <IconButton action={() => console.log("Edit")}>
+            <IconButton
+              action={() =>
+                openModal(
+                  { id: explorer.id, name: explorer.name },
+                  "edit",
+                  "edit-file"
+                )
+              }
+            >
               {<VscEdit size={20} />}
             </IconButton>
           </div>

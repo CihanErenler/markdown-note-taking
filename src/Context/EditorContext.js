@@ -8,10 +8,11 @@ import reducer, {
   UPDATE_MODAL,
   UPDATE_PARENT,
   APPEND_CHILD,
+  CURRENTY_OPEN_FILE,
 } from "../Reducers/EditorReducer";
 import { UPDATE_CODE } from "../Reducers/EditorReducer";
 import { v4 as uuidv4 } from "uuid";
-import { toggleFolder, addToParent } from "../helpers";
+import { toggleFolder, addToParent, renameItem } from "../helpers";
 import { toast } from "react-toastify";
 
 const EditorContext = React.createContext();
@@ -25,13 +26,6 @@ const initialStates = {
     isFolder: true,
     isOpen: false,
     items: [
-      {
-        id: 2,
-        name: "do something",
-        isFolder: false,
-        isOpen: false,
-        items: [],
-      },
       {
         id: 3,
         name: "school",
@@ -78,7 +72,8 @@ const initialStates = {
   modalMode: "",
   newFolderName: "",
   parent: null,
-  modalValue: "Untitled",
+  modalValue: "",
+  currentlyOpenFile: "",
 };
 
 const EditorProvider = ({ children }) => {
@@ -111,11 +106,12 @@ const EditorProvider = ({ children }) => {
     if (newValue) {
       const newFolder = {
         id: newId,
-        name: state.modalValue.trim(),
+        name: newValue,
         isFolder: true,
         isOpen: false,
         items: [],
       };
+
       if (state.parent === 1) {
         tempFiles.items.unshift(newFolder);
         dispatch({ type: CLOSE_MODAL });
@@ -124,6 +120,7 @@ const EditorProvider = ({ children }) => {
         dispatch({ type: APPEND_CHILD, payload: tempFiles });
         dispatch({ type: CLOSE_MODAL });
       }
+      toast.success(`Folder "${newValue}" was created`);
     } else {
       toast.error("Please enter a folder name");
     }
@@ -137,15 +134,18 @@ const EditorProvider = ({ children }) => {
     if (newValue) {
       const newFile = {
         id: newId,
-        name: state.modalValue.trim(),
+        name: newValue,
         body: "",
         isFolder: false,
         isOpen: false,
         items: [],
       };
+
       addToParent(tempFiles.items, state.parent, newFile);
       dispatch({ type: APPEND_CHILD, payload: tempFiles });
       dispatch({ type: CLOSE_MODAL });
+      dispatch({ type: CURRENTY_OPEN_FILE, payload: newId });
+      toast.success(`File "${newValue}" was created`);
     } else {
       toast.warn("Please enter a file name");
     }
@@ -167,6 +167,16 @@ const EditorProvider = ({ children }) => {
 
   const rename = () => {
     const tempFiles = state.files;
+    const newValue = state.modalValue.trim();
+    console.log(newValue);
+    if (newValue) {
+      renameItem(tempFiles.items, state.parent, state.modalValue);
+      dispatch({ type: APPEND_CHILD, payload: tempFiles });
+      dispatch({ type: CLOSE_MODAL });
+      toast.success(`Name changed to "${newValue}"`);
+    } else {
+      toast.warn("Please enter a name");
+    }
   };
 
   return (
