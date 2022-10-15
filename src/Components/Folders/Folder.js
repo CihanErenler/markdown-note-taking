@@ -56,7 +56,9 @@ function Folder({ explorer }) {
             >
               {<VscNewFolder size={16} />}
             </IconButton>
-            <IconButton action={() => console.log("Delete")}>
+            <IconButton
+              action={() => openModal(explorer.id, "delete", "delete-item")}
+            >
               {<MdDeleteOutline size={20} />}
             </IconButton>
             <IconButton
@@ -73,7 +75,9 @@ function Folder({ explorer }) {
           </div>
         ) : (
           <div className="buttons">
-            <IconButton action={() => console.log("Delete")}>
+            <IconButton
+              action={() => openModal(explorer.id, "delete", "delete-item")}
+            >
               {<MdDeleteOutline size={20} />}
             </IconButton>
             <IconButton
@@ -121,7 +125,7 @@ const StyledFolder = styled.section`
     .arrows {
       display: grid;
       align-items: center;
-      margin-right: 5px;
+      padding-right: 5px;
       position: absolute;
       left: -20px;
       top: 50%;

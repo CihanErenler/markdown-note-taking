@@ -33,4 +33,14 @@ const renameItem = (array, id, newName) => {
   });
 };
 
-export { toggleFolder, addToParent, renameItem };
+const deleteItem = (array, id) => {
+  array.forEach((item, index) => {
+    if (item.id === id) {
+      array.splice(index, 1);
+    } else {
+      if (item.isFolder) deleteItem(item.items, id);
+    }
+  });
+};
+
+export { toggleFolder, addToParent, renameItem, deleteItem };

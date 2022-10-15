@@ -14,6 +14,7 @@ const Modal = () => {
     modalMode,
     rename,
     isModalOpen,
+    handleDelete,
   } = useEditorContext();
   const element = useRef(null);
 
@@ -68,20 +69,34 @@ const Modal = () => {
 
   return (
     <StyledModal className="modal" ref={element}>
-      <div>
-        <h1>{generatedTitle}</h1>
-        <Input value={modalValue} action={updateModalValue} focused={true} />
-        <section>
-          <Button variant="secondary" action={closeModal}>
-            Cancel
-          </Button>
-          <Button disabled={!modalValue} action={handleClick}>
-            {modalMode === "edit-folder" || modalMode === "edit-file"
-              ? "Save"
-              : "Create"}
-          </Button>
-        </section>
-      </div>
+      {modalMode !== "delete-item" ? (
+        <div>
+          <h1>{generatedTitle}</h1>
+          <Input value={modalValue} action={updateModalValue} focused={true} />
+          <section>
+            <Button variant="secondary" action={closeModal}>
+              Cancel
+            </Button>
+            <Button disabled={!modalValue} action={handleClick}>
+              {modalMode === "edit-folder" || modalMode === "edit-file"
+                ? "Save"
+                : "Create"}
+            </Button>
+          </section>
+        </div>
+      ) : (
+        <div>
+          <h1>Are you sure?</h1>
+          <section>
+            <Button variant="secondary" action={closeModal}>
+              Cancel
+            </Button>
+            <Button variant="danger" action={handleDelete}>
+              Delete
+            </Button>
+          </section>
+        </div>
+      )}
     </StyledModal>
   );
 };

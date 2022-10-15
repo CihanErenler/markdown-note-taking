@@ -9,10 +9,11 @@ import reducer, {
   UPDATE_PARENT,
   APPEND_CHILD,
   CURRENTY_OPEN_FILE,
+  UPDATE_TOBEDELETED,
 } from "../Reducers/EditorReducer";
 import { UPDATE_CODE } from "../Reducers/EditorReducer";
 import { v4 as uuidv4 } from "uuid";
-import { toggleFolder, addToParent, renameItem } from "../helpers";
+import { toggleFolder, addToParent, renameItem, deleteItem } from "../helpers";
 import { toast } from "react-toastify";
 
 const EditorContext = React.createContext();
@@ -66,7 +67,7 @@ const initialStates = {
       },
     ],
   },
-  currentFile: {},
+  toBeDeleted: null,
   selectedFolder: "root",
   fullscreen: "",
   modalMode: "",
@@ -90,6 +91,10 @@ const EditorProvider = ({ children }) => {
     }
     if (mode === "edit") {
       dispatch({ type: FIND_ITEM, payload: { id: id.id, name: id.name } });
+      dispatch({ type: OPEN_MODAL, payload: type });
+    }
+    if (mode === "delete") {
+      dispatch({ type: UPDATE_TOBEDELETED, payload: id });
       dispatch({ type: OPEN_MODAL, payload: type });
     }
   };
@@ -168,7 +173,6 @@ const EditorProvider = ({ children }) => {
   const rename = () => {
     const tempFiles = state.files;
     const newValue = state.modalValue.trim();
-    console.log(newValue);
     if (newValue) {
       renameItem(tempFiles.items, state.parent, state.modalValue);
       dispatch({ type: APPEND_CHILD, payload: tempFiles });
@@ -177,6 +181,14 @@ const EditorProvider = ({ children }) => {
     } else {
       toast.warn("Please enter a name");
     }
+  };
+
+  const handleDelete = () => {
+    const tempFiles = state.files;
+    deleteItem(tempFiles.items, state.toBeDeleted);
+    dispatch({ type: APPEND_CHILD, payload: tempFiles });
+    dispatch({ type: CLOSE_MODAL });
+    toast.success(`Item deleted`);
   };
 
   return (
@@ -192,6 +204,7 @@ const EditorProvider = ({ children }) => {
         toggleFullscreen,
         updateModalValue,
         rename,
+        handleDelete,
       }}
     >
       {children}
