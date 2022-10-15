@@ -10,16 +10,24 @@ import reducer, {
   APPEND_CHILD,
   CURRENTY_OPEN_FILE,
   UPDATE_TOBEDELETED,
+  UNSELECT_ALL,
 } from "../Reducers/EditorReducer";
 import { UPDATE_CODE } from "../Reducers/EditorReducer";
 import { v4 as uuidv4 } from "uuid";
-import { toggleFolder, addToParent, renameItem, deleteItem } from "../helpers";
+import {
+  toggleFolder,
+  addToParent,
+  renameItem,
+  deleteItem,
+  selectFile,
+  unselectAll,
+} from "../helpers";
 import { toast } from "react-toastify";
 
 const EditorContext = React.createContext();
 
 const initialStates = {
-  code: '### Lesson notes\n---\n\n> ##### This is important\n> Do not talk with other people\n\nNow lets add some **code** example\n\n```js \n  const name = "Cihan Erenler";\n  console.log(name) // Cihan Erenler\n```\n###### Things to rememeber \n- Do some research beforehand\n- Keep reading\n- Then study more\n\nHere some fo  loop example as well\n\n```js \nconst array = ["Cihan, Sinan"]\nlet i\nfor(i = 0; i < array.length; i + 1) {\n  console.log(array[i])\n}\n// output ==> Cihan, Sinan\n````\nIf you keep doing this you will end...',
+  code: "",
   isModalOpen: false,
   files: {
     id: 1,
@@ -28,40 +36,19 @@ const initialStates = {
     isOpen: false,
     items: [
       {
-        id: 3,
-        name: "school",
+        id: 2,
+        name: "Working folder",
         isFolder: true,
-        isOpen: false,
+        isOpen: true,
         items: [
           {
-            id: 4,
-            name: "lets do this shit",
+            id: 3,
+            name: "First note",
             isFolder: false,
             isOpen: false,
+            content: "### Title",
+            isSelected: true,
             items: [],
-          },
-          { id: 5, name: "oh yeah", isFolder: false, isOpen: false, items: [] },
-          {
-            id: 6,
-            name: "hadi bakalim",
-            isFolder: true,
-            isOpen: false,
-            items: [
-              {
-                id: 7,
-                name: "title1",
-                isFolder: false,
-                isOpen: false,
-                items: [],
-              },
-              {
-                id: 8,
-                name: "title2",
-                isFolder: false,
-                isOpen: false,
-                items: [],
-              },
-            ],
           },
         ],
       },
@@ -140,12 +127,14 @@ const EditorProvider = ({ children }) => {
       const newFile = {
         id: newId,
         name: newValue,
-        body: "",
         isFolder: false,
         isOpen: false,
+        content: "### Title",
+        isSelected: true,
         items: [],
       };
 
+      unselectAll(tempFiles.items);
       addToParent(tempFiles.items, state.parent, newFile);
       dispatch({ type: APPEND_CHILD, payload: tempFiles });
       dispatch({ type: CLOSE_MODAL });
@@ -191,6 +180,13 @@ const EditorProvider = ({ children }) => {
     toast.success(`Item deleted`);
   };
 
+  const handleSelectFile = (id) => {
+    const tempFiles = state.files;
+    unselectAll(tempFiles.items);
+    selectFile(tempFiles.items, id);
+    dispatch({ type: APPEND_CHILD, payload: tempFiles });
+  };
+
   return (
     <EditorContext.Provider
       value={{
@@ -205,6 +201,7 @@ const EditorProvider = ({ children }) => {
         updateModalValue,
         rename,
         handleDelete,
+        handleSelectFile,
       }}
     >
       {children}

@@ -8,10 +8,17 @@ import { MdDeleteOutline } from "react-icons/md";
 import { FaFolderOpen, FaFolder } from "react-icons/fa";
 
 function Folder({ explorer }) {
-  const { toggleFolderTree, openModal } = useEditorContext();
+  const { toggleFolderTree, openModal, handleSelectFile } = useEditorContext();
+  const classSelector = (item) => {
+    let classes = ["space-title"];
+    if (item.isFolder) classes.push("bold");
+    if (!item.isFolder && item.isSelected) classes.push("selected");
+    return classes.join(" ");
+  };
 
   const handleClick = (item) => {
     if (item.isFolder) toggleFolderTree(item.id);
+    else handleSelectFile(item.id);
   };
   return (
     <StyledFolder key={explorer.id}>
@@ -40,9 +47,7 @@ function Folder({ explorer }) {
             <FaFolder size={20} color="#06D6A0" />
           )}
 
-          <h1 className={`space-title ${explorer.isFolder ? "bold" : ""}`}>
-            {explorer.name}
-          </h1>
+          <h1 className={classSelector(explorer)}>{explorer.name}</h1>
         </div>
         {explorer.isFolder ? (
           <div className="buttons">
@@ -152,7 +157,6 @@ const StyledFolder = styled.section`
       font-weight: 200;
       transition: all 0.3s ease;
       white-space: nowrap;
-      overflow: hidden;
       text-overflow: ellipsis;
       -webkit-touch-callout: none;
       -webkit-user-select: none;
@@ -161,6 +165,18 @@ const StyledFolder = styled.section`
       -ms-user-select: none;
       user-select: none;
       position: relative;
+    }
+
+    .space-title.selected {
+      color: #06d6a0;
+      position: relative;
+
+      ::before {
+        position: absolute;
+        content: "➜";
+        left: -45px;
+        z-index: 1000;
+      }
     }
 
     .buttons {

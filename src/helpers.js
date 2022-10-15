@@ -23,6 +23,23 @@ const addToParent = (array, id, newFile) => {
   });
 };
 
+const selectFile = (array, id) => {
+  array.forEach((item) => {
+    if (item.id === id) {
+      item.isSelected = true;
+    } else {
+      if (item.isFolder) selectFile(item.items, id);
+    }
+  });
+};
+
+const unselectAll = (array) => {
+  array.forEach((item) => {
+    if (item.isFolder) unselectAll(item.items);
+    else item.isSelected = false;
+  });
+};
+
 const renameItem = (array, id, newName) => {
   array.forEach((item) => {
     if (item.id === id) {
@@ -43,4 +60,11 @@ const deleteItem = (array, id) => {
   });
 };
 
-export { toggleFolder, addToParent, renameItem, deleteItem };
+export {
+  toggleFolder,
+  addToParent,
+  renameItem,
+  deleteItem,
+  selectFile,
+  unselectAll,
+};
