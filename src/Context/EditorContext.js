@@ -65,6 +65,16 @@ const initialStates = {
   modalValue: "",
   currentlyOpenFile: 3,
   documents: [{ id: 3, content: "### Title" }],
+  tags: [
+    { name: "Blue", color: "blue" },
+    { name: "Green", color: "green" },
+    { name: "Grey", color: "grey" },
+    { name: "Important", color: "red" },
+    { name: "Orange", color: "orange" },
+    { name: "Purple", color: "purple" },
+    { name: "Work", color: "yellow" },
+    { name: "Development", color: "dodgerblue" },
+  ],
 };
 
 const EditorProvider = ({ children }) => {

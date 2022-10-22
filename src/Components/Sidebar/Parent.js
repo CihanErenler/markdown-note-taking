@@ -4,23 +4,23 @@ import logo from "../../Assets/logo.svg";
 import FolderTree from "../Folders/FolderTree";
 
 const Parent = () => {
-	return (
-		<StyledParent>
-			<StyledLogo src={logo} alt="logo" />
-			<FolderTree />
-		</StyledParent>
-	);
+  return (
+    <StyledParent>
+      <StyledLogo src={logo} alt="logo" />
+      <FolderTree />
+    </StyledParent>
+  );
 };
 
 const StyledParent = styled.div`
-	flex: 1;
-	background-color: ${(props) => props.theme.sidebarBg};
+  flex: 1;
+  background-color: ${(props) => props.theme.sidebarBg};
 `;
 
 const StyledLogo = styled.img`
-	width: 150px;
-	display: block;
-	margin: 10px 30px 50px;
+  width: 150px;
+  display: block;
+  margin: 10px 30px 30px;
 `;
 
 export default Parent;

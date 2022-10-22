@@ -1,9 +1,9 @@
 import React from "react";
 import styled from "styled-components";
 
-const AboutPage = () => {
+const RegisterPage = () => {
   return (
-    <StyledAboutPage>
+    <StyledRegisterPage>
       <div className="area">
         <ul className="circles">
           <li></li>
@@ -18,11 +18,11 @@ const AboutPage = () => {
           <li></li>
         </ul>
       </div>
-    </StyledAboutPage>
+    </StyledRegisterPage>
   );
 };
 
-const StyledAboutPage = styled.div`
+const StyledRegisterPage = styled.div`
   height: 100%;
   .area {
     background: dodgerblue;
@@ -141,4 +141,4 @@ const StyledAboutPage = styled.div`
   }
 `;
 
-export default AboutPage;
+export default RegisterPage;

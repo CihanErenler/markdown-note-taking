@@ -1,25 +1,31 @@
 import styled from "styled-components";
-import Button from "./Button";
+import Tags from "./Tags";
 
 const ViewHeader = () => {
   return (
     <StyledViewHeader>
-      {/* <Button>Save</Button> */}
       <div>
         <h2>Herkese selamlar</h2>
       </div>
+      <Tags />
     </StyledViewHeader>
   );
 };
 
 const StyledViewHeader = styled.nav`
-  height: 55px;
+  height: 50px;
   width: 100%;
   border-bottom: 1px solid ${(props) => props.theme.inputBorder};
+  padding: 0 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  line-height: 1.2;
 
   h2 {
-    font-weight: 400;
-    font-size: 20px;
+    font-weight: 500;
+    font-size: 16px;
   }
 `;
 

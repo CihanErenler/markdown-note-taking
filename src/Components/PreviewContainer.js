@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import styled from "styled-components";
 import Editor from "./Editor/Editor.js";
 import Preview from "./Preview.js";
-import ViewHeader from "./ViewHeader.js";
+import ViewHeader from "./ViewHeader/ViewHeader.js";
 import Split from "react-split";
 import "../Split.css";
 import { useEditorContext } from "../Context/EditorContext.js";

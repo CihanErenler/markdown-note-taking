@@ -27,7 +27,7 @@ const UserPage = () => {
   return (
     <StyledUserPage>
       <Split
-        sizes={[20, 80]}
+        sizes={[25, 75]}
         direction="horizontal"
         cursor="col-resize"
         className="split-flex"

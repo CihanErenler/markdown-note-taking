@@ -138,7 +138,7 @@ const StyledFolder = styled.section`
     }
 
     .bold {
-      font-weight: 500 !important;
+      font-weight: 400 !important;
     }
 
     .title {

@@ -46,7 +46,7 @@ const Preview = () => {
 
 const StyledPreview = styled.div`
   padding: 20px;
-  font-size: 16px;
+  font-size: 14px;
   border-left: 1px solid ${(props) => props.theme.inputBorder};
   height: calc(100vh - 55px);
   overflow: auto;
@@ -114,19 +114,19 @@ const StyledPreview = styled.div`
   }
 
   h1 {
-    font-size: 46px;
+    font-size: 44px;
   }
   h2 {
-    font-size: 36px;
+    font-size: 34px;
   }
   h3 {
-    font-size: 28px;
-  }
-  h4 {
     font-size: 24px;
   }
+  h4 {
+    font-size: 22px;
+  }
   h5 {
-    font-size: 20px;
+    font-size: 18px;
   }
   h6 {
     font-size: 16px;
@@ -216,7 +216,7 @@ const StyledPreview = styled.div`
 
   pre > div {
     border-radius: 8px;
-    font-size: 15px;
+    font-size: 14px;
   }
 `;
 
