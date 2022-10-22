@@ -11,6 +11,8 @@ import reducer, {
   CURRENTY_OPEN_FILE,
   UPDATE_TOBEDELETED,
   UNSELECT_ALL,
+  ASSIGN_CODE,
+  UPDATE_CURRENT_FILE,
 } from "../Reducers/EditorReducer";
 import { UPDATE_CODE } from "../Reducers/EditorReducer";
 import { v4 as uuidv4 } from "uuid";
@@ -21,6 +23,7 @@ import {
   deleteItem,
   selectFile,
   unselectAll,
+  // findItem,
 } from "../helpers";
 import { toast } from "react-toastify";
 
@@ -55,13 +58,13 @@ const initialStates = {
     ],
   },
   toBeDeleted: null,
-  selectedFolder: "root",
   fullscreen: "",
   modalMode: "",
   newFolderName: "",
   parent: null,
   modalValue: "",
-  currentlyOpenFile: "",
+  currentlyOpenFile: 3,
+  documents: [{ id: 3, content: "### Title" }],
 };
 
 const EditorProvider = ({ children }) => {
@@ -184,7 +187,15 @@ const EditorProvider = ({ children }) => {
     const tempFiles = state.files;
     unselectAll(tempFiles.items);
     selectFile(tempFiles.items, id);
+    dispatch({ type: UPDATE_CURRENT_FILE, id });
     dispatch({ type: APPEND_CHILD, payload: tempFiles });
+  };
+
+  const assignCode = () => {
+    // const tempFiles = state.files;
+    // const item = findItem(tempFiles.items, state.currentlyOpenFile);
+    // console.log(item);
+    // dispatch({ type: ASSIGN_CODE, payload: item });
   };
 
   return (
@@ -202,6 +213,7 @@ const EditorProvider = ({ children }) => {
         rename,
         handleDelete,
         handleSelectFile,
+        assignCode,
       }}
     >
       {children}

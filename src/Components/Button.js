@@ -38,6 +38,7 @@ const Button = ({ children, variant, type, disabled, action }) => {
       </StyledDanger>
     );
   }
+
   return (
     <StyledButton disabled={disabled} onClick={action}>
       {children}
@@ -46,7 +47,6 @@ const Button = ({ children, variant, type, disabled, action }) => {
 };
 
 const CommonStyles = css`
-  width: 100px;
   height: 45px;
   display: flex;
   align-items: center;
@@ -60,6 +60,7 @@ const CommonStyles = css`
   background-color: transparent;
   transition: all 0.3s ease;
   opacity: 0.9;
+  padding: 0 20px;
 
   &:not(:disabled):hover {
     opacity: 1;
