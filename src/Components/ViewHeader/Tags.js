@@ -4,13 +4,17 @@ import Tag from "./Tag";
 import TagContainer from "./TagContainer";
 
 const Tags = () => {
-  const { showContainer, setShowContainer } = useState(true);
+  const [showContainer, setShowContainer] = useState(true);
 
   return (
     <StyledTags>
       <span>Tags:</span>
-      <div className="add-button">Add</div>
-      {showContainer ? <TagContainer /> : ""}
+      <div className="add-button" onClick={() => setShowContainer(true)}>
+        Add
+      </div>
+      {showContainer && (
+        <TagContainer close={setShowContainer} showContainer={showContainer} />
+      )}
     </StyledTags>
   );
 };

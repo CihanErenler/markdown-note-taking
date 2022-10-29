@@ -52,6 +52,7 @@ const initialStates = {
             content: "### Title",
             isSelected: true,
             items: [],
+            tags: [],
           },
         ],
       },
@@ -66,7 +67,7 @@ const initialStates = {
   currentlyOpenFile: 3,
   documents: [{ id: 3, content: "### Title" }],
   tags: [
-    { name: "Blue", color: "blue" },
+    { name: "Blue", color: "#2676ff" },
     { name: "Green", color: "green" },
     { name: "Grey", color: "grey" },
     { name: "Important", color: "red" },
@@ -145,6 +146,7 @@ const EditorProvider = ({ children }) => {
         content: "### Title",
         isSelected: true,
         items: [],
+        tags: [],
       };
 
       unselectAll(tempFiles.items);

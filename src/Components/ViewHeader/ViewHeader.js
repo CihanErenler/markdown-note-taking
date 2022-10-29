@@ -22,6 +22,7 @@ const StyledViewHeader = styled.nav`
   align-items: flex-start;
   justify-content: center;
   line-height: 1.2;
+  background-color: ${(props) => props.theme.bg1};
 
   h2 {
     font-weight: 500;
