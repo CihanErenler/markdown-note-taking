@@ -12,6 +12,7 @@ export const CURRENTY_OPEN_FILE = "CURRENTLY_OPEN_FILE";
 export const UPDATE_TOBEDELETED = "UPDATE_TOBEDELETED";
 export const ASSIGN_CODE = "ASSIGN_CODE";
 export const UPDATE_CURRENT_FILE = "UPDATE_CURRENT_FILE";
+export const ADD_NEW_TAG = "ADD_NEW_TAG";
 
 const editorReducer = (state, action) => {
   if (action.type === UPDATE_CODE) {
@@ -87,6 +88,12 @@ const editorReducer = (state, action) => {
 
   if (action.type === UPDATE_CURRENT_FILE) {
     const newState = { ...state, currentlyOpenFile: action.payload };
+    return newState;
+  }
+
+  if (action.type === ADD_NEW_TAG) {
+    const tagArray = [...state.tags, action.payload];
+    const newState = { ...state, tags: tagArray };
     return newState;
   }
 

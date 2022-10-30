@@ -13,6 +13,7 @@ import reducer, {
   UNSELECT_ALL,
   ASSIGN_CODE,
   UPDATE_CURRENT_FILE,
+  ADD_NEW_TAG,
 } from "../Reducers/EditorReducer";
 import { UPDATE_CODE } from "../Reducers/EditorReducer";
 import { v4 as uuidv4 } from "uuid";
@@ -67,14 +68,14 @@ const initialStates = {
   currentlyOpenFile: 3,
   documents: [{ id: 3, content: "### Title" }],
   tags: [
-    { name: "Blue", color: "#2676ff" },
-    { name: "Green", color: "green" },
-    { name: "Grey", color: "grey" },
-    { name: "Important", color: "red" },
-    { name: "Orange", color: "orange" },
-    { name: "Purple", color: "purple" },
-    { name: "Work", color: "yellow" },
-    { name: "Development", color: "dodgerblue" },
+    { selected: false, name: "Blue", color: "#2676ff" },
+    { selected: false, name: "Green", color: "green" },
+    { selected: false, name: "Grey", color: "grey" },
+    { selected: false, name: "Important", color: "red" },
+    { selected: false, name: "Orange", color: "orange" },
+    { selected: false, name: "Purple", color: "purple" },
+    { selected: false, name: "Work", color: "yellow" },
+    { selected: false, name: "Development", color: "dodgerblue" },
   ],
 };
 
@@ -210,6 +211,11 @@ const EditorProvider = ({ children }) => {
     // dispatch({ type: ASSIGN_CODE, payload: item });
   };
 
+  const addNewTag = (value, color) => {
+    const tag = { name: value, color };
+    dispatch({ type: ADD_NEW_TAG, payload: tag });
+  };
+
   return (
     <EditorContext.Provider
       value={{
@@ -226,6 +232,7 @@ const EditorProvider = ({ children }) => {
         handleDelete,
         handleSelectFile,
         assignCode,
+        addNewTag,
       }}
     >
       {children}

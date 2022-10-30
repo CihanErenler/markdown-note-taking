@@ -29,6 +29,7 @@ const StyledColors = styled.div`
   bottom: -130px;
   animation: fade-in 0.3s ease;
   transform-origin: left top;
+  z-index: 10;
 
   > div {
     display: grid;
