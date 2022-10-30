@@ -8,17 +8,24 @@ import colors from "../../colors";
 
 const TagContainer = ({ close, showContainer }) => {
   const [showColors, setShowColors] = useState(false);
+  const [tagValue, setTagValue] = useState("");
   const [currentColor, setCurrentColor] = useState(colors[0]);
-  const { tags } = useEditorContext();
+  const { tags, addNewTag } = useEditorContext();
 
-  const handleKeyPress = () => {
-    if (showColors) {
-      setShowColors((current) => {
-        return !current;
-      });
-    } else {
-      close(!showContainer);
-    }
+  const handleAddTag = () => {
+    addNewTag(tagValue, currentColor);
+    setTagValue("");
+  };
+
+  const handleKeyPress = (e) => {
+    if (e.key === "Escape")
+      if (showColors) {
+        setShowColors((current) => {
+          return !current;
+        });
+      } else {
+        close(!showContainer);
+      }
   };
 
   useEffect(() => {
@@ -40,7 +47,12 @@ const TagContainer = ({ close, showContainer }) => {
         ))}
       </div>
       <hr />
-      <input type="text" placeholder="Define new tag" />
+      <input
+        type="text"
+        placeholder="Define a new tag"
+        onChange={(e) => setTagValue(e.target.value)}
+        value={tagValue}
+      />
       <div className="colors-button" onClick={() => setShowColors(true)}>
         <span>Color</span>
         <div>
@@ -56,6 +68,9 @@ const TagContainer = ({ close, showContainer }) => {
       ) : (
         ""
       )}
+      <button className="add-btn" onClick={handleAddTag}>
+        Add
+      </button>
     </StyledTagContainer>
   );
 };
@@ -141,6 +156,26 @@ const StyledTagContainer = styled.div`
         border-radius: 4px;
         padding-left: 10px;
       }
+    }
+  }
+
+  .add-btn {
+    width: 100%;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: ${(props) => props.theme.sidebarBg};
+    color: ${(props) => props.theme.bg1};
+    border: none;
+    border-radius: 6px;
+    margin: 10px 0 0 0;
+    opacity: 0.9;
+    cursor: pointer;
+    transition: all 0.3s ease;
+
+    :hover {
+      opacity: 1;
     }
   }
 `;
