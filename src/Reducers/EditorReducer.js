@@ -13,6 +13,8 @@ export const UPDATE_TOBEDELETED = "UPDATE_TOBEDELETED";
 export const ASSIGN_CODE = "ASSIGN_CODE";
 export const UPDATE_CURRENT_FILE = "UPDATE_CURRENT_FILE";
 export const ADD_NEW_TAG = "ADD_NEW_TAG";
+export const UPDATE_TAG_VALUE = "UPDATE_TAG_VALUE";
+export const CLEAR_TAG_INPUT = "CLEAR_TAG_INPUT";
 
 const editorReducer = (state, action) => {
   if (action.type === UPDATE_CODE) {
@@ -91,9 +93,19 @@ const editorReducer = (state, action) => {
     return newState;
   }
 
+  if (action.type === UPDATE_TAG_VALUE) {
+    const newState = { ...state, tagInput: action.payload };
+    return newState;
+  }
+
   if (action.type === ADD_NEW_TAG) {
     const tagArray = [...state.tags, action.payload];
     const newState = { ...state, tags: tagArray };
+    return newState;
+  }
+
+  if (action.type === CLEAR_TAG_INPUT) {
+    const newState = { ...state, tagInput: "" };
     return newState;
   }
 

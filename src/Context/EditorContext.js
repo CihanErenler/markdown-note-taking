@@ -14,6 +14,8 @@ import reducer, {
   ASSIGN_CODE,
   UPDATE_CURRENT_FILE,
   ADD_NEW_TAG,
+  UPDATE_TAG_VALUE,
+  CLEAR_TAG_INPUT,
 } from "../Reducers/EditorReducer";
 import { UPDATE_CODE } from "../Reducers/EditorReducer";
 import { v4 as uuidv4 } from "uuid";
@@ -77,6 +79,7 @@ const initialStates = {
     { selected: false, name: "Work", color: "yellow" },
     { selected: false, name: "Development", color: "dodgerblue" },
   ],
+  tagInput: "",
 };
 
 const EditorProvider = ({ children }) => {
@@ -211,9 +214,30 @@ const EditorProvider = ({ children }) => {
     // dispatch({ type: ASSIGN_CODE, payload: item });
   };
 
-  const addNewTag = (value, color) => {
-    const tag = { name: value, color };
-    dispatch({ type: ADD_NEW_TAG, payload: tag });
+  const updateTagInput = (e) => {
+    const value = e.target.value;
+    dispatch({ type: UPDATE_TAG_VALUE, payload: value });
+  };
+
+  const addNewTag = (color) => {
+    const value = state.tagInput;
+
+    if (value === "") {
+      toast.error(`Please add a tag name`);
+    } else {
+      const item = state.tags.find((item) => item.name === value);
+      if (item) {
+        toast.warn(`A tag exists with the name "${value}"`);
+      } else {
+        const tag = { name: value, color };
+        dispatch({ type: ADD_NEW_TAG, payload: tag });
+        clearTagInput();
+      }
+    }
+  };
+
+  const clearTagInput = () => {
+    dispatch({ type: CLEAR_TAG_INPUT });
   };
 
   return (
@@ -233,6 +257,8 @@ const EditorProvider = ({ children }) => {
         handleSelectFile,
         assignCode,
         addNewTag,
+        updateTagInput,
+        clearTagInput,
       }}
     >
       {children}
