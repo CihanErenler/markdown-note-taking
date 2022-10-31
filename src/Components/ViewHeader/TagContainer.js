@@ -1,21 +1,16 @@
 import { useState, useEffect } from "react";
-import styled from "styled-components";
-import { useEditorContext } from "../../Context/EditorContext";
-import Tag from "./Tag";
 import { GrClose } from "react-icons/gr";
+import { useEditorContext } from "../../Context/EditorContext";
+import styled from "styled-components";
+import Tag from "./Tag";
 import Colors from "./Colors";
 import colors from "../../colors";
 
 const TagContainer = ({ close, showContainer }) => {
   const [showColors, setShowColors] = useState(false);
-  const [tagValue, setTagValue] = useState("");
   const [currentColor, setCurrentColor] = useState(colors[0]);
-  const { tags, addNewTag } = useEditorContext();
-
-  const handleAddTag = () => {
-    addNewTag(tagValue, currentColor);
-    setTagValue("");
-  };
+  const { tags, addNewTag, tagInput, updateTagInput, clearTagInput } =
+    useEditorContext();
 
   const handleKeyPress = (e) => {
     if (e.key === "Escape")
@@ -35,6 +30,10 @@ const TagContainer = ({ close, showContainer }) => {
     };
   }, [handleKeyPress]);
 
+  useEffect(() => {
+    clearTagInput();
+  }, []);
+
   return (
     <StyledTagContainer>
       <span className="close-btn" onClick={() => close(false)}>
@@ -50,8 +49,8 @@ const TagContainer = ({ close, showContainer }) => {
       <input
         type="text"
         placeholder="Define a new tag"
-        onChange={(e) => setTagValue(e.target.value)}
-        value={tagValue}
+        onChange={updateTagInput}
+        value={tagInput}
       />
       <div className="colors-button" onClick={() => setShowColors(true)}>
         <span>Color</span>
@@ -68,7 +67,7 @@ const TagContainer = ({ close, showContainer }) => {
       ) : (
         ""
       )}
-      <button className="add-btn" onClick={handleAddTag}>
+      <button className="add-btn" onClick={() => addNewTag(currentColor)}>
         Add
       </button>
     </StyledTagContainer>
