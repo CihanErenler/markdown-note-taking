@@ -39,6 +39,22 @@ const Button = ({ children, variant, type, disabled, action }) => {
     );
   }
 
+  if (variant === "small") {
+    return (
+      <StyledDanger disabled={disabled} onClick={action}>
+        {children}
+      </StyledDanger>
+    );
+  }
+
+  if (variant === "small-full") {
+    return (
+      <StyledDanger disabled={disabled} onClick={action}>
+        {children}
+      </StyledDanger>
+    );
+  }
+
   return (
     <StyledButton disabled={disabled} onClick={action}>
       {children}
@@ -102,6 +118,16 @@ const StyledOutlined = styled.button`
 `;
 
 const StyledSecondary = styled.button`
+  ${CommonStyles}
+  background-color: ${(props) => props.theme.sidebarBg};
+`;
+
+const StyledSmall = styled.button`
+  ${CommonStyles}
+  background-color: ${(props) => props.theme.sidebarBg};
+`;
+
+const StyledSmallFull = styled.button`
   ${CommonStyles}
   background-color: ${(props) => props.theme.sidebarBg};
 `;
