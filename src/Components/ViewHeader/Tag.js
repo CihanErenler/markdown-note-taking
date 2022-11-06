@@ -1,10 +1,26 @@
 import React from "react";
 import styled from "styled-components";
 import { GrClose } from "react-icons/gr";
+import { IoCloseCircle } from "react-icons/io5";
 import { useEditorContext } from "../../Context/EditorContext";
+import { IconContext } from "react-icons";
 
-const Tag = ({ tagName, color, isSelected }) => {
+const Tag = ({ tagName, color, isSelected, closable }) => {
   const { toggleTags } = useEditorContext();
+
+  if (closable) {
+    return (
+      <StyledTag color={color} isSelected={isSelected} closable={closable}>
+        <div></div>
+        {tagName}
+        <IconContext.Provider value={{ fill: "white" }}>
+          <span onClick={() => toggleTags(tagName)} className="tag-close-btn">
+            <IoCloseCircle size={18} color={"tomato"} />
+          </span>
+        </IconContext.Provider>
+      </StyledTag>
+    );
+  }
 
   return (
     <StyledTag
@@ -26,9 +42,9 @@ const StyledTag = styled.div`
   background-color: ${(props) =>
     !props.isSelected ? "#e5e7eb" : props.theme.seperator};
   color: ${(props) => (!props.isSelected ? "#505967" : props.theme.sidebarBg)};
-  padding: 3px 8px;
+  padding: ${(props) => (props.closable ? "3px 2px 3px 8px" : "3px 8px")};
   margin-right: 6px;
-  cursor: pointer;
+  cursor: ${(props) => (props.closable ? "default" : "pointer")};
   display: flex;
   align-items: center;
   -webkit-touch-callout: none;
@@ -44,6 +60,17 @@ const StyledTag = styled.div`
     border-radius: 50%;
     background-color: ${(props) => props.color};
     margin-right: 5px;
+  }
+
+  .tag-close-btn {
+    cursor: pointer;
+    background-color: ${(props) => props.theme.bg1};
+    border-radius: 50%;
+    display: grid;
+    /* place-items: center; */
+    margin-left: 5px;
+    margin-right: 0;
+    box-shadow: inset 0px 0px 0px 3px #c4e0f9;
   }
 `;
 
