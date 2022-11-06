@@ -42,7 +42,12 @@ const TagContainer = ({ close, showContainer }) => {
       <h5>Available tags: </h5>
       <div className="tags">
         {tags.map((tag) => (
-          <Tag key={tag.name} tagName={tag.name} color={tag.color} />
+          <Tag
+            key={tag.name}
+            tagName={tag.name}
+            color={tag.color}
+            isSelected={tag.selected}
+          />
         ))}
       </div>
       <hr />
@@ -68,7 +73,7 @@ const TagContainer = ({ close, showContainer }) => {
         ""
       )}
       <button className="add-btn" onClick={() => addNewTag(currentColor)}>
-        Add
+        Define tag
       </button>
     </StyledTagContainer>
   );
@@ -115,6 +120,7 @@ const StyledTagContainer = styled.div`
     display: flex;
     flex-wrap: wrap;
     margin-bottom: 10px;
+    gap: 5px;
   }
 
   input {

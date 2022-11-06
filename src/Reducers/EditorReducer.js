@@ -15,6 +15,7 @@ export const UPDATE_CURRENT_FILE = "UPDATE_CURRENT_FILE";
 export const ADD_NEW_TAG = "ADD_NEW_TAG";
 export const UPDATE_TAG_VALUE = "UPDATE_TAG_VALUE";
 export const CLEAR_TAG_INPUT = "CLEAR_TAG_INPUT";
+export const TOGGLE_TAG = "TOGGLE_TAG";
 
 const editorReducer = (state, action) => {
   if (action.type === UPDATE_CODE) {
@@ -106,6 +107,20 @@ const editorReducer = (state, action) => {
 
   if (action.type === CLEAR_TAG_INPUT) {
     const newState = { ...state, tagInput: "" };
+    return newState;
+  }
+
+  if (action.type === TOGGLE_TAG) {
+    const temp = [...state.tags];
+    const newTags = temp.map((tag) => {
+      if (tag.name === action.payload) {
+        const newTag = { ...tag, selected: !tag.selected };
+        return newTag;
+      }
+      return tag;
+    });
+    console.log(newTags);
+    const newState = { ...state, tags: newTags };
     return newState;
   }
 

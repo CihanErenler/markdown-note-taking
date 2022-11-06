@@ -16,6 +16,7 @@ import reducer, {
   ADD_NEW_TAG,
   UPDATE_TAG_VALUE,
   CLEAR_TAG_INPUT,
+  TOGGLE_TAG,
 } from "../Reducers/EditorReducer";
 import { UPDATE_CODE } from "../Reducers/EditorReducer";
 import { v4 as uuidv4 } from "uuid";
@@ -240,6 +241,10 @@ const EditorProvider = ({ children }) => {
     dispatch({ type: CLEAR_TAG_INPUT });
   };
 
+  const toggleTags = (tagName) => {
+    dispatch({ type: TOGGLE_TAG, payload: tagName });
+  };
+
   return (
     <EditorContext.Provider
       value={{
@@ -259,6 +264,7 @@ const EditorProvider = ({ children }) => {
         addNewTag,
         updateTagInput,
         clearTagInput,
+        toggleTags,
       }}
     >
       {children}
