@@ -21,7 +21,14 @@ const Tags = () => {
       {selectedTags &&
         selectedTags.map((tag) => {
           const { name, color, selected } = tag;
-          return <Tag tagName={name} color={color} isSelected={selected} />;
+          return (
+            <Tag
+              tagName={name}
+              color={color}
+              isSelected={selected}
+              closable={true}
+            />
+          );
         })}
       <div className="add-button" onClick={() => setShowContainer(true)}>
         Add
