@@ -55,6 +55,14 @@ const Button = ({ children, variant, type, disabled, action }) => {
     );
   }
 
+  if (variant === "full") {
+    return (
+      <StyledFullButton disabled={disabled} onClick={action}>
+        {children}
+      </StyledFullButton>
+    );
+  }
+
   return (
     <StyledButton disabled={disabled} onClick={action}>
       {children}
@@ -86,6 +94,12 @@ const CommonStyles = css`
     cursor: default;
     opacity: 0.5;
   }
+`;
+
+const StyledFullButton = styled.button`
+  ${CommonStyles}
+  background-color: ${(props) => props.theme.primary};
+  width: 100%;
 `;
 
 const StyledButton = styled.button`

@@ -70,7 +70,7 @@ const Modal = () => {
   return (
     <StyledModal className="modal" ref={element}>
       {modalMode !== "delete-item" ? (
-        <div>
+        <div className="inner-modal">
           <h1>{generatedTitle}</h1>
           <Input value={modalValue} action={updateModalValue} focused={true} />
           <section>
@@ -85,7 +85,7 @@ const Modal = () => {
           </section>
         </div>
       ) : (
-        <div>
+        <div className="inner-modal">
           <h1>Are you sure?</h1>
           <section>
             <Button variant="secondary" action={closeModal}>
@@ -126,11 +126,11 @@ const StyledModal = styled.div`
     }
   }
 
-  div {
+  .inner-modal {
     background-color: ${(props) => props.theme.bg1};
     width: 500px;
     padding: 40px;
-    border-radius: 4px;
+    border-radius: 10px;
     animation: fadein 0.3s forwards ease;
     opacity: 0;
     transform: scale(0.9);
