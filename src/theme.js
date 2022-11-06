@@ -3,7 +3,7 @@ const theme = {
     bg1: "#fff",
     bg2: "#f1f5f8",
     bg3: "#F4F9FF",
-    primary: "#2EC0F9",
+    primary: "dodgerblue",
     primaryDarker: "#1AA964",
     textColor: "#303042",
     sidebarBg: "#111b27",
@@ -23,7 +23,7 @@ const theme = {
     borderDark: "#333",
     sidebarActive: "#eff3fd",
     textSelect: "#67AAF9",
-    seperator: "#C4E0F9"
+    seperator: "#C4E0F9",
   },
   dark: {},
 };
