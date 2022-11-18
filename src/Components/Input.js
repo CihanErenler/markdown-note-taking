@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 import { BiShow, BiHide } from "react-icons/bi";
+import { BiSearchAlt2 } from "react-icons/bi";
 
 const Input = ({ value, action, placeholder, disabled, focused, type }) => {
   const [showPass, setShowPass] = useState(false);
@@ -13,7 +14,7 @@ const Input = ({ value, action, placeholder, disabled, focused, type }) => {
   }, []);
 
   return (
-    <StyledInput>
+    <StyledInput type={type}>
       <div className="input-wrapper">
         <input
           ref={input}
@@ -34,6 +35,13 @@ const Input = ({ value, action, placeholder, disabled, focused, type }) => {
         ) : (
           ""
         )}
+        {type === "search" ? (
+          <span onClick={() => setShowPass(!showPass)}>
+            <BiSearchAlt2 size={22} color="gray" />
+          </span>
+        ) : (
+          ""
+        )}
       </div>
     </StyledInput>
   );
@@ -48,7 +56,7 @@ const StyledInput = styled.div`
       cursor: pointer;
       position: absolute;
       top: 50%;
-      right: 14px;
+      right: 10px;
       transform: translateY(-50%);
       display: grid;
       align-items: center;
@@ -56,13 +64,14 @@ const StyledInput = styled.div`
 
     input {
       border: 1px solid ${(props) => props.theme.inputBorder};
-      height: 45px;
+      height: ${(props) => (props.type === "search" ? "30px" : "45px")};
       width: 100%;
       border-radius: 6px;
       padding: 0 20px;
       font-size: 18px;
       transition: all 0.3s ease;
-      background-color: ${(props) => props.theme.inputBg};
+      background-color: ${(props) =>
+        props.type === "search" ? props.theme.bg1 : props.theme.inputBg};
 
       ::-moz-selection {
         color: ${(props) => props.theme.bg1};
@@ -79,6 +88,10 @@ const StyledInput = styled.div`
         border-color: ${(props) => props.theme.primary};
         box-shadow: 0px 0px 0px 3px ${(props) => props.theme.inputBorderFocus};
         background-color: ${(props) => props.theme.inputBg};
+      }
+
+      ::placeholder {
+        font-size: ${(props) => (props.type === "search" ? "14px" : "16px")};
       }
     }
   }

@@ -2,7 +2,6 @@ import { useEffect } from "react";
 import PreviewContainer from "../Components/PreviewContainer";
 import Sidebar from "../Components/Sidebar/Sidebar";
 import styled from "styled-components";
-import Split from "react-split";
 import Modal from "../Components/Modal";
 import { useEditorContext } from "../Context/EditorContext";
 
@@ -26,15 +25,8 @@ const UserPage = () => {
 
   return (
     <StyledUserPage>
-      <Split
-        sizes={[25, 75]}
-        direction="horizontal"
-        cursor="col-resize"
-        className="split-flex"
-      >
-        <Sidebar />
-        <PreviewContainer />
-      </Split>
+      <Sidebar />
+      <PreviewContainer />
       {isModalOpen ? <Modal /> : ""}
     </StyledUserPage>
   );
@@ -42,6 +34,7 @@ const UserPage = () => {
 
 const StyledUserPage = styled.section`
   position: relative;
+  display: flex;
 `;
 
 export default UserPage;

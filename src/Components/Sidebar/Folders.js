@@ -5,20 +5,20 @@ import FolderTree from "../Folders/FolderTree";
 
 const Parent = () => {
   return (
-    <StyledParent>
+    <StyledFolders>
       <StyledLogo src={logo} alt="logo" />
       <FolderTree />
-    </StyledParent>
+    </StyledFolders>
   );
 };
 
-const StyledParent = styled.div`
+const StyledFolders = styled.div`
   flex: 1;
   background-color: ${(props) => props.theme.sidebarBg};
 `;
 
 const StyledLogo = styled.img`
-  width: 150px;
+  flex: 1;
   display: block;
   margin: 10px 30px 30px;
 `;
