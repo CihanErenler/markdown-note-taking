@@ -3,15 +3,12 @@ import reducer, {
 	CLOSE_MODAL,
 	FIND_ITEM,
 	OPEN_MODAL,
-	TOGGLE_FOLDER_TREE,
 	TOGGLE_FULLSCREEN,
 	UPDATE_MODAL,
 	UPDATE_PARENT,
 	APPEND_CHILD,
 	CURRENTY_OPEN_FILE,
 	UPDATE_TOBEDELETED,
-	UNSELECT_ALL,
-	ASSIGN_CODE,
 	UPDATE_CURRENT_FILE,
 	ADD_NEW_TAG,
 	UPDATE_TAG_VALUE,
@@ -21,7 +18,6 @@ import reducer, {
 import { UPDATE_CODE } from "../Reducers/EditorReducer";
 import { v4 as uuidv4 } from "uuid";
 import {
-	toggleFolder,
 	addToParent,
 	renameItem,
 	deleteItem,
@@ -41,18 +37,7 @@ const initialStates = {
 		name: "Folders",
 		isFolder: true,
 		isOpen: false,
-		items: [
-			{
-				id: 3,
-				name: "First note",
-				isFolder: false,
-				isOpen: false,
-				content: "### Title",
-				isSelected: true,
-				items: [],
-				tags: [],
-			},
-		],
+		items: [],
 	},
 	toBeDeleted: null,
 	fullscreen: "",
@@ -84,7 +69,6 @@ const EditorProvider = ({ children }) => {
 
 	const openModal = (id, mode, type) => {
 		if (mode === "create") {
-			dispatch({ type: UPDATE_PARENT, payload: id });
 			dispatch({ type: OPEN_MODAL, payload: type });
 		}
 		if (mode === "edit") {
@@ -115,14 +99,10 @@ const EditorProvider = ({ children }) => {
 				items: [],
 			};
 
-			if (state.parent === 1) {
-				tempFiles.items.unshift(newFolder);
-				dispatch({ type: CLOSE_MODAL });
-			} else {
-				addToParent(tempFiles.items, state.parent, newFolder);
-				dispatch({ type: APPEND_CHILD, payload: tempFiles });
-				dispatch({ type: CLOSE_MODAL });
-			}
+			tempFiles.items.unshift(newFolder);
+			dispatch({ type: UPDATE_PARENT, payload: newId });
+			dispatch({ type: APPEND_CHILD, payload: tempFiles });
+			dispatch({ type: CLOSE_MODAL });
 			toast.success(`Folder "${newValue}" was created`);
 		} else {
 			toast.error("Please enter a folder name");
@@ -155,12 +135,6 @@ const EditorProvider = ({ children }) => {
 		} else {
 			toast.warn("Please enter a file name");
 		}
-	};
-
-	const toggleFolderTree = (id) => {
-		const tempFiles = state.files;
-		toggleFolder(tempFiles.items, id);
-		dispatch({ type: TOGGLE_FOLDER_TREE, payload: tempFiles });
 	};
 
 	const toggleFullscreen = (viewName) => {
@@ -207,6 +181,10 @@ const EditorProvider = ({ children }) => {
 		// dispatch({ type: ASSIGN_CODE, payload: item });
 	};
 
+	const selectParent = (id) => {
+		dispatch({ type: UPDATE_PARENT, payload: id });
+	};
+
 	const updateTagInput = (e) => {
 		const value = e.target.value;
 		dispatch({ type: UPDATE_TAG_VALUE, payload: value });
@@ -246,7 +224,6 @@ const EditorProvider = ({ children }) => {
 				closeModal,
 				createFolder,
 				createFile,
-				toggleFolderTree,
 				toggleFullscreen,
 				updateModalValue,
 				rename,
@@ -257,6 +234,7 @@ const EditorProvider = ({ children }) => {
 				updateTagInput,
 				clearTagInput,
 				toggleTags,
+				selectParent,
 			}}
 		>
 			{children}

@@ -18,113 +18,105 @@ export const CLEAR_TAG_INPUT = "CLEAR_TAG_INPUT";
 export const TOGGLE_TAG = "TOGGLE_TAG";
 
 const editorReducer = (state, action) => {
-  if (action.type === UPDATE_CODE) {
-    const newState = { ...state, code: action.payload };
-    return newState;
-  }
+	if (action.type === UPDATE_CODE) {
+		const newState = { ...state, code: action.payload };
+		return newState;
+	}
 
-  if (action.type === OPEN_MODAL) {
-    const newState = {
-      ...state,
-      isModalOpen: true,
-      modalMode: action.payload,
-      modalValue: state.modalValue ? state.modalValue : "Untitled",
-    };
-    return newState;
-  }
+	if (action.type === OPEN_MODAL) {
+		const newState = {
+			...state,
+			isModalOpen: true,
+			modalMode: action.payload,
+			modalValue: state.modalValue ? state.modalValue : "Untitled",
+		};
+		return newState;
+	}
 
-  if (action.type === CLOSE_MODAL) {
-    const newState = {
-      ...state,
-      isModalOpen: false,
-      modalMode: "",
-      modalValue: "",
-      parent: null,
-    };
-    return newState;
-  }
+	if (action.type === CLOSE_MODAL) {
+		const newState = {
+			...state,
+			isModalOpen: false,
+			modalMode: "",
+			modalValue: "",
+		};
+		return newState;
+	}
 
-  if (action.type === TOGGLE_FOLDER_TREE) {
-    const files = action.payload;
-    const newState = { ...state, files };
+	if (action.type === TOGGLE_FULLSCREEN) {
+		const tempVal = state.fullscreen === action.payload ? "" : action.payload;
+		const newState = { ...state, fullscreen: tempVal };
+		return newState;
+	}
 
-    return newState;
-  }
+	if (action.type === UPDATE_PARENT) {
+		const newState = { ...state, parent: action.payload };
+		return newState;
+	}
 
-  if (action.type === TOGGLE_FULLSCREEN) {
-    const tempVal = state.fullscreen === action.payload ? "" : action.payload;
-    const newState = { ...state, fullscreen: tempVal };
-    return newState;
-  }
+	if (action.type === APPEND_CHILD) {
+		const newState = { ...state, files: action.payload };
+		return newState;
+	}
 
-  if (action.type === UPDATE_PARENT) {
-    const newState = { ...state, parent: action.payload };
-    return newState;
-  }
+	if (action.type === UPDATE_MODAL) {
+		const newState = { ...state, modalValue: action.payload };
+		return newState;
+	}
 
-  if (action.type === APPEND_CHILD) {
-    const newState = { ...state, files: action.payload };
-    return newState;
-  }
+	if (action.type === FIND_ITEM) {
+		const { id, name } = action.payload;
+		const newState = { ...state, modalValue: name, parent: id };
+		return newState;
+	}
 
-  if (action.type === UPDATE_MODAL) {
-    const newState = { ...state, modalValue: action.payload };
-    return newState;
-  }
+	if (action.type === UPDATE_TOBEDELETED) {
+		const id = action.payload;
+		const newState = { ...state, toBeDeleted: id };
+		return newState;
+	}
 
-  if (action.type === FIND_ITEM) {
-    const { id, name } = action.payload;
-    const newState = { ...state, modalValue: name, parent: id };
-    return newState;
-  }
+	if (action.type === ASSIGN_CODE) {
+		const newState = { ...state, code: action.payload.content };
+		return newState;
+	}
 
-  if (action.type === UPDATE_TOBEDELETED) {
-    const id = action.payload;
-    const newState = { ...state, toBeDeleted: id };
-    return newState;
-  }
+	if (action.type === UPDATE_CURRENT_FILE) {
+		const newState = { ...state, currentlyOpenFile: action.payload };
+		return newState;
+	}
 
-  if (action.type === ASSIGN_CODE) {
-    const newState = { ...state, code: action.payload.content };
-    return newState;
-  }
+	if (action.type === UPDATE_TAG_VALUE) {
+		const newState = { ...state, tagInput: action.payload };
+		return newState;
+	}
 
-  if (action.type === UPDATE_CURRENT_FILE) {
-    const newState = { ...state, currentlyOpenFile: action.payload };
-    return newState;
-  }
+	if (action.type === ADD_NEW_TAG) {
+		const tagArray = [...state.tags, action.payload];
+		const newState = { ...state, tags: tagArray };
+		return newState;
+	}
 
-  if (action.type === UPDATE_TAG_VALUE) {
-    const newState = { ...state, tagInput: action.payload };
-    return newState;
-  }
+	if (action.type === CLEAR_TAG_INPUT) {
+		const newState = { ...state, tagInput: "" };
+		return newState;
+	}
 
-  if (action.type === ADD_NEW_TAG) {
-    const tagArray = [...state.tags, action.payload];
-    const newState = { ...state, tags: tagArray };
-    return newState;
-  }
+	if (action.type === TOGGLE_TAG) {
+		const temp = [...state.tags];
+		const newTags = temp.map((tag) => {
+			if (tag.name === action.payload) {
+				const newTag = { ...tag, selected: !tag.selected };
+				return newTag;
+			}
+			return tag;
+		});
+		console.log(newTags);
+		const newState = { ...state, tags: newTags };
+		return newState;
+	}
 
-  if (action.type === CLEAR_TAG_INPUT) {
-    const newState = { ...state, tagInput: "" };
-    return newState;
-  }
-
-  if (action.type === TOGGLE_TAG) {
-    const temp = [...state.tags];
-    const newTags = temp.map((tag) => {
-      if (tag.name === action.payload) {
-        const newTag = { ...tag, selected: !tag.selected };
-        return newTag;
-      }
-      return tag;
-    });
-    console.log(newTags);
-    const newState = { ...state, tags: newTags };
-    return newState;
-  }
-
-  return state;
+	return state;
 };
 
 export default editorReducer;

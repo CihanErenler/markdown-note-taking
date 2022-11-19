@@ -14,13 +14,13 @@ const Filter = () => {
 			<div className="search-wrapper">
 				<div className="filter-view-header">
 					<button>
-						<BiFilterAlt color="gray" size={22} />
+						<BiFilterAlt size={22} />
 					</button>
 					<h3>Notes</h3>
 					<button
 					// onClick={() => openModal(explorer.id, "create", "create-file")}
 					>
-						<AiOutlineFileAdd color="gray" size={22} />
+						<AiOutlineFileAdd size={22} />
 					</button>
 				</div>
 				<Input
@@ -46,9 +46,20 @@ const StyledFilterView = styled.section`
 			display: flex;
 			align-items: center;
 			justify-content: space-between;
+			margin: 10px 0;
 
 			h3 {
 				font-weight: 300;
+				font-size: 22px;
+			}
+
+			svg {
+				fill: gray;
+				transition: fill ease 0.3s;
+
+				:hover {
+					fill: dodgerblue;
+				}
 			}
 		}
 	}

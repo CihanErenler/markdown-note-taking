@@ -1,19 +1,18 @@
 import styled from "styled-components";
 import { useEditorContext } from "../../Context/EditorContext";
-import { FaFolder } from "react-icons/fa";
+import { AiOutlineFolder } from "react-icons/ai";
 
 function Folder({ explorer }) {
-	const { toggleFolderTree, openModal, handleSelectFile } = useEditorContext();
+	const { selectParent, parent } = useEditorContext();
 
-	const handleClick = (item) => {
-		if (item.isFolder) toggleFolderTree(item.id);
-		else handleSelectFile(item.id);
-	};
 	return (
 		<StyledFolder key={explorer.id}>
-			<div className="parent-wrapper">
-				<div className="title" onClick={() => handleClick(explorer)}>
-					<FaFolder size={20} color="orange" />
+			<div
+				className={`parent-wrapper ${parent === explorer.id ? "selected" : ""}`}
+				onClick={() => selectParent(explorer.id)}
+			>
+				<div className="title">
+					<AiOutlineFolder size={18} />{" "}
 					<h1 className="parent-title">{explorer.name}</h1>
 				</div>
 				{/* {explorer.isFolder ? (
@@ -84,7 +83,7 @@ const StyledFolder = styled.section`
 		display: flex;
 		align-items: center;
 		justify-content: space-between;
-		padding: 4px 0 4px 30px;
+		padding: 4px 0 4px 46px;
 		cursor: pointer;
 		transition: all ease 0.3s;
 
@@ -102,12 +101,15 @@ const StyledFolder = styled.section`
 			justify-content: flex-start;
 			flex: 1;
 			position: relative;
+
+			h1 {
+				margin-left: 5px;
+			}
 		}
 
 		.parent-title {
 			text-transform: capitalize;
 			font-size: 14px;
-			margin: 0 10px;
 			flex: 1;
 			font-weight: 200;
 			transition: all 0.3s ease;
@@ -130,6 +132,10 @@ const StyledFolder = styled.section`
 		:hover .buttons {
 			display: flex;
 		}
+	}
+
+	.parent-wrapper.selected {
+		background-color: ${(props) => props.theme.primary};
 	}
 `;
 
