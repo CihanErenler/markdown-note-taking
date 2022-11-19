@@ -16,6 +16,7 @@ export const ADD_NEW_TAG = "ADD_NEW_TAG";
 export const UPDATE_TAG_VALUE = "UPDATE_TAG_VALUE";
 export const CLEAR_TAG_INPUT = "CLEAR_TAG_INPUT";
 export const TOGGLE_TAG = "TOGGLE_TAG";
+export const UPDATE_TAG = "UPDATE_TAG";
 
 const editorReducer = (state, action) => {
 	if (action.type === UPDATE_CODE) {
@@ -51,6 +52,11 @@ const editorReducer = (state, action) => {
 
 	if (action.type === UPDATE_PARENT) {
 		const newState = { ...state, parent: action.payload };
+		return newState;
+	}
+
+	if (action.type === UPDATE_TAG) {
+		const newState = { ...state, currentlySelectedTag: action.payload };
 		return newState;
 	}
 

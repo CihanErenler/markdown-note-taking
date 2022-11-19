@@ -14,6 +14,7 @@ import reducer, {
 	UPDATE_TAG_VALUE,
 	CLEAR_TAG_INPUT,
 	TOGGLE_TAG,
+	UPDATE_TAG,
 } from "../Reducers/EditorReducer";
 import { UPDATE_CODE } from "../Reducers/EditorReducer";
 import { v4 as uuidv4 } from "uuid";
@@ -46,6 +47,7 @@ const initialStates = {
 	parent: null,
 	modalValue: "",
 	currentlyOpenFile: 3,
+	currentlySelectedTag: null,
 	documents: [{ id: 3, content: "### Title" }],
 	tags: [
 		{ selected: false, name: "Blue", color: "#2676ff" },
@@ -185,6 +187,10 @@ const EditorProvider = ({ children }) => {
 		dispatch({ type: UPDATE_PARENT, payload: id });
 	};
 
+	const selectTag = (id) => {
+		dispatch({ type: UPDATE_TAG, payload: id });
+	};
+
 	const updateTagInput = (e) => {
 		const value = e.target.value;
 		dispatch({ type: UPDATE_TAG_VALUE, payload: value });
@@ -235,6 +241,7 @@ const EditorProvider = ({ children }) => {
 				clearTagInput,
 				toggleTags,
 				selectParent,
+				selectTag,
 			}}
 		>
 			{children}
