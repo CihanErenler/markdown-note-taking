@@ -1,197 +1,136 @@
-import IconButton from "../IconButton";
 import styled from "styled-components";
-import { BsFillMarkdownFill } from "react-icons/bs";
-import { VscNewFile, VscNewFolder, VscEdit } from "react-icons/vsc";
-import { IoIosArrowDown, IoIosArrowForward } from "react-icons/io";
 import { useEditorContext } from "../../Context/EditorContext";
-import { MdDeleteOutline } from "react-icons/md";
-import { FaFolderOpen, FaFolder } from "react-icons/fa";
+import { FaFolder } from "react-icons/fa";
 
 function Folder({ explorer }) {
-  const { toggleFolderTree, openModal, handleSelectFile } = useEditorContext();
-  const classSelector = (item) => {
-    let classes = ["space-title"];
-    if (item.isFolder) classes.push("bold");
-    if (!item.isFolder && item.isSelected) classes.push("selected");
-    return classes.join(" ");
-  };
+	const { toggleFolderTree, openModal, handleSelectFile } = useEditorContext();
 
-  const handleClick = (item) => {
-    if (item.isFolder) toggleFolderTree(item.id);
-    else handleSelectFile(item.id);
-  };
-  return (
-    <StyledFolder key={explorer.id}>
-      <div className="space-title-wrapper">
-        <div className="title" onClick={() => handleClick(explorer)}>
-          {explorer.isFolder ? (
-            <div className="arrows">
-              {explorer.isOpen ? (
-                <IoIosArrowDown size={16} color="#ddd" />
-              ) : (
-                <IoIosArrowForward size={16} color="#ddd" />
-              )}
-            </div>
-          ) : (
-            ""
-          )}
-          {!explorer.isFolder ? (
-            <BsFillMarkdownFill
-              size={18}
-              color="#FFD166"
-              style={{ marginLeft: explorer.isFolder ? 10 : 2 }}
-            />
-          ) : explorer.isOpen ? (
-            <FaFolderOpen size={20} color="#06D6A0" />
-          ) : (
-            <FaFolder size={20} color="#06D6A0" />
-          )}
-
-          <h1 className={classSelector(explorer)}>{explorer.name}</h1>
-        </div>
-        {explorer.isFolder ? (
-          <div className="buttons">
-            <IconButton
-              action={() => openModal(explorer.id, "create", "create-file")}
-            >
-              {<VscNewFile size={18} />}
-            </IconButton>
-            <IconButton
-              action={() => openModal(explorer.id, "create", "create-folder")}
-            >
-              {<VscNewFolder size={16} />}
-            </IconButton>
-            <IconButton
-              action={() => openModal(explorer.id, "delete", "delete-item")}
-            >
-              {<MdDeleteOutline size={20} />}
-            </IconButton>
-            <IconButton
-              action={() =>
-                openModal(
-                  { id: explorer.id, name: explorer.name },
-                  "edit",
-                  "edit-folder"
-                )
-              }
-            >
-              {<VscEdit size={18} />}
-            </IconButton>
-          </div>
-        ) : (
-          <div className="buttons">
-            <IconButton
-              action={() => openModal(explorer.id, "delete", "delete-item")}
-            >
-              {<MdDeleteOutline size={20} />}
-            </IconButton>
-            <IconButton
-              action={() =>
-                openModal(
-                  { id: explorer.id, name: explorer.name },
-                  "edit",
-                  "edit-file"
-                )
-              }
-            >
-              {<VscEdit size={20} />}
-            </IconButton>
-          </div>
-        )}
-      </div>
-      <div
-        className="content"
-        style={{
-          display: explorer.isOpen ? "block" : "none",
-          marginLeft: 17,
-          borderLeft: "1px solid #303042",
-        }}
-      >
-        {explorer.isFolder
-          ? explorer.items.map((explore) => (
-              <Folder key={explore.id} explorer={explore} />
-            ))
-          : ""}
-      </div>
-    </StyledFolder>
-  );
+	const handleClick = (item) => {
+		if (item.isFolder) toggleFolderTree(item.id);
+		else handleSelectFile(item.id);
+	};
+	return (
+		<StyledFolder key={explorer.id}>
+			<div className="parent-wrapper">
+				<div className="title" onClick={() => handleClick(explorer)}>
+					<FaFolder size={20} color="orange" />
+					<h1 className="parent-title">{explorer.name}</h1>
+				</div>
+				{/* {explorer.isFolder ? (
+					<div className="buttons">
+						<IconButton
+							action={() => openModal(explorer.id, "create", "create-file")}
+						>
+							{<VscNewFile size={18} />}
+						</IconButton>
+						<IconButton
+							action={() => openModal(explorer.id, "create", "create-folder")}
+						>
+							{<VscNewFolder size={16} />}
+						</IconButton>
+						<IconButton
+							action={() => openModal(explorer.id, "delete", "delete-item")}
+						>
+							{<MdDeleteOutline size={20} />}
+						</IconButton>
+						<IconButton
+							action={() =>
+								openModal(
+									{ id: explorer.id, name: explorer.name },
+									"edit",
+									"edit-folder"
+								)
+							}
+						>
+							{<VscEdit size={18} />}
+						</IconButton>
+					</div>
+				) : (
+					<div className="buttons">
+						<IconButton
+							action={() => openModal(explorer.id, "delete", "delete-item")}
+						>
+							{<MdDeleteOutline size={20} />}
+						</IconButton>
+						<IconButton
+							action={() =>
+								openModal(
+									{ id: explorer.id, name: explorer.name },
+									"edit",
+									"edit-file"
+								)
+							}
+						>
+							{<VscEdit size={20} />}
+						</IconButton>
+					</div>
+				)} */}
+			</div>
+			<div className="content">
+				{explorer.isFolder
+					? explorer.items.map((explore) => (
+							<Folder key={explore.id} explorer={explore} />
+					  ))
+					: ""}
+			</div>
+		</StyledFolder>
+	);
 }
 
 const StyledFolder = styled.section`
-  color: ${(props) => props.theme.bg1};
+	color: ${(props) => props.theme.bg1};
 
-  .space-title-wrapper {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 2px 10px 2px 30px;
-    cursor: pointer;
+	.parent-wrapper {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		padding: 4px 0 4px 30px;
+		cursor: pointer;
+		transition: all ease 0.3s;
 
-    .arrows {
-      display: grid;
-      align-items: center;
-      padding-right: 5px;
-      position: absolute;
-      left: -20px;
-      top: 50%;
-      transform: translateY(-50%);
-    }
+		:hover {
+			background-color: #29425e;
+		}
 
-    .bold {
-      font-weight: 400 !important;
-    }
+		.bold {
+			font-weight: 400 !important;
+		}
 
-    .title {
-      display: flex;
-      align-items: center;
-      justify-content: flex-start;
-      flex: 1;
-      position: relative;
-    }
+		.title {
+			display: flex;
+			align-items: center;
+			justify-content: flex-start;
+			flex: 1;
+			position: relative;
+		}
 
-    .space-title {
-      text-transform: capitalize;
-      font-size: 14px;
-      margin: 0 10px;
-      flex: 1;
-      font-weight: 200;
-      transition: all 0.3s ease;
-      white-space: nowrap;
-      text-overflow: ellipsis;
-      -webkit-touch-callout: none;
-      -webkit-user-select: none;
-      -khtml-user-select: none;
-      -moz-user-select: none;
-      -ms-user-select: none;
-      user-select: none;
-      position: relative;
-    }
+		.parent-title {
+			text-transform: capitalize;
+			font-size: 14px;
+			margin: 0 10px;
+			flex: 1;
+			font-weight: 200;
+			transition: all 0.3s ease;
+			white-space: nowrap;
+			text-overflow: ellipsis;
+			-webkit-touch-callout: none;
+			-webkit-user-select: none;
+			-khtml-user-select: none;
+			-moz-user-select: none;
+			-ms-user-select: none;
+			user-select: none;
+			position: relative;
+		}
 
-    .space-title.selected {
-      color: #06d6a0;
-      position: relative;
+		.buttons {
+			display: none;
+			gap: 3px;
+		}
 
-      ::before {
-        position: absolute;
-        content: "➜";
-        left: -45px;
-        z-index: 1000;
-      }
-    }
-
-    .buttons {
-      display: none;
-      gap: 3px;
-    }
-
-    :hover .buttons {
-      display: flex;
-    }
-
-    :hover {
-      color: ${(props) => props.theme.primary};
-    }
-  }
+		:hover .buttons {
+			display: flex;
+		}
+	}
 `;
 
 export default Folder;
