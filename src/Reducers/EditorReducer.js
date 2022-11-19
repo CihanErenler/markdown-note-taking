@@ -51,12 +51,20 @@ const editorReducer = (state, action) => {
 	}
 
 	if (action.type === UPDATE_PARENT) {
-		const newState = { ...state, parent: action.payload };
+		const newState = {
+			...state,
+			parent: action.payload,
+			currentlySelectedTag: null,
+		};
 		return newState;
 	}
 
 	if (action.type === UPDATE_TAG) {
-		const newState = { ...state, currentlySelectedTag: action.payload };
+		const newState = {
+			...state,
+			currentlySelectedTag: action.payload,
+			parent: null,
+		};
 		return newState;
 	}
 

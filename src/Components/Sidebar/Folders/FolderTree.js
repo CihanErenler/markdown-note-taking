@@ -1,7 +1,7 @@
 import Folders from "./Folders";
 import Tags from "./Tags";
+import Amount from "../Amount";
 import { FaStickyNote } from "react-icons/fa";
-
 import { StyledFolderTree } from "./StyledFolders";
 
 const FolderTree = () => {
@@ -9,8 +9,11 @@ const FolderTree = () => {
 		<StyledFolderTree>
 			<div className="folder-tree-title">
 				<div className="tree-title">
-					<FaStickyNote size={18} color="orange" />
-					<h1>All Notes </h1>
+					<span>
+						<FaStickyNote size={18} color="orange" />
+						<h1>All Notes </h1>
+					</span>
+					<Amount amount={1} />
 				</div>
 			</div>
 			<Folders />
