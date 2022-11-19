@@ -47,7 +47,6 @@ const Preview = () => {
 const StyledPreview = styled.div`
   padding: 20px;
   font-size: 14px;
-  border-left: 1px solid ${(props) => props.theme.inputBorder};
   height: calc(100vh - 55px);
   overflow: auto;
   position: relative;
