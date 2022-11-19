@@ -83,16 +83,12 @@ const StyledFolder = styled.section`
 		display: flex;
 		align-items: center;
 		justify-content: space-between;
-		padding: 4px 0 4px 46px;
+		padding: 4px 0 4px 24px;
 		cursor: pointer;
 		transition: all ease 0.3s;
 
 		:hover {
-			background-color: #29425e;
-		}
-
-		.bold {
-			font-weight: 400 !important;
+			background-color: ${(props) => props.theme.sidebarHover};
 		}
 
 		.title {
@@ -109,9 +105,9 @@ const StyledFolder = styled.section`
 
 		.parent-title {
 			text-transform: capitalize;
-			font-size: 14px;
+			font-size: 13px;
 			flex: 1;
-			font-weight: 200;
+			font-weight: 300;
 			transition: all 0.3s ease;
 			white-space: nowrap;
 			text-overflow: ellipsis;
@@ -135,7 +131,7 @@ const StyledFolder = styled.section`
 	}
 
 	.parent-wrapper.selected {
-		background-color: ${(props) => props.theme.primary};
+		background-color: ${(props) => props.theme.sidebarSelected};
 	}
 `;
 

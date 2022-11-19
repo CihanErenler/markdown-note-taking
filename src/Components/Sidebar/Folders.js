@@ -20,7 +20,7 @@ const StyledFolders = styled.div`
 const StyledLogo = styled.img`
 	display: block;
 	width: 70%;
-	padding: 20px 0px 20px 30px;
+	padding: 20px 0px 20px 20px;
 `;
 
 export default Parent;
