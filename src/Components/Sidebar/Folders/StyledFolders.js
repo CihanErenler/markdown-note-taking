@@ -7,7 +7,7 @@ export const StyledFolderTree = styled.section`
 		display: flex;
 		align-items: center;
 		justify-content: space-between;
-		padding: 0 20px;
+		padding: 0 10px 0 20px;
 
 		.tag-list {
 			display: flex;
@@ -51,6 +51,17 @@ export const StyledFolderTree = styled.section`
 		.tree-title {
 			display: flex;
 			align-items: center;
+			justify-content: space-between;
+			width: 100%;
+
+			span {
+				display: flex;
+				align-items: center;
+			}
+
+			.title-group {
+				display: flex;
+			}
 
 			h1 {
 				color: ${(props) => props.theme.bg1};
@@ -70,6 +81,7 @@ export const StyledFolderTree = styled.section`
 
 		.tree-title {
 			padding-left: 16px;
+			padding-right: 10px;
 		}
 
 		h1 {
