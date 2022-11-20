@@ -1,8 +1,8 @@
 import React from "react";
 import Tag from "./Tag";
 import { IoMdPricetags } from "react-icons/io";
-import { useEditorContext } from "../../../Context/EditorContext";
-import Amount from "../Amount";
+import { useEditorContext } from "../../Context/EditorContext";
+import Amount from "../Sidebar/Amount";
 
 const Tags = () => {
 	const { selectTag, tags } = useEditorContext();

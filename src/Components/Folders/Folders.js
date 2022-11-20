@@ -1,10 +1,10 @@
 import React from "react";
-import IconButton from "../../IconButton";
+import IconButton from "../IconButton";
 import { VscNewFolder } from "react-icons/vsc";
 import { BsFillCollectionFill } from "react-icons/bs";
 import Folder from "./Folder";
-import { useEditorContext } from "../../../Context/EditorContext";
-import Amount from "../Amount";
+import { useEditorContext } from "../../Context/EditorContext";
+import Amount from "../Sidebar/Amount";
 
 const Folders = () => {
 	const { files, openModal } = useEditorContext();

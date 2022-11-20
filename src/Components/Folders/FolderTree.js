@@ -1,6 +1,6 @@
 import Folders from "./Folders";
 import Tags from "./Tags";
-import Amount from "../Amount";
+import Amount from "../Sidebar/Amount";
 import { FaStickyNote } from "react-icons/fa";
 import { StyledFolderTree } from "./StyledFolders";
 
