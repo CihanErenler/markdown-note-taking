@@ -1,5 +1,5 @@
 import React from "react";
-import { useEditorContext } from "../../../Context/EditorContext";
+import { useEditorContext } from "../../Context/EditorContext";
 
 const Tag = ({ tag, action }) => {
 	const { currentlySelectedTag } = useEditorContext();

@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { useEditorContext } from "../../../Context/EditorContext";
+import { useEditorContext } from "../../Context/EditorContext";
 import { AiOutlineFolder } from "react-icons/ai";
 
 function Folder({ explorer }) {
@@ -64,13 +64,6 @@ function Folder({ explorer }) {
 						</IconButton>
 					</div>
 				)} */}
-			</div>
-			<div className="content">
-				{explorer.isFolder
-					? explorer.items.map((explore) => (
-							<Folder key={explore.id} explorer={explore} />
-					  ))
-					: ""}
 			</div>
 		</StyledFolder>
 	);
