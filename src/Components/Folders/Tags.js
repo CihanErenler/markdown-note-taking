@@ -3,27 +3,37 @@ import Tag from "./Tag";
 import { IoMdPricetags } from "react-icons/io";
 import { useEditorContext } from "../../Context/EditorContext";
 import Amount from "../Sidebar/Amount";
+import styled from "styled-components";
 
 const Tags = () => {
-	const { selectTag, tags } = useEditorContext();
-	return (
-		<div className="folder-tree-title tags">
-			<div className="tree-title">
-				<span>
-					<IoMdPricetags size={20} color="orange" />
-					<h1>Tags </h1>
-				</span>
-				<Amount amount={1} />
-			</div>
-			<div className="tag-list">
-				<ul>
-					{tags.map((tag) => {
-						return <Tag key={tag.name} tag={tag} action={selectTag} />;
-					})}
-				</ul>
-			</div>
-		</div>
-	);
+  const { selectTag, tags } = useEditorContext();
+  return (
+    <StyledSidebarTags className="folder-tree-title tags">
+      <div className="tree-title">
+        <span>
+          <IoMdPricetags size={20} color="orange" />
+          <h1>Tags </h1>
+        </span>
+        <Amount amount={1} />
+      </div>
+      <div className="tag-list">
+        {tags.map((tag) => {
+          return <Tag key={tag.name} tag={tag} action={selectTag} />;
+        })}
+      </div>
+    </StyledSidebarTags>
+  );
 };
+
+const StyledSidebarTags = styled.div`
+  .tag-list {
+    display: flex;
+    flex-direction: column;
+
+    .selected {
+      background-color: ${(props) => props.theme.sidebarHover};
+    }
+  }
+`;
 
 export default Tags;
