@@ -1,25 +1,16 @@
 import Folders from "./Folders";
 import Tags from "./Tags";
-import Amount from "../Sidebar/Amount";
-import { FaStickyNote } from "react-icons/fa";
+import AllNotes from "./AllNotes";
 import { StyledFolderTree } from "./StyledFolders";
 
 const FolderTree = () => {
-	return (
-		<StyledFolderTree>
-			<div className="folder-tree-title">
-				<div className="tree-title">
-					<span>
-						<FaStickyNote size={18} color="orange" />
-						<h1>All Notes </h1>
-					</span>
-					<Amount amount={1} />
-				</div>
-			</div>
-			<Folders />
-			<Tags />
-		</StyledFolderTree>
-	);
+  return (
+    <StyledFolderTree>
+      <AllNotes />
+      <Folders />
+      <Tags />
+    </StyledFolderTree>
+  );
 };
 
 export default FolderTree;

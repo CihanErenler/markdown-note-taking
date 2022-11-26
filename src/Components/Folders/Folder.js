@@ -1,21 +1,25 @@
 import styled from "styled-components";
+import Amount from "../Sidebar/Amount";
 import { useEditorContext } from "../../Context/EditorContext";
 import { AiOutlineFolder } from "react-icons/ai";
 
 function Folder({ explorer }) {
-	const { selectParent, parent } = useEditorContext();
+  const { selectParent, parent } = useEditorContext();
 
-	return (
-		<StyledFolder key={explorer.id}>
-			<div
-				className={`parent-wrapper ${parent === explorer.id ? "selected" : ""}`}
-				onClick={() => selectParent(explorer.id)}
-			>
-				<div className="title">
-					<AiOutlineFolder size={18} />{" "}
-					<h1 className="parent-title">{explorer.name}</h1>
-				</div>
-				{/* {explorer.isFolder ? (
+  return (
+    <StyledFolder key={explorer.id}>
+      <div
+        className={`parent-wrapper ${parent === explorer.id ? "selected" : ""}`}
+        onClick={() => selectParent(explorer.id)}
+      >
+        <div className="title">
+          <span className="title-wrapper">
+            <AiOutlineFolder size={18} />{" "}
+            <h1 className="parent-title">{explorer.name}</h1>
+          </span>
+          <Amount amount={explorer.count} />
+        </div>
+        {/* {explorer.isFolder ? (
 					<div className="buttons">
 						<IconButton
 							action={() => openModal(explorer.id, "create", "create-file")}
@@ -64,68 +68,62 @@ function Folder({ explorer }) {
 						</IconButton>
 					</div>
 				)} */}
-			</div>
-		</StyledFolder>
-	);
+      </div>
+    </StyledFolder>
+  );
 }
 
 const StyledFolder = styled.section`
-	color: ${(props) => props.theme.bg1};
+  color: ${(props) => props.theme.bg1};
 
-	.parent-wrapper {
-		display: flex;
-		align-items: center;
-		justify-content: space-between;
-		padding: 4px 0 4px 24px;
-		cursor: pointer;
-		transition: all ease 0.3s;
+  .parent-wrapper {
+    padding: 4px 10px 4px 24px;
+    cursor: pointer;
+    transition: all ease 0.3s;
 
-		:hover {
-			background-color: ${(props) => props.theme.sidebarHover};
-		}
+    :hover {
+      background-color: ${(props) => props.theme.sidebarHover};
+    }
 
-		.title {
-			display: flex;
-			align-items: center;
-			justify-content: flex-start;
-			flex: 1;
-			position: relative;
+    .title {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: relative;
+      width: 100% !important;
 
-			h1 {
-				margin-left: 5px;
-			}
-		}
+      span.title-wrapper {
+        display: flex;
+        align-items: center;
 
-		.parent-title {
-			text-transform: capitalize;
-			font-size: 13px;
-			flex: 1;
-			font-weight: 300;
-			transition: all 0.3s ease;
-			white-space: nowrap;
-			text-overflow: ellipsis;
-			-webkit-touch-callout: none;
-			-webkit-user-select: none;
-			-khtml-user-select: none;
-			-moz-user-select: none;
-			-ms-user-select: none;
-			user-select: none;
-			position: relative;
-		}
+        h1 {
+          display: inline-block;
+          margin-left: 5px;
+        }
+      }
+    }
 
-		.buttons {
-			display: none;
-			gap: 3px;
-		}
+    .parent-title {
+      text-transform: capitalize;
+      font-size: 13px;
+      flex: 1;
+      font-weight: 300;
+      transition: all 0.3s ease;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      -webkit-touch-callout: none;
+      -webkit-user-select: none;
+      -khtml-user-select: none;
+      -moz-user-select: none;
+      -ms-user-select: none;
+      user-select: none;
+      position: relative;
+    }
+  }
 
-		:hover .buttons {
-			display: flex;
-		}
-	}
-
-	.parent-wrapper.selected {
-		background-color: ${(props) => props.theme.sidebarSelected};
-	}
+  .parent-wrapper.selected {
+    background-color: ${(props) => props.theme.sidebarSelected};
+  }
 `;
 
 export default Folder;
