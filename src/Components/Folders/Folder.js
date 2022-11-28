@@ -17,7 +17,7 @@ function Folder({ explorer }) {
             <AiOutlineFolder size={18} />{" "}
             <h1 className="parent-title">{explorer.name}</h1>
           </span>
-          <Amount amount={explorer.count} />
+          <Amount amount={explorer.items.length} />
         </div>
         {/* {explorer.isFolder ? (
 					<div className="buttons">

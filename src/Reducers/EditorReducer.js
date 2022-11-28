@@ -70,8 +70,7 @@ const editorReducer = (state, action) => {
   }
 
   if (action.type === APPEND_CHILD) {
-    const newState = { ...state, files: action.payload };
-    return newState;
+    return action.payload;
   }
 
   if (action.type === UPDATE_MODAL) {
@@ -98,10 +97,11 @@ const editorReducer = (state, action) => {
 
   if (action.type === GET_AMOUNT) {
     const amount = state.files.items.reduce((total, current) => {
-      total += current.count;
+      total += current.items.length;
       return total;
     }, 0);
     const newState = { ...state, totalAmount: amount };
+    console.log("amount ==> ", amount);
     return newState;
   }
 

@@ -1,15 +1,23 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import GlobalStyles from "./GlobalStyles";
 import { ThemeProvider } from "styled-components";
 import themes from "./theme";
 import styled from "styled-components";
 import { ToastContainer, Slide } from "react-toastify";
+import { useEditorContext } from "./Context/EditorContext";
 import CustomRouter from "./CustomRouter";
 import "react-toastify/dist/ReactToastify.css";
 import "./Split.css";
 
 function App() {
   const [currentTheme, setCurrentTheme] = useState(false);
+  const { files, selectParent } = useEditorContext();
+
+  useEffect(() => {
+    if (files.items.length > 0) {
+      selectParent(files.items[0].id);
+    }
+  }, []);
 
   return (
     <Main>

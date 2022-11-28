@@ -1,4 +1,3 @@
-import { useEffect } from "react";
 import IconButton from "../IconButton";
 import { VscNewFolder } from "react-icons/vsc";
 import { BsFillCollectionFill } from "react-icons/bs";
@@ -7,11 +6,7 @@ import { useEditorContext } from "../../Context/EditorContext";
 import Amount from "../Sidebar/Amount";
 
 const Folders = () => {
-  const { files, openModal, getAmount, totalAmount } = useEditorContext();
-
-  useEffect(() => {
-    getAmount();
-  }, [files]);
+  const { files, openModal, totalAmount } = useEditorContext();
 
   return (
     <section>
