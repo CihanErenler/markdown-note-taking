@@ -5,7 +5,7 @@ import TagContainer from "./TagContainer";
 import { useEditorContext } from "../../Context/EditorContext";
 
 const Tags = () => {
-  const [showContainer, setShowContainer] = useState(true);
+  const [showContainer, setShowContainer] = useState(false);
   const [selectedTags, setSelectedTags] = useState(null);
   const { tags } = useEditorContext();
 

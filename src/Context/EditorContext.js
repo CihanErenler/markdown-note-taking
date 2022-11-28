@@ -130,13 +130,13 @@ const EditorProvider = ({ children }) => {
         name: newValue,
         isFolder: true,
         isOpen: false,
-        count: 0,
         items: [],
       };
 
       tempFiles.items.unshift(newFolder);
+      const tempState = { ...state, files: tempFiles };
+      dispatch({ type: APPEND_CHILD, payload: tempState });
       dispatch({ type: UPDATE_PARENT, payload: newId });
-      dispatch({ type: APPEND_CHILD, payload: tempFiles });
       dispatch({ type: CLOSE_MODAL });
       toast.success(`Folder "${newValue}" was created`);
     } else {
@@ -145,7 +145,7 @@ const EditorProvider = ({ children }) => {
   };
 
   const createFile = () => {
-    const tempFiles = state.files;
+    const tempFiles = { ...state.files };
     const newId = uuidv4();
     const newValue = state.modalValue.trim();
 
@@ -153,17 +153,20 @@ const EditorProvider = ({ children }) => {
       const newFile = {
         id: newId,
         name: newValue,
-        isFolder: false,
         isOpen: false,
         content: "### Title",
         isSelected: true,
-        items: [],
         tags: [],
       };
 
-      unselectAll(tempFiles.items);
-      addToParent(tempFiles.items, state.parent, newFile);
-      dispatch({ type: APPEND_CHILD, payload: tempFiles });
+      const index = tempFiles.items.findIndex(
+        (item) => item.id === state.parent
+      );
+
+      console.log(index);
+      tempFiles.items[index].items.unshift(newFile);
+      const tempState = { ...state, files: tempFiles };
+      dispatch({ type: APPEND_CHILD, payload: tempState });
       dispatch({ type: CLOSE_MODAL });
       dispatch({ type: CURRENTY_OPEN_FILE, payload: newId });
       toast.success(`File "${newValue}" was created`);
