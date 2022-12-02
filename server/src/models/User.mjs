@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import Data from "./Data.mjs";
 const { Schema } = mongoose;
 
 const User = new Schema({
@@ -6,7 +7,7 @@ const User = new Schema({
   lastname: { type: String, required: true },
   password: { type: String, required: true },
   email: { type: String, required: true },
-  data: String,
+  data: { type: Data, required: false },
 });
 
 export default mongoose.Modal("User", User);
