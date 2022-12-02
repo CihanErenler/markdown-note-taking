@@ -1,6 +1,7 @@
 import express from "express";
 import dotenv from "dotenv";
 import { createConnection } from "./db/db.mjs";
+import cors from "cors";
 
 // import routes
 import mainRouter from "./router/mainRouter.mjs";
@@ -13,6 +14,7 @@ const app = express();
 
 dotenv.config();
 app.use(express.json());
+app.use(cors());
 
 // use routes
 app.use("/api/1/user", mainRouter);
