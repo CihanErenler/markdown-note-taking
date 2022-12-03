@@ -15,12 +15,13 @@ const Parent = () => {
 const StyledFolders = styled.div`
 	flex: 1;
 	background-color: ${(props) => props.theme.sidebarBg};
+	padding: 10px;
 `;
 
 const StyledLogo = styled.img`
 	display: block;
 	width: 70%;
-	padding: 20px 0px 20px 20px;
+	padding: 4px 0px 20px 20px;
 `;
 
 export default Parent;

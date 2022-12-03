@@ -16,7 +16,8 @@ const RegisterContent = () => {
 
 	const { createUser } = useAuthContext();
 
-	const handleClick = async () => {
+	const handleClick = async (e) => {
+		e.preventDefault();
 		if (!name || !lastname || !email || !password) {
 			toast.warn("Please fill all fields");
 			return;
@@ -32,36 +33,38 @@ const RegisterContent = () => {
 
 	return (
 		<StyledRegisterContent>
-			<h1>Register</h1>
-			<Input
-				placeholder="Name"
-				value={name}
-				action={(e) => setName(e.target.value)}
-				type="text"
-			/>
-			<Input
-				placeholder="Lastname"
-				value={lastname}
-				action={(e) => setLastname(e.target.value)}
-				type="text"
-			/>
-			<Input
-				placeholder="Email"
-				value={email}
-				action={(e) => setEmail(e.target.value)}
-				type="text"
-			/>
-			<Input
-				placeholder="Password"
-				value={password}
-				action={(e) => setPassword(e.target.value)}
-				type="password"
-			/>
-			<Button variant="full" action={handleClick}>
-				Register
-			</Button>
+			<form>
+				<h1>Register</h1>
+				<Input
+					placeholder="Name"
+					value={name}
+					action={(e) => setName(e.target.value)}
+					type="text"
+				/>
+				<Input
+					placeholder="Lastname"
+					value={lastname}
+					action={(e) => setLastname(e.target.value)}
+					type="text"
+				/>
+				<Input
+					placeholder="Email"
+					value={email}
+					action={(e) => setEmail(e.target.value)}
+					type="text"
+				/>
+				<Input
+					placeholder="Password"
+					value={password}
+					action={(e) => setPassword(e.target.value)}
+					type="password"
+				/>
+				<Button variant="full" action={handleClick}>
+					Register
+				</Button>
+			</form>
 			<p>
-				Already have an account? <Link to="/auth">Login</Link>
+				Already have an account? <Link to="/login">Login</Link>
 			</p>
 		</StyledRegisterContent>
 	);

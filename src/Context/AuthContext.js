@@ -2,22 +2,19 @@ import React, { useReducer, useContext } from "react";
 import reducer from "../Reducers/AuthReducer";
 import { toast } from "react-toastify";
 import { db } from "../db/db";
-import { CREATE_USER } from "../Reducers/AuthReducer";
+import { USER_LOOGED_IN } from "../Reducers/AuthReducer";
 
 const AuthContext = React.createContext();
 
 const inititalState = {
-	name: "",
-	lastname: "",
-	email: "",
-	token: "",
+	userLoggedIn: false,
+	user: null,
 };
 
 export const AuthProvider = ({ children }) => {
 	const [state, dispatch] = useReducer(reducer, inititalState);
 
 	const createUser = async (user) => {
-		console.log(user);
 		try {
 			const response = await db.post("/user/register", user);
 			if (response.status === 200) {
@@ -25,12 +22,32 @@ export const AuthProvider = ({ children }) => {
 			}
 			return response;
 		} catch (error) {
-			toast.error(error);
+			if (error.response.status === 400) {
+				toast.error(error.response.data.message);
+				return;
+			}
+			toast.error("Something went wrong");
+		}
+	};
+
+	const loginUser = async (user) => {
+		try {
+			const response = await db.post("/user/login", user);
+			if (response.status === 200) {
+				dispatch({ type: USER_LOOGED_IN, payload: response.data.user });
+				toast.success("Logged in successfully!");
+			}
+		} catch (error) {
+			if (error.response.status === 400) {
+				toast.error(error.response.data.message);
+				return;
+			}
+			toast.error("Something went wrong");
 		}
 	};
 
 	return (
-		<AuthContext.Provider value={{ ...state, createUser }}>
+		<AuthContext.Provider value={{ ...state, createUser, loginUser }}>
 			{children}
 		</AuthContext.Provider>
 	);

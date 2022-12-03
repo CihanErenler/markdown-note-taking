@@ -15,7 +15,7 @@ const ViewHeader = () => {
 const StyledViewHeader = styled.nav`
 	height: 60px;
 	width: 100%;
-	border-bottom: 1px solid ${(props) => props.theme.inputBorder};
+	border-bottom: 1px solid ${(props) => props.theme.borderLight};
 	padding: 0 20px;
 	display: flex;
 	flex-direction: column;

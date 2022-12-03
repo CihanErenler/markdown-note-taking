@@ -22,11 +22,11 @@ const Input = ({ value, action, placeholder, disabled, focused, type }) => {
 					onChange={action}
 					placeholder={placeholder}
 					disabled={disabled}
-					type={type}
+					type={showPass ? "text" : type}
 				/>
 				{type === "password" ? (
 					<span onClick={() => setShowPass(!showPass)}>
-						{showPass ? (
+						{!showPass ? (
 							<BiHide size={26} color="gray" />
 						) : (
 							<BiShow size={26} color="gray" />

@@ -52,6 +52,7 @@ export const login = async (req, res) => {
 
 	//validate before continue
 	const { error } = signinValidator(body);
+	console.log(error);
 	if (error) {
 		return res.status(400).json({
 			message: error.details[0].message,
