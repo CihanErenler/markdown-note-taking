@@ -7,9 +7,9 @@ const AuthCard = ({ children }) => {
 
 const StyledAuthCard = styled.div`
   background-color: ${(props) => props.theme.bg1};
-  border-radius: 10px;
+  border-radius: 20px;
   position: absolute;
-  width: 600px;
+  width: 500px;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
