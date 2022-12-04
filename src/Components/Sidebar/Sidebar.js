@@ -5,25 +5,25 @@ import FilterView from "./FilterView";
 import { useEditorContext } from "../../Context/EditorContext";
 
 const Sidebar = () => {
-  const { files, getAmount } = useEditorContext();
+	const { files, getAmount } = useEditorContext();
 
-  useEffect(() => {
-    console.log("girdiiiii");
-    getAmount();
-  }, [files]);
+	useEffect(() => {
+		console.log("girdiiiii");
+		getAmount();
+	}, [files]);
 
-  return (
-    <StyledSidebar>
-      <Parent />
-      <FilterView />
-    </StyledSidebar>
-  );
+	return (
+		<StyledSidebar>
+			<Parent />
+			<FilterView />
+		</StyledSidebar>
+	);
 };
 
 const StyledSidebar = styled.section`
-  display: flex;
-  width: 500px;
-  border-right: 1px solid ${(props) => props.theme.inputBorder};
+	display: flex;
+	width: 500px;
+	border-right: 1px solid ${(props) => props.theme.borderLight};
 `;
 
 export default Sidebar;

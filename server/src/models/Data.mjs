@@ -30,22 +30,6 @@ export const Context = new Schema({
 		type: String,
 		required: false,
 	},
-	isModalOpen: {
-		type: Boolean,
-		default: false,
-	},
-	toBeDeleted: {
-		type: String,
-		default: null,
-	},
-	fullscreen: String,
-	modalMode: String,
-	newFolderName: String,
-	parent: String,
-	modalValue: String,
-	currentlyOpenFile: String,
-	currentlySelectedTag: String,
-	tagInput: String,
 	totalAmount: Number,
 	tags: [Tag],
 	files: {
