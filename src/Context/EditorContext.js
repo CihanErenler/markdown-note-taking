@@ -1,4 +1,4 @@
-import React, { useContext, useReducer } from "react";
+import React, { useContext, useReducer, useEffect } from "react";
 import reducer, {
   CLOSE_MODAL,
   FIND_ITEM,
