@@ -1,4 +1,4 @@
-import React, { useContext, useReducer, useEffect } from "react";
+import React, { useContext, useReducer } from "react";
 import reducer, {
   CLOSE_MODAL,
   FIND_ITEM,
@@ -20,9 +20,6 @@ import reducer, {
 import { UPDATE_CODE } from "../Reducers/EditorReducer";
 import { v4 as uuidv4 } from "uuid";
 import {
-  addToParent,
-  renameItem,
-  deleteItem,
   selectFile,
   unselectAll,
   // findItem,
@@ -96,7 +93,7 @@ const EditorProvider = ({ children }) => {
       dispatch({ type: OPEN_MODAL, payload: type });
     }
     if (mode === "edit") {
-      dispatch({ type: FIND_ITEM, payload: { id: id.id, name: id.name } });
+      dispatch({ type: FIND_ITEM });
       dispatch({ type: OPEN_MODAL, payload: type });
     }
     if (mode === "delete") {
@@ -153,7 +150,6 @@ const EditorProvider = ({ children }) => {
         (item) => item.id === state.parent
       );
 
-      console.log(index);
       tempFiles.items[index].items.unshift(newFile);
       const tempState = { ...state, files: tempFiles };
       dispatch({ type: APPEND_CHILD, payload: tempState });
@@ -174,11 +170,16 @@ const EditorProvider = ({ children }) => {
   };
 
   const rename = () => {
-    const tempFiles = state.files;
+    const tempFiles = { ...state.files };
     const newValue = state.modalValue.trim();
     if (newValue) {
-      renameItem(tempFiles.items, state.parent, state.modalValue);
-      dispatch({ type: APPEND_CHILD, payload: tempFiles });
+      tempFiles.items.forEach((item) => {
+        if (item.id === state.parent) {
+          item.name = newValue;
+        }
+      });
+      const tempState = { ...state, files: tempFiles };
+      dispatch({ type: APPEND_CHILD, payload: tempState });
       dispatch({ type: CLOSE_MODAL });
       toast.success(`Name changed to "${newValue}"`);
     } else {
@@ -187,10 +188,21 @@ const EditorProvider = ({ children }) => {
   };
 
   const handleDelete = () => {
-    const tempFiles = state.files;
-    deleteItem(tempFiles.items, state.toBeDeleted);
-    dispatch({ type: APPEND_CHILD, payload: tempFiles });
+    let index;
+    const tempFiles = { ...state.files };
+    const parents = tempFiles.items.filter((item) => item.id !== state.parent);
+    if (tempFiles.items.length > 1) {
+      index = tempFiles.items.findIndex((item) => item.id === state.parent);
+
+      if (parents.length === index) {
+        index -= 1;
+      }
+    }
+    tempFiles.items = parents;
+    const tempState = { ...state, files: tempFiles };
+    dispatch({ type: APPEND_CHILD, payload: tempState });
     dispatch({ type: CLOSE_MODAL });
+    dispatch({ type: UPDATE_PARENT, payload: parents[index].id });
     toast.success(`Item deleted`);
   };
 

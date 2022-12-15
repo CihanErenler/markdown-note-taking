@@ -1,12 +1,13 @@
 import React, { useRef, useEffect } from "react";
 import styled from "styled-components";
+import { useEditorContext } from "../../Context/EditorContext";
 
 const FolderOptions = ({ showOps, setShowOps, buttonRef }) => {
   const ref = useRef(null);
+  const { openModal, parent } = useEditorContext();
 
   useEffect(() => {
     function handleClickOutside(event) {
-      console.log(event.target);
       if (
         ref.current &&
         !ref.current.contains(event.target) &&
@@ -20,12 +21,17 @@ const FolderOptions = ({ showOps, setShowOps, buttonRef }) => {
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
-  }, []);
+  }, [buttonRef, setShowOps, showOps]);
 
   return (
     <StyledFolderOption ref={ref}>
-      <div>Rename</div>
-      <div className="delete">Delete</div>
+      <div onClick={() => openModal(parent, "edit", "edit-folder")}>Rename</div>
+      <div
+        className="delete"
+        onClick={() => openModal(parent, "delete", "delete-item")}
+      >
+        Delete
+      </div>
     </StyledFolderOption>
   );
 };
