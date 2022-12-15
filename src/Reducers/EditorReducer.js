@@ -79,8 +79,8 @@ const editorReducer = (state, action) => {
   }
 
   if (action.type === FIND_ITEM) {
-    const { id, name } = action.payload;
-    const newState = { ...state, modalValue: name, parent: id };
+    const parent = state.files.items.find((item) => item.id === state.parent);
+    const newState = { ...state, modalValue: parent.name };
     return newState;
   }
 
@@ -101,7 +101,6 @@ const editorReducer = (state, action) => {
       return total;
     }, 0);
     const newState = { ...state, totalAmount: amount };
-    console.log("amount ==> ", amount);
     return newState;
   }
 

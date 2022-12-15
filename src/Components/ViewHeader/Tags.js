@@ -11,7 +11,6 @@ const Tags = () => {
 
   useEffect(() => {
     const filteredTags = tags.filter((tag) => tag.selected);
-    console.log(filteredTags);
     setSelectedTags(filteredTags);
   }, [tags]);
 
