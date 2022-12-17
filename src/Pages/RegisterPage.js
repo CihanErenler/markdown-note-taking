@@ -1,9 +1,14 @@
 import React from "react";
 import styled from "styled-components";
+import AuthCard from "../Components/Auth/AuthCard";
+import RegisterContent from "../Components/Auth/RegisterContent";
 
-const RegisterPage = () => {
+const LoginPage = () => {
   return (
-    <StyledRegisterPage>
+    <StyledLoginPage>
+      <AuthCard>
+        <RegisterContent />
+      </AuthCard>
       <div className="area">
         <ul className="circles">
           <li></li>
@@ -18,14 +23,16 @@ const RegisterPage = () => {
           <li></li>
         </ul>
       </div>
-    </StyledRegisterPage>
+    </StyledLoginPage>
   );
 };
 
-const StyledRegisterPage = styled.div`
+const StyledLoginPage = styled.div`
   height: 100%;
+  position: relative;
+
   .area {
-    background: dodgerblue;
+    background: ${(props) => props.theme.primary};
     background: -webkit-linear-gradient(to left, #8f94fb, #4e54c8);
     width: 100vw;
     height: 100%;
@@ -141,4 +148,4 @@ const StyledRegisterPage = styled.div`
   }
 `;
 
-export default RegisterPage;
+export default LoginPage;

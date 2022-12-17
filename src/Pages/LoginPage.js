@@ -1,9 +1,14 @@
 import React from "react";
 import styled from "styled-components";
+import AuthCard from "../Components/Auth/AuthCard";
+import LoginContent from "../Components/Auth/LoginContent";
 
 const LoginPage = () => {
   return (
     <StyledLoginPage>
+      <AuthCard>
+        <LoginContent />
+      </AuthCard>
       <div className="area">
         <ul className="circles">
           <li></li>
@@ -24,8 +29,10 @@ const LoginPage = () => {
 
 const StyledLoginPage = styled.div`
   height: 100%;
+  position: relative;
+
   .area {
-    background: dodgerblue;
+    background: ${(props) => props.theme.primary};
     background: -webkit-linear-gradient(to left, #8f94fb, #4e54c8);
     width: 100vw;
     height: 100%;

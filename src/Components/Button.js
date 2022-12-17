@@ -1,9 +1,9 @@
 import styled, { css } from "styled-components";
 
-const Button = ({ children, variant, type, disabled, action }) => {
+const Button = ({ children, variant, type, disabled, action, width }) => {
   if (type === "cancel") {
     return (
-      <StyledCancelButton disabled={disabled} onClick={action}>
+      <StyledCancelButton disabled={disabled} onClick={action} width={width}>
         {children}
       </StyledCancelButton>
     );
@@ -11,7 +11,7 @@ const Button = ({ children, variant, type, disabled, action }) => {
 
   if (variant === "secondary") {
     return (
-      <StyledSecondary disabled={disabled} onClick={action}>
+      <StyledSecondary disabled={disabled} onClick={action} width={width}>
         {children}
       </StyledSecondary>
     );
@@ -19,21 +19,21 @@ const Button = ({ children, variant, type, disabled, action }) => {
 
   if (variant === "outlined") {
     return (
-      <StyledOutlined disabled={disabled} onClick={action}>
+      <StyledOutlined disabled={disabled} onClick={action} width={width}>
         {children}
       </StyledOutlined>
     );
   }
   if (variant === "outlined-danger") {
     return (
-      <StyledOutlinedDanger disabled={disabled} onClick={action}>
+      <StyledOutlinedDanger disabled={disabled} onClick={action} width={width}>
         {children}
       </StyledOutlinedDanger>
     );
   }
   if (variant === "danger") {
     return (
-      <StyledDanger disabled={disabled} onClick={action}>
+      <StyledDanger disabled={disabled} onClick={action} width={width}>
         {children}
       </StyledDanger>
     );
@@ -41,7 +41,7 @@ const Button = ({ children, variant, type, disabled, action }) => {
 
   if (variant === "small") {
     return (
-      <StyledDanger disabled={disabled} onClick={action}>
+      <StyledDanger disabled={disabled} onClick={action} width={width}>
         {children}
       </StyledDanger>
     );
@@ -49,14 +49,22 @@ const Button = ({ children, variant, type, disabled, action }) => {
 
   if (variant === "small-full") {
     return (
-      <StyledDanger disabled={disabled} onClick={action}>
+      <StyledDanger disabled={disabled} onClick={action} width={width}>
         {children}
       </StyledDanger>
     );
   }
 
+  if (variant === "full") {
+    return (
+      <StyledFullButton disabled={disabled} onClick={action} width={width}>
+        {children}
+      </StyledFullButton>
+    );
+  }
+
   return (
-    <StyledButton disabled={disabled} onClick={action}>
+    <StyledButton disabled={disabled} onClick={action} width={width}>
       {children}
     </StyledButton>
   );
@@ -65,6 +73,7 @@ const Button = ({ children, variant, type, disabled, action }) => {
 const CommonStyles = css`
   height: 45px;
   display: flex;
+  width: ${(props) => (props.width ? props.width : "")};
   align-items: center;
   justify-content: center;
   border: none;
@@ -86,6 +95,12 @@ const CommonStyles = css`
     cursor: default;
     opacity: 0.5;
   }
+`;
+
+const StyledFullButton = styled.button`
+  ${CommonStyles}
+  background-color: ${(props) => props.theme.primary};
+  width: 100%;
 `;
 
 const StyledButton = styled.button`
@@ -115,6 +130,7 @@ const StyledOutlined = styled.button`
   ${CommonStyles}
   border: 2px solid ${(props) => props.theme.primary};
   color: ${(props) => props.theme.primary};
+  background-color: ${(props) => props.theme.bg1};
 `;
 
 const StyledSecondary = styled.button`

@@ -1,20 +1,29 @@
+import { useEffect } from "react";
 import styled from "styled-components";
-import Parent from "./Parent";
+import Parent from "./Folders";
+import FilterView from "./FilterView";
+import { useEditorContext } from "../../Context/EditorContext";
 
 const Sidebar = () => {
+	const { files, getAmount } = useEditorContext();
+
+	useEffect(() => {
+		getAmount();
+		// eslint-disable-next-line
+	}, [files]);
+
 	return (
 		<StyledSidebar>
 			<Parent />
+			<FilterView />
 		</StyledSidebar>
 	);
 };
 
 const StyledSidebar = styled.section`
-	width: 300px;
-	max-width: 500px;
-	min-width: 220px;
 	display: flex;
-	border-right: 1px solid ${(props) => props.theme.inputBorder};
+	width: 500px;
+	border-right: 1px solid ${(props) => props.theme.borderLight};
 `;
 
 export default Sidebar;

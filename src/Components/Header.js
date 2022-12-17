@@ -1,11 +1,12 @@
 import React from "react";
 import styled from "styled-components";
 import logo from "../Assets/logo-light.svg";
-import { Link, NavLink } from "react-router-dom";
+import { Link, NavLink, useLocation } from "react-router-dom";
 
 const Header = () => {
+  const location = useLocation();
   return (
-    <StyledHeader>
+    <StyledHeader pathname={location.pathname}>
       <Link to="/">
         <img src={logo} alt="header-logo" />
       </Link>
@@ -15,7 +16,11 @@ const Header = () => {
             <NavLink to="/about">About</NavLink>
           </li>
           <li>
-            <NavLink to="/auth">Login</NavLink>
+            {location.pathname === "/login" ? (
+              <NavLink to="/register">Register</NavLink>
+            ) : (
+              <NavLink to="/login">Login</NavLink>
+            )}
           </li>
         </ul>
       </nav>
@@ -30,7 +35,9 @@ const StyledHeader = styled.header`
   justify-content: space-between;
   height: 60px;
   position: relative;
-  border-bottom: 1px solid ${(props) => props.theme.inputBorder};
+  border-bottom: 1px solid
+    ${(props) =>
+      props.pathname !== "/" ? props.theme.inputBorder : props.theme.bg1};
   z-index: 9999;
 
   ul {
