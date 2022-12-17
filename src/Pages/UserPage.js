@@ -3,38 +3,111 @@ import PreviewContainer from "../Components/PreviewContainer";
 import Sidebar from "../Components/Sidebar/Sidebar";
 import styled from "styled-components";
 import Modal from "../Components/Modal";
+import Shortcuts from "../Components/Shortcuts";
 import { useEditorContext } from "../Context/EditorContext";
 
 const UserPage = () => {
-  const { isModalOpen, closeModal, currentlyOpenFile } = useEditorContext();
+	const {
+		isModalOpen,
+		closeModal,
+		currentlyOpenFile,
+		isShortcutsOpen,
+		closeShortcutsModal,
+		toggleFullscreen,
+		isSidebarVisible,
+		toggleSidebar,
+		openModal,
+		parent,
+	} = useEditorContext();
 
-  useEffect(() => {
-    const handleKeypress = (e) => {
-      if (e.key === "Escape") {
-        closeModal();
-      }
-    };
-    document.addEventListener("keydown", handleKeypress);
-    // cleanup
-    return () => {
-      document.removeEventListener("keypress", handleKeypress);
-    };
-  }, []);
+	const focusEditorKeys = (e) => e.ctrlKey && e.altKey && e.key === "1";
+	const focusPreviewKeys = (e) => e.ctrlKey && e.altKey && e.key === "2";
+	const toggleSidebarKeys = (e) => e.ctrlKey && e.altKey && e.key === "h";
+	const createFolderKeys = (e) => e.ctrlKey && e.altKey && e.key === "n";
+	const createFileKeys = (e) => e.altKey && e.key === "n";
+	const renameFolderKeys = (e) => e.ctrlKey && e.altKey && e.key === "r";
+	const deleteFolderKeys = (e) => e.shiftKey && e.ctrlKey && e.key === "Delete";
 
-  useEffect(() => {}, [currentlyOpenFile]);
+	useEffect(() => {
+		const handleKeypress = (e) => {
+			if (e.key === "Escape") {
+				closeModal();
+				closeShortcutsModal();
+			}
 
-  return (
-    <StyledUserPage>
-      <Sidebar />
-      <PreviewContainer />
-      {isModalOpen ? <Modal /> : ""}
-    </StyledUserPage>
-  );
+			if (focusEditorKeys(e)) {
+				toggleFullscreen("editor");
+			}
+
+			if (focusPreviewKeys(e)) {
+				toggleFullscreen("preview");
+				return;
+			}
+
+			if (toggleSidebarKeys(e)) {
+				toggleSidebar();
+				return;
+			}
+
+			if (createFolderKeys(e)) {
+				openModal(1, "create", "create-folder");
+				return;
+			}
+
+			if (createFileKeys(e)) {
+				openModal(null, "create", "create-file");
+				return;
+			}
+
+			if (renameFolderKeys(e)) {
+				openModal(parent, "edit", "edit-folder");
+				return;
+			}
+
+			if (deleteFolderKeys(e)) {
+				openModal(parent, "delete", "delete-item");
+				return;
+			}
+		};
+
+		const prevent = (e) => {
+			if (deleteFolderKeys(e)) {
+				e.preventDefault();
+				return;
+			}
+		};
+
+		document.addEventListener("keyup", handleKeypress);
+		document.addEventListener("keydown", prevent);
+		// cleanup
+		return () => {
+			document.removeEventListener("keyup", handleKeypress);
+			document.removeEventListener("keydown", prevent);
+		};
+	}, [
+		closeModal,
+		closeShortcutsModal,
+		openModal,
+		parent,
+		toggleFullscreen,
+		toggleSidebar,
+	]);
+
+	useEffect(() => {}, [currentlyOpenFile]);
+
+	return (
+		<StyledUserPage>
+			{isSidebarVisible ? <Sidebar /> : ""}
+			<PreviewContainer />
+			{isModalOpen ? <Modal /> : ""}
+			{isShortcutsOpen ? <Shortcuts /> : ""}
+		</StyledUserPage>
+	);
 };
 
 const StyledUserPage = styled.section`
-  position: relative;
-  display: flex;
+	position: relative;
+	display: flex;
 `;
 
 export default UserPage;

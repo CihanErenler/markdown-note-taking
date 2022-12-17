@@ -18,128 +18,147 @@ export const CLEAR_TAG_INPUT = "CLEAR_TAG_INPUT";
 export const TOGGLE_TAG = "TOGGLE_TAG";
 export const UPDATE_TAG = "UPDATE_TAG";
 export const GET_AMOUNT = "GET_AMOUNT";
+export const CLOSE_SHORCUTS_MODAL = "CLOSE_SHORCUTS_MODAL";
+export const OPEN_SHORCUTS_MODAL = "OPEN_SHORCUTS_MODAL";
+export const TOGGLE_SIDEBAR = "TOGGLE_SIDEBAR";
 
 const editorReducer = (state, action) => {
-  if (action.type === UPDATE_CODE) {
-    const newState = { ...state, code: action.payload };
-    return newState;
-  }
+	if (action.type === UPDATE_CODE) {
+		const newState = { ...state, code: action.payload };
+		return newState;
+	}
 
-  if (action.type === OPEN_MODAL) {
-    const newState = {
-      ...state,
-      isModalOpen: true,
-      modalMode: action.payload,
-      modalValue: state.modalValue ? state.modalValue : "Untitled",
-    };
-    return newState;
-  }
+	if (action.type === OPEN_MODAL) {
+		const newState = {
+			...state,
+			isModalOpen: true,
+			isShortcutsOpen: false,
+			modalMode: action.payload,
+			modalValue: state.modalValue ? state.modalValue : "Untitled",
+		};
+		return newState;
+	}
 
-  if (action.type === CLOSE_MODAL) {
-    const newState = {
-      ...state,
-      isModalOpen: false,
-      modalMode: "",
-      modalValue: "",
-    };
-    return newState;
-  }
+	if (action.type === CLOSE_MODAL) {
+		const newState = {
+			...state,
+			isModalOpen: false,
+			modalMode: "",
+			modalValue: "",
+		};
+		return newState;
+	}
 
-  if (action.type === TOGGLE_FULLSCREEN) {
-    const tempVal = state.fullscreen === action.payload ? "" : action.payload;
-    const newState = { ...state, fullscreen: tempVal };
-    return newState;
-  }
+	if (action.type === TOGGLE_FULLSCREEN) {
+		const tempVal = state.fullscreen === action.payload ? "" : action.payload;
+		const newState = { ...state, fullscreen: tempVal };
+		return newState;
+	}
 
-  if (action.type === UPDATE_PARENT) {
-    const newState = {
-      ...state,
-      parent: action.payload,
-      currentlySelectedTag: null,
-    };
-    return newState;
-  }
+	if (action.type === UPDATE_PARENT) {
+		const newState = {
+			...state,
+			parent: action.payload,
+			currentlySelectedTag: null,
+		};
+		return newState;
+	}
 
-  if (action.type === UPDATE_TAG) {
-    const newState = {
-      ...state,
-      currentlySelectedTag: action.payload,
-      parent: null,
-    };
-    return newState;
-  }
+	if (action.type === UPDATE_TAG) {
+		const newState = {
+			...state,
+			currentlySelectedTag: action.payload,
+			parent: null,
+		};
+		return newState;
+	}
 
-  if (action.type === APPEND_CHILD) {
-    return action.payload;
-  }
+	if (action.type === APPEND_CHILD) {
+		return action.payload;
+	}
 
-  if (action.type === UPDATE_MODAL) {
-    const newState = { ...state, modalValue: action.payload };
-    return newState;
-  }
+	if (action.type === UPDATE_MODAL) {
+		const newState = { ...state, modalValue: action.payload };
+		return newState;
+	}
 
-  if (action.type === FIND_ITEM) {
-    const parent = state.files.items.find((item) => item.id === state.parent);
-    const newState = { ...state, modalValue: parent.name };
-    return newState;
-  }
+	if (action.type === FIND_ITEM) {
+		const parent = state.files.items.find((item) => item.id === state.parent);
+		const newState = { ...state, modalValue: parent.name };
+		return newState;
+	}
 
-  if (action.type === UPDATE_TOBEDELETED) {
-    const id = action.payload;
-    const newState = { ...state, toBeDeleted: id };
-    return newState;
-  }
+	if (action.type === UPDATE_TOBEDELETED) {
+		const id = action.payload;
+		const newState = { ...state, toBeDeleted: id };
+		return newState;
+	}
 
-  if (action.type === ASSIGN_CODE) {
-    const newState = { ...state, code: action.payload.content };
-    return newState;
-  }
+	if (action.type === ASSIGN_CODE) {
+		const newState = { ...state, code: action.payload.content };
+		return newState;
+	}
 
-  if (action.type === GET_AMOUNT) {
-    const amount = state.files.items.reduce((total, current) => {
-      total += current.items.length;
-      return total;
-    }, 0);
-    const newState = { ...state, totalAmount: amount };
-    return newState;
-  }
+	if (action.type === GET_AMOUNT) {
+		const amount = state.files.items.reduce((total, current) => {
+			total += current.items.length;
+			return total;
+		}, 0);
+		const newState = { ...state, totalAmount: amount };
+		return newState;
+	}
 
-  if (action.type === UPDATE_CURRENT_FILE) {
-    const newState = { ...state, currentlyOpenFile: action.payload };
-    return newState;
-  }
+	if (action.type === UPDATE_CURRENT_FILE) {
+		const newState = { ...state, currentlyOpenFile: action.payload };
+		return newState;
+	}
 
-  if (action.type === UPDATE_TAG_VALUE) {
-    const newState = { ...state, tagInput: action.payload };
-    return newState;
-  }
+	if (action.type === UPDATE_TAG_VALUE) {
+		const newState = { ...state, tagInput: action.payload };
+		return newState;
+	}
 
-  if (action.type === ADD_NEW_TAG) {
-    const tagArray = [...state.tags, action.payload];
-    const newState = { ...state, tags: tagArray };
-    return newState;
-  }
+	if (action.type === ADD_NEW_TAG) {
+		const tagArray = [...state.tags, action.payload];
+		const newState = { ...state, tags: tagArray };
+		return newState;
+	}
 
-  if (action.type === CLEAR_TAG_INPUT) {
-    const newState = { ...state, tagInput: "" };
-    return newState;
-  }
+	if (action.type === CLEAR_TAG_INPUT) {
+		const newState = { ...state, tagInput: "" };
+		return newState;
+	}
 
-  if (action.type === TOGGLE_TAG) {
-    const temp = [...state.tags];
-    const newTags = temp.map((tag) => {
-      if (tag.name === action.payload) {
-        const newTag = { ...tag, selected: !tag.selected };
-        return newTag;
-      }
-      return tag;
-    });
-    console.log(newTags);
-    const newState = { ...state, tags: newTags };
-    return newState;
-  }
+	if (action.type === CLOSE_SHORCUTS_MODAL) {
+		const newState = { ...state, isShortcutsOpen: false };
+		return newState;
+	}
 
-  return state;
+	if (action.type === OPEN_SHORCUTS_MODAL) {
+		const newState = { ...state, isShortcutsOpen: true };
+		return newState;
+	}
+
+	if (action.type === TOGGLE_SIDEBAR) {
+		const newState = { ...state, isSidebarVisible: !state.isSidebarVisible };
+		return newState;
+	}
+
+	if (action.type === TOGGLE_TAG) {
+		const temp = [...state.tags];
+		const newTags = temp.map((tag) => {
+			if (tag.name === action.payload) {
+				const newTag = { ...tag, selected: !tag.selected };
+				return newTag;
+			}
+			return tag;
+		});
+		console.log(newTags);
+		const newState = { ...state, tags: newTags };
+		return newState;
+	}
+
+	return state;
 };
 
 export default editorReducer;
