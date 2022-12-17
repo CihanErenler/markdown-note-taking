@@ -10,22 +10,19 @@ const Shortcuts = () => {
 
 	const generateCombineKeys = (keys) => {
 		const combinedKeys = keys.map((key, index) => {
-			if (key === "+") {
-				return (
-					<span key={index} className="plus">
-						{key}
-					</span>
-				);
-			}
 			return <ShortcutKey key={index}>{key}</ShortcutKey>;
 		});
 		return combinedKeys;
 	};
 
-	const focusEditor = generateCombineKeys(["Ctrl", "+", "Alt", "+", "1"]);
-	const focusPreview = generateCombineKeys(["Ctrl", "+", "Alt", "+", "2"]);
-	const hideSidebar = generateCombineKeys(["Ctrl", "+", "Alt", "+", "H"]);
-	const saveWork = generateCombineKeys(["Ctrl", "+", "S"]);
+	const focusEditor = generateCombineKeys(["Ctrl", "Alt", "1"]);
+	const focusPreview = generateCombineKeys(["Ctrl", "Alt", "2"]);
+	const hideSidebar = generateCombineKeys(["Ctrl", "Alt", "H"]);
+	const saveWork = generateCombineKeys(["Ctrl", "S"]);
+	const newFile = generateCombineKeys(["Alt", "N"]);
+	const newFolder = generateCombineKeys(["Ctrl", "Alt", "N"]);
+	const renameFolder = generateCombineKeys(["Ctrl", "Alt", "R"]);
+	const deleteFolder = generateCombineKeys(["Shift", "Ctrl", "Delete"]);
 
 	useEffect(() => {
 		const tempElem = element.current;
@@ -43,13 +40,26 @@ const Shortcuts = () => {
 	return (
 		<StyledShortcuts className="modal" ref={element}>
 			<InnderModal>
-				<h1>Save</h1>
-				<div className="shortcuts">{saveWork} = Save</div>
-				<h1>Editor focus</h1>
-				<div className="shortcuts">{focusEditor} = Focus Editor</div>
-				<div className="shortcuts">{focusPreview} = Focus Preview</div>
-				<h1>Sidebar</h1>
-				<div className="shortcuts">{hideSidebar} = Toggle Sidebar</div>
+				<section className="shorcuts-wrapper">
+					<div>
+						<h1>Save</h1>
+						<div className="shortcuts">{saveWork} Save</div>
+
+						<h1>Editor focus</h1>
+						<div className="shortcuts">{focusEditor} Focus Editor</div>
+						<div className="shortcuts">{focusPreview} Focus Preview</div>
+
+						<h1>Sidebar</h1>
+						<div className="shortcuts">{hideSidebar} Toggle Sidebar</div>
+					</div>
+					<div>
+						<h1>File System</h1>
+						<div className="shortcuts">{newFile} New File</div>
+						<div className="shortcuts">{newFolder} New Folder</div>
+						<div className="shortcuts">{renameFolder} Rename Folder</div>
+						<div className="shortcuts">{deleteFolder} Delete Folder</div>
+					</div>
+				</section>
 			</InnderModal>
 		</StyledShortcuts>
 	);
@@ -70,10 +80,16 @@ const StyledShortcuts = styled.section`
 	animation: fadein 0.3s forwards ease;
 	z-index: 9999;
 
-	.shortcuts {
-		margin-bottom: 10px;
-		.plus {
-			margin: 0 10px;
+	.shorcuts-wrapper {
+		display: flex;
+		align-items: flex-start;
+		justify-content: space-between;
+		gap: 20px;
+		padding-top: 0 !important;
+
+		.shortcuts {
+			margin-bottom: 10px;
+			font-size: 13px;
 		}
 	}
 
@@ -92,12 +108,6 @@ const StyledShortcuts = styled.section`
 		font-weight: 700;
 		font-size: 18px;
 		border-bottom: 1px solid lightgray;
-	}
-	section {
-		padding-top: 30px;
-		display: flex;
-		align-items: center;
-		justify-content: space-between;
 	}
 `;
 

@@ -18,6 +18,7 @@ import reducer, {
 	GET_AMOUNT,
 	CLOSE_SHORCUTS_MODAL,
 	OPEN_SHORCUTS_MODAL,
+	TOGGLE_SIDEBAR,
 } from "../Reducers/EditorReducer";
 import { UPDATE_CODE } from "../Reducers/EditorReducer";
 import { v4 as uuidv4 } from "uuid";
@@ -34,6 +35,7 @@ const initialStates = {
 	code: "",
 	isModalOpen: false,
 	isShortcutsOpen: false,
+	isSidebarVisible: true,
 	files: {
 		id: 1,
 		name: "Folders",
@@ -92,6 +94,7 @@ const EditorProvider = ({ children }) => {
 	};
 
 	const openModal = (id, mode, type) => {
+		console.log(type);
 		if (mode === "create") {
 			dispatch({ type: OPEN_MODAL, payload: type });
 		}
@@ -200,6 +203,8 @@ const EditorProvider = ({ children }) => {
 			if (parents.length === index) {
 				index -= 1;
 			}
+
+			console.log("index ==> ", index);
 		}
 		tempFiles.items = parents;
 		const tempState = { ...state, files: tempFiles };
@@ -207,7 +212,7 @@ const EditorProvider = ({ children }) => {
 		dispatch({ type: CLOSE_MODAL });
 		dispatch({
 			type: UPDATE_PARENT,
-			payload: index ? parents[index].id : null,
+			payload: index !== null ? parents[index].id : null,
 		});
 		toast.success(`Item deleted`);
 	};
@@ -277,6 +282,10 @@ const EditorProvider = ({ children }) => {
 		dispatch({ type: OPEN_SHORCUTS_MODAL });
 	};
 
+	const toggleSidebar = () => {
+		dispatch({ type: TOGGLE_SIDEBAR });
+	};
+
 	return (
 		<EditorContext.Provider
 			value={{
@@ -301,6 +310,7 @@ const EditorProvider = ({ children }) => {
 				getAmount,
 				closeShortcutsModal,
 				openShortcutsModal,
+				toggleSidebar,
 			}}
 		>
 			{children}

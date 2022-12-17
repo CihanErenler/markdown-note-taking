@@ -7,7 +7,7 @@ const InnerModal = ({ children }) => {
 
 const StyledInnerModal = styled.div`
 	background-color: ${(props) => props.theme.bg1};
-	width: 500px;
+	min-width: 500px;
 	padding: 20px 40px;
 	border-radius: 10px;
 	animation: fadein 0.3s forwards ease;

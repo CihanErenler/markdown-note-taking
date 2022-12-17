@@ -20,6 +20,7 @@ export const UPDATE_TAG = "UPDATE_TAG";
 export const GET_AMOUNT = "GET_AMOUNT";
 export const CLOSE_SHORCUTS_MODAL = "CLOSE_SHORCUTS_MODAL";
 export const OPEN_SHORCUTS_MODAL = "OPEN_SHORCUTS_MODAL";
+export const TOGGLE_SIDEBAR = "TOGGLE_SIDEBAR";
 
 const editorReducer = (state, action) => {
 	if (action.type === UPDATE_CODE) {
@@ -31,6 +32,7 @@ const editorReducer = (state, action) => {
 		const newState = {
 			...state,
 			isModalOpen: true,
+			isShortcutsOpen: false,
 			modalMode: action.payload,
 			modalValue: state.modalValue ? state.modalValue : "Untitled",
 		};
@@ -134,6 +136,11 @@ const editorReducer = (state, action) => {
 
 	if (action.type === OPEN_SHORCUTS_MODAL) {
 		const newState = { ...state, isShortcutsOpen: true };
+		return newState;
+	}
+
+	if (action.type === TOGGLE_SIDEBAR) {
+		const newState = { ...state, isSidebarVisible: !state.isSidebarVisible };
 		return newState;
 	}
 

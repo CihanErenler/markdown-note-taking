@@ -13,7 +13,20 @@ const UserPage = () => {
 		currentlyOpenFile,
 		isShortcutsOpen,
 		closeShortcutsModal,
+		toggleFullscreen,
+		isSidebarVisible,
+		toggleSidebar,
+		openModal,
+		parent,
 	} = useEditorContext();
+
+	const focusEditorKeys = (e) => e.ctrlKey && e.altKey && e.key === "1";
+	const focusPreviewKeys = (e) => e.ctrlKey && e.altKey && e.key === "2";
+	const toggleSidebarKeys = (e) => e.ctrlKey && e.altKey && e.key === "h";
+	const createFolderKeys = (e) => e.ctrlKey && e.altKey && e.key === "n";
+	const createFileKeys = (e) => e.altKey && e.key === "n";
+	const renameFolderKeys = (e) => e.ctrlKey && e.altKey && e.key === "r";
+	const deleteFolderKeys = (e) => e.shiftKey && e.ctrlKey && e.key === "Delete";
 
 	useEffect(() => {
 		const handleKeypress = (e) => {
@@ -21,19 +34,70 @@ const UserPage = () => {
 				closeModal();
 				closeShortcutsModal();
 			}
+
+			if (focusEditorKeys(e)) {
+				toggleFullscreen("editor");
+			}
+
+			if (focusPreviewKeys(e)) {
+				toggleFullscreen("preview");
+				return;
+			}
+
+			if (toggleSidebarKeys(e)) {
+				toggleSidebar();
+				return;
+			}
+
+			if (createFolderKeys(e)) {
+				openModal(1, "create", "create-folder");
+				return;
+			}
+
+			if (createFileKeys(e)) {
+				openModal(null, "create", "create-file");
+				return;
+			}
+
+			if (renameFolderKeys(e)) {
+				openModal(parent, "edit", "edit-folder");
+				return;
+			}
+
+			if (deleteFolderKeys(e)) {
+				openModal(parent, "delete", "delete-item");
+				return;
+			}
 		};
-		document.addEventListener("keydown", handleKeypress);
+
+		const prevent = (e) => {
+			if (deleteFolderKeys(e)) {
+				e.preventDefault();
+				return;
+			}
+		};
+
+		document.addEventListener("keyup", handleKeypress);
+		document.addEventListener("keydown", prevent);
 		// cleanup
 		return () => {
-			document.removeEventListener("keypress", handleKeypress);
+			document.removeEventListener("keyup", handleKeypress);
+			document.removeEventListener("keydown", prevent);
 		};
-	}, []);
+	}, [
+		closeModal,
+		closeShortcutsModal,
+		openModal,
+		parent,
+		toggleFullscreen,
+		toggleSidebar,
+	]);
 
 	useEffect(() => {}, [currentlyOpenFile]);
 
 	return (
 		<StyledUserPage>
-			<Sidebar />
+			{isSidebarVisible ? <Sidebar /> : ""}
 			<PreviewContainer />
 			{isModalOpen ? <Modal /> : ""}
 			{isShortcutsOpen ? <Shortcuts /> : ""}

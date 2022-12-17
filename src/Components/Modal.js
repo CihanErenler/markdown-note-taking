@@ -29,14 +29,15 @@ const Modal = () => {
 	};
 
 	const handleClick = useCallback(() => {
-		console.log(modalValue);
 		if (modalMode === "create-folder") createFolder();
 		if (modalMode === "create-file") createFile();
+		if (modalMode === "delete-item") handleDelete();
 		if (modalMode === "edit-folder" || modalMode === "edit-file") rename();
-	}, [createFile, createFolder, modalMode, modalValue, rename]);
+	}, [createFile, createFolder, handleDelete, modalMode, rename]);
 
 	const handleKeyPress = useCallback(
 		(e) => {
+			console.log("buraya girdii");
 			if (e.key === "Enter" && isModalOpen) {
 				handleClick();
 			}
@@ -62,11 +63,9 @@ const Modal = () => {
 	}, [closeModal]);
 
 	useEffect(() => {
-		const tempElem = element.current;
-
-		tempElem.addEventListener("beforeinput", handleKeyPress);
+		window.addEventListener("keydown", handleKeyPress);
 		return () => {
-			tempElem.removeEventListener("beforeinput", handleKeyPress);
+			window.removeEventListener("keydown", handleKeyPress);
 		};
 	}, [handleKeyPress]);
 
