@@ -19,55 +19,6 @@ function Folder({ explorer }) {
 					</span>
 					<Amount amount={explorer.items.length} />
 				</div>
-				{/* {explorer.isFolder ? (
-					<div className="buttons">
-						<IconButton
-							action={() => openModal(explorer.id, "create", "create-file")}
-						>
-							{<VscNewFile size={18} />}
-						</IconButton>
-						<IconButton
-							action={() => openModal(explorer.id, "create", "create-folder")}
-						>
-							{<VscNewFolder size={16} />}
-						</IconButton>
-						<IconButton
-							action={() => openModal(explorer.id, "delete", "delete-item")}
-						>
-							{<MdDeleteOutline size={20} />}
-						</IconButton>
-						<IconButton
-							action={() =>
-								openModal(
-									{ id: explorer.id, name: explorer.name },
-									"edit",
-									"edit-folder"
-								)
-							}
-						>
-							{<VscEdit size={18} />}
-						</IconButton>
-					</div>
-				) : (
-					<div className="buttons">
-						<IconButton
-							action={() => openModal(explorer.id, "delete", "delete-item")}
-						>
-							{<MdDeleteOutline size={20} />}
-						</IconButton>
-						<IconButton
-							action={() =>
-								openModal(
-									{ id: explorer.id, name: explorer.name },
-									"edit",
-									"edit-file"
-								)
-							}
-						>
-							{<VscEdit size={20} />}
-						</IconButton>
-					</div>
-				)} */}
 			</div>
 		</StyledFolder>
 	);
@@ -79,13 +30,13 @@ const StyledFolder = styled.section`
 	.parent-wrapper {
 		padding: 4px 10px 4px 24px;
 		cursor: pointer;
-		transition: all ease 0.05s;
+		transition: all ease 0.1s;
 		border-radius: 6px;
-		color: #e9f5fe;
+		color: #8b949e;
+		margin-bottom: 6px;
 
 		:hover {
-			background-color: #e9f5fe;
-			color: #0c7fda;
+			background-color: ${(props) => props.theme.sidebarHover};
 		}
 
 		.title {

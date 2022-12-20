@@ -19,7 +19,7 @@ const Folders = () => {
 					<div className="title-group">
 						<IconButton>
 							<MdAddBox
-								size={18}
+								size={20}
 								onClick={() => openModal(1, "create", "create-folder")}
 							/>
 						</IconButton>

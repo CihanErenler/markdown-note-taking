@@ -2,7 +2,6 @@ import React from "react";
 import Tag from "./Tag";
 import { IoMdPricetags } from "react-icons/io";
 import { useEditorContext } from "../../Context/EditorContext";
-import Amount from "../Sidebar/Amount";
 import styled from "styled-components";
 
 const Tags = () => {
@@ -14,7 +13,6 @@ const Tags = () => {
 					<IoMdPricetags size={20} color="green" />
 					<h1>Tags </h1>
 				</span>
-				<Amount amount={1} />
 			</div>
 			<div className="tag-list">
 				{tags.map((tag) => {

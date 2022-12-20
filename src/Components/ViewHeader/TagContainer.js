@@ -57,7 +57,7 @@ const TagContainer = ({ close, showContainer }) => {
 			<hr />
 			<input
 				type="text"
-				placeholder="Define a new tag"
+				placeholder="Add a new tag"
 				onChange={updateTagInput}
 				value={tagInput}
 			/>
@@ -77,7 +77,7 @@ const TagContainer = ({ close, showContainer }) => {
 				""
 			)}
 			<button className="add-btn" onClick={() => addNewTag(currentColor)}>
-				Define tag
+				Add new tag
 			</button>
 		</StyledTagContainer>
 	);
