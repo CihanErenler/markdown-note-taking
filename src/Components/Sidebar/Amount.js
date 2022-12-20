@@ -9,8 +9,8 @@ const StyledAmount = styled.div`
 	width: 22px;
 	height: 22px;
 	border-radius: 50%;
-	background-color: ${(props) => props.theme.bg1};
-	color: ${(props) => props.theme.sidebarBg};
+	background-color: ${(props) => props.theme.textColor};
+	color: ${(props) => props.theme.bg3};
 	display: flex;
 	align-items: center;
 	justify-content: center;

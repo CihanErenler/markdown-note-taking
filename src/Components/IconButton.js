@@ -14,7 +14,7 @@ const StyledIconButton = styled.button`
 
 	svg {
 		transition: all 0.3s ease;
-		fill: lightblue;
+		fill: lightskyblue;
 	}
 
 	:hover {
