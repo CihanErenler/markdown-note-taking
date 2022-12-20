@@ -21,7 +21,7 @@ const RegisterContent = () => {
 
 	const handleKeypress = (e) => {
 		const name = e.target.name;
-		const value = e.target.name;
+		const value = e.target.value;
 
 		const tempState = { ...registerState, [name]: { value, danger: false } };
 		setRegisterState(tempState);
@@ -40,11 +40,16 @@ const RegisterContent = () => {
 			return;
 		}
 
-		const user = { name, lastname, email, password };
+		const user = {
+			name: registerState.name.value,
+			lastname: registerState.lastname.value,
+			email: registerState.email.value,
+			password: registerState.password.value,
+		};
 		const response = await createUser(user);
 		console.log(response);
 		if (response.status === 200) {
-			navigate("/auth");
+			navigate("/login");
 		}
 	};
 
