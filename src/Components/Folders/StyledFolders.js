@@ -68,9 +68,9 @@ export const StyledFolderTree = styled.section`
 				color: ${(props) => props.theme.bg1};
 				/* text-transform: uppercase; */
 				padding: 10px;
-				font-weight: 600;
+				font-weight: 500;
 				letter-spacing: 1px;
-				font-size: 15px;
+				font-size: 14px;
 			}
 		}
 	}

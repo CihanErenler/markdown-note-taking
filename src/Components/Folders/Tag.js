@@ -24,6 +24,7 @@ const StyledSidebarTag = styled.div`
 	justify-content: space-between;
 	padding: 4px 10px 4px 30px !important;
 	transition: all 0.3s ease;
+	text-transform: capitalize;
 	cursor: pointer;
 
 	span {
