@@ -34,6 +34,7 @@ const Input = ({
 					placeholder={placeholder}
 					disabled={disabled}
 					type={showPass ? "text" : type}
+					suggested="current-password"
 				/>
 				{type === "password" ? (
 					<span onClick={() => setShowPass(!showPass)}>

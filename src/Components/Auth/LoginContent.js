@@ -37,7 +37,11 @@ const LoginContent = () => {
 			return;
 		}
 
-		const credentials = { email, password };
+		const credentials = {
+			email: loginState.email.value,
+			password: loginState.password.value,
+		};
+
 		await loginUser(credentials);
 	};
 
