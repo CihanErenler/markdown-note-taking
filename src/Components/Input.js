@@ -3,7 +3,16 @@ import styled from "styled-components";
 import { BiShow, BiHide } from "react-icons/bi";
 import { BiSearchAlt2 } from "react-icons/bi";
 
-const Input = ({ value, action, placeholder, disabled, focused, type }) => {
+const Input = ({
+	value,
+	action,
+	placeholder,
+	disabled,
+	focused,
+	type,
+	name,
+	danger,
+}) => {
 	const [showPass, setShowPass] = useState(false);
 	const input = useRef(null);
 
@@ -19,6 +28,8 @@ const Input = ({ value, action, placeholder, disabled, focused, type }) => {
 				<input
 					ref={input}
 					value={value}
+					className={danger ? "danger" : ""}
+					name={name}
 					onChange={action}
 					placeholder={placeholder}
 					disabled={disabled}
@@ -94,6 +105,10 @@ const StyledInput = styled.div`
 			::placeholder {
 				font-size: ${(props) => (props.type === "search" ? "14px" : "16px")};
 			}
+		}
+
+		.danger {
+			border-color: red !important;
 		}
 	}
 `;

@@ -30,9 +30,9 @@ const StyledFolder = styled.section`
 	.parent-wrapper {
 		padding: 4px 10px 4px 24px;
 		cursor: pointer;
-		transition: background ease 0.3s;
+		transition: all ease 0.1s;
 		border-radius: 6px;
-		color: #e9f5fe;
+		color: #8b949e;
 		margin-bottom: 6px;
 
 		:hover {

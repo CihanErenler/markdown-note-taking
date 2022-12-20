@@ -27,16 +27,18 @@ const StyledFolders = styled.div`
 		bottom: 10px;
 		left: 50%;
 		transform: translateX(-50%);
-		background-color: lightskyblue;
+		background-color: ${(prosp) => prosp.theme.textColor};
+		color: ${(prosp) => prosp.theme.textColorLighter};
 		padding: 4px 10px;
 		border-radius: 4px;
 		cursor: pointer;
-		transition: background 0.3s ease;
+		transition: all 0.3s ease;
 		border: none;
-		font-size: 13px;
+		font-size: 12px;
 
 		:hover {
 			background-color: lightblue;
+			color: ${(prosp) => prosp.theme.sidebarBg};
 		}
 	}
 `;

@@ -14,12 +14,12 @@ const StyledIconButton = styled.button`
 
 	svg {
 		transition: all 0.3s ease;
-		fill: lightskyblue;
+		fill: #8b949e;
 	}
 
 	:hover {
 		svg {
-			fill: ${(props) => props.theme.bg1};
+			fill: lightskyblue;
 		}
 	}
 `;
