@@ -15,8 +15,8 @@ const Spinner = () => {
 const StyledSpinner = styled.div`
 	display: inline-flex;
 	position: relative;
-	width: 36px;
-	height: 36px;
+	width: 60px;
+	height: 60px;
 	align-items: center;
 	justify-content: center;
 
@@ -24,8 +24,8 @@ const StyledSpinner = styled.div`
 		box-sizing: border-box;
 		display: block;
 		position: absolute;
-		width: 32px;
-		height: 32px;
+		width: 60px;
+		height: 60px;
 		border: 5px solid #3080e3;
 		border-radius: 50%;
 		animation: lds-ring 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;

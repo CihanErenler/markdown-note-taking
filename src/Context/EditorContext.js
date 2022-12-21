@@ -19,6 +19,7 @@ import reducer, {
 	CLOSE_SHORCUTS_MODAL,
 	OPEN_SHORCUTS_MODAL,
 	TOGGLE_SIDEBAR,
+	TOGGLE_AVATAR_DROPDOWN,
 } from "../Reducers/EditorReducer";
 import { UPDATE_CODE } from "../Reducers/EditorReducer";
 import { v4 as uuidv4 } from "uuid";
@@ -84,6 +85,7 @@ const initialStates = {
 	],
 	tagInput: "",
 	totalAmount: 0,
+	showAvatarDropdown: false,
 };
 
 const EditorProvider = ({ children }) => {
@@ -286,6 +288,10 @@ const EditorProvider = ({ children }) => {
 		dispatch({ type: TOGGLE_SIDEBAR });
 	};
 
+	const setShowAvatarDropdown = (val) => {
+		dispatch({ type: TOGGLE_AVATAR_DROPDOWN, payload: val });
+	};
+
 	return (
 		<EditorContext.Provider
 			value={{
@@ -311,6 +317,7 @@ const EditorProvider = ({ children }) => {
 				closeShortcutsModal,
 				openShortcutsModal,
 				toggleSidebar,
+				setShowAvatarDropdown,
 			}}
 		>
 			{children}

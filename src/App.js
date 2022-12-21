@@ -7,6 +7,7 @@ import { ToastContainer, Slide } from "react-toastify";
 import { useEditorContext } from "./Context/EditorContext";
 import { useAuthContext } from "./Context/AuthContext";
 import CustomRouter from "./CustomRouter";
+import AuthWrapper from "./Components/Auth/AuthWrapper.js";
 import "react-toastify/dist/ReactToastify.css";
 import "./Split.css";
 
@@ -31,7 +32,9 @@ function App() {
 		<Main>
 			<GlobalStyles />
 			<ThemeProvider theme={currentTheme ? themes.dark : themes.default}>
-				<CustomRouter />
+				<AuthWrapper>
+					<CustomRouter />
+				</AuthWrapper>
 			</ThemeProvider>
 			<ToastContainer
 				position="bottom-right"

@@ -1,8 +1,16 @@
 import styled from "styled-components";
 import Tags from "./Tags";
 import AvatarWrapper from "../Avatar/AvatarWrapper";
+import { useNavigate } from "react-router";
+import { useAuthContext } from "../../Context/AuthContext";
+import Button from "../Button";
 
 const ViewHeader = () => {
+	const { user } = useAuthContext();
+	const navigate = useNavigate();
+	const handleClick = () => {
+		navigate("/login");
+	};
 	return (
 		<StyledViewHeader>
 			<div className="doc-info">
@@ -11,7 +19,13 @@ const ViewHeader = () => {
 				</div>
 				<Tags />
 			</div>
-			<AvatarWrapper />
+			{user ? (
+				<AvatarWrapper />
+			) : (
+				<Button variant="small" action={handleClick}>
+					Login
+				</Button>
+			)}
 		</StyledViewHeader>
 	);
 };
