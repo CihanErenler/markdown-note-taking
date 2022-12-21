@@ -2,8 +2,11 @@ import React from "react";
 import styled from "styled-components";
 import logo from "../Assets/logo-light.svg";
 import { Link, NavLink, useLocation } from "react-router-dom";
+import { useAuthContext } from "../Context/AuthContext";
+import AvatarWrapper from "./Avatar/AvatarWrapper";
 
 const Header = () => {
+	const { user } = useAuthContext();
 	const location = useLocation();
 	return (
 		<StyledHeader pathname={location.pathname}>
@@ -11,17 +14,23 @@ const Header = () => {
 				<img src={logo} alt="header-logo" />
 			</Link>
 			<nav className="navigation">
-				<ul>
-					<li>
+				<ul className="navbar-list">
+					<li className="navbar-list-item">
 						<NavLink to="/about">About</NavLink>
 					</li>
-					<li>
-						{location.pathname === "/login" ? (
-							<NavLink to="/register">Register</NavLink>
-						) : (
-							<NavLink to="/login">Login</NavLink>
-						)}
-					</li>
+					{user ? (
+						<li className="navbar-list-item">
+							<AvatarWrapper />
+						</li>
+					) : (
+						<li className="navbar-list-item">
+							{location.pathname === "/login" ? (
+								<NavLink to="/register">Register</NavLink>
+							) : (
+								<NavLink to="/login">Login</NavLink>
+							)}
+						</li>
+					)}
 				</ul>
 			</nav>
 		</StyledHeader>
@@ -44,7 +53,7 @@ const StyledHeader = styled.header`
 				: props.theme.inputBorder};
 	z-index: 9999;
 
-	ul {
+	.navbar-list {
 		list-style: none;
 		display: flex;
 		align-items: center;

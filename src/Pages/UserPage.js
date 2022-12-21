@@ -5,6 +5,7 @@ import styled from "styled-components";
 import Modal from "../Components/Modal";
 import Shortcuts from "../Components/Shortcuts";
 import { useEditorContext } from "../Context/EditorContext";
+import { useAuthContext } from "../Context/AuthContext";
 
 const UserPage = () => {
 	const {
@@ -19,6 +20,8 @@ const UserPage = () => {
 		openModal,
 		parent,
 	} = useEditorContext();
+
+	const { handleRootSpinner } = useAuthContext();
 
 	const focusEditorKeys = (e) => e.ctrlKey && e.altKey && e.key === "1";
 	const focusPreviewKeys = (e) => e.ctrlKey && e.altKey && e.key === "2";

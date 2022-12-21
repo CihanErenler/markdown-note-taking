@@ -1,13 +1,16 @@
 import styled from "styled-components";
 import logo from "../../Assets/logo.svg";
 import FolderTree from "../Folders/FolderTree";
+import { Link } from "react-router-dom";
 import { useEditorContext } from "../../Context/EditorContext";
 
 const Parent = () => {
 	const { openShortcutsModal } = useEditorContext();
 	return (
 		<StyledFolders>
-			<StyledLogo src={logo} alt="logo" />
+			<Link to="/">
+				<StyledLogo src={logo} alt="logo" />
+			</Link>
 			<FolderTree />
 			<div className="shortcuts-btn" onClick={openShortcutsModal}>
 				Shortcuts

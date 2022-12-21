@@ -3,8 +3,10 @@ import hero from "../Assets/images/hero.svg";
 import Button from "../Components/Button";
 import styled from "styled-components";
 import { useNavigate } from "react-router";
+import { useAuthContext } from "../Context/AuthContext";
 
 const WelcomePage = () => {
+	const { user } = useAuthContext();
 	const navigate = useNavigate();
 
 	const handleClick = (type) => {
@@ -26,17 +28,22 @@ const WelcomePage = () => {
 					notes quickly. It renders markdown real-time to give you preview of
 					what you write down.
 				</p>
+
 				<div className="button-container">
 					<Button width="200px" action={() => handleClick("notes")}>
 						Start taking note
 					</Button>
-					<Button
-						width="200px"
-						variant="outlined"
-						action={() => handleClick("register")}
-					>
-						Register
-					</Button>
+					{user ? (
+						""
+					) : (
+						<Button
+							width="200px"
+							variant="outlined"
+							action={() => handleClick("register")}
+						>
+							Register
+						</Button>
+					)}
 				</div>
 				<img className="hero" src={hero} alt="hero-img" />
 			</div>

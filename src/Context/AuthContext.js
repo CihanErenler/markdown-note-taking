@@ -6,6 +6,8 @@ import {
 	USER_LOGGED_IN,
 	SET_LOCALSTORAGE,
 	USER_LOADING,
+	HANDLE_SPINNER,
+	REMOVE_USER_FROM_LOCALSTORAGE,
 } from "../Reducers/AuthReducer";
 
 const AuthContext = React.createContext();
@@ -14,6 +16,7 @@ const inititalState = {
 	userLoggedIn: false,
 	user: null,
 	isUserLoading: false,
+	showRootSpinner: true,
 };
 
 export const AuthProvider = ({ children }) => {
@@ -42,7 +45,6 @@ export const AuthProvider = ({ children }) => {
 			if (response.status === 200) {
 				dispatch({ type: USER_LOGGED_IN, payload: response.data.user });
 				dispatch({ type: SET_LOCALSTORAGE, payload: response.data.user });
-				toast.success("Logged in successfully!");
 			}
 		} catch (error) {
 			if (error.response.status === 400) {
@@ -55,6 +57,8 @@ export const AuthProvider = ({ children }) => {
 
 	const removeUserFromLocalStorage = () => {
 		localStorage.removeItem("user");
+		dispatch({ type: REMOVE_USER_FROM_LOCALSTORAGE });
+		toast.success("Logged out successfully!");
 	};
 
 	const getUserFromLocalStorage = () => {
@@ -66,6 +70,10 @@ export const AuthProvider = ({ children }) => {
 		dispatch({ type: USER_LOADING, payload: false });
 	};
 
+	const handleRootSpinner = () => {
+		dispatch({ type: HANDLE_SPINNER });
+	};
+
 	return (
 		<AuthContext.Provider
 			value={{
@@ -74,6 +82,7 @@ export const AuthProvider = ({ children }) => {
 				loginUser,
 				removeUserFromLocalStorage,
 				getUserFromLocalStorage,
+				handleRootSpinner,
 			}}
 		>
 			{children}
