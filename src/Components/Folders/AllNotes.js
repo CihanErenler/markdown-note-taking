@@ -6,7 +6,7 @@ import { useEditorContext } from "../../Context/EditorContext";
 const AllNotes = () => {
 	const { totalAmount } = useEditorContext();
 	return (
-		<div className="folder-tree-title">
+		<div className="folder-tree-title all-notes">
 			<div className="tree-title">
 				<span>
 					<FaStickyNote size={18} color="tomato" />

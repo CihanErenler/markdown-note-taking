@@ -1,11 +1,12 @@
 import React from "react";
 import styled from "styled-components";
 import Spinner from "../Spinner";
+import SpinnerEyes from "../SpinnerEyes";
 
 const AuthSpinner = () => {
 	return (
 		<StyledAuthWrapper>
-			<Spinner />
+			<SpinnerEyes />
 		</StyledAuthWrapper>
 	);
 };
@@ -15,6 +16,7 @@ const StyledAuthWrapper = styled.div`
 	height: 100vh;
 	display: grid;
 	place-items: center;
+	background-color: ${(props) => props.theme.sidebarBg};
 `;
 
 export default AuthSpinner;

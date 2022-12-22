@@ -13,20 +13,29 @@ import "./Split.css";
 
 function App() {
 	const [currentTheme, setCurrentTheme] = useState(false);
-	const { files, selectParent } = useEditorContext();
+	const { files, selectParent, parent, updateSelectedFile } =
+		useEditorContext();
 	const { getUserFromLocalStorage } = useAuthContext();
-
-	useEffect(() => {
-		if (files.items.length > 0) {
-			selectParent(files.items[0].id);
-		}
-		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, []);
 
 	useEffect(() => {
 		getUserFromLocalStorage();
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
+
+	useEffect(() => {
+		if (files && files.items.length > 0) {
+			selectParent(files.items[0].id);
+		}
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [files]);
+
+	useEffect(() => {
+		if (parent) {
+			if (files.items[0].items.length > 0)
+				updateSelectedFile(files.items[0].items[0].id);
+		}
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [files]);
 
 	return (
 		<Main>

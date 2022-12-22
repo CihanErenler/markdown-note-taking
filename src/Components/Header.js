@@ -48,7 +48,8 @@ const StyledHeader = styled.header`
 		${(props) =>
 			props.pathname === "/" ||
 			props.pathname === "/login" ||
-			props.pathname === "/register"
+			props.pathname === "/register" ||
+			props.pathname === "/about"
 				? props.theme.bg1
 				: props.theme.inputBorder};
 	z-index: 9999;

@@ -11,7 +11,7 @@ const UserPage = () => {
 	const {
 		isModalOpen,
 		closeModal,
-		currentlyOpenFile,
+		currentlySelectedFile,
 		isShortcutsOpen,
 		closeShortcutsModal,
 		toggleFullscreen,
@@ -96,7 +96,7 @@ const UserPage = () => {
 		toggleSidebar,
 	]);
 
-	useEffect(() => {}, [currentlyOpenFile]);
+	useEffect(() => {}, [currentlySelectedFile]);
 
 	return (
 		<StyledUserPage>

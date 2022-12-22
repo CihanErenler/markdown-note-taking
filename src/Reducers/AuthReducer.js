@@ -6,11 +6,12 @@ export const REMOVE_USER_FROM_LOCALSTORAGE = "REMOVE_USER_FROM_LOCALSTORAGE";
 
 const AuthReducer = (state, action) => {
 	if (action.type === USER_LOGGED_IN) {
-		const { name, lastname, email, token } = action.payload;
+		const { name, lastname, email, token, data } = action.payload;
 		const tempState = {
 			...state,
 			useLoggedIn: true,
 			user: { name, lastname, email, token },
+			data,
 		};
 		return tempState;
 	}

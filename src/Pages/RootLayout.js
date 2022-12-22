@@ -4,24 +4,26 @@ import Header from "../Components/Header";
 import styled from "styled-components";
 import { useNavigate } from "react-router";
 import { useAuthContext } from "../Context/AuthContext";
+import { useEditorContext } from "../Context/EditorContext";
 import AuthSpinner from "../Components/Auth/AuthSpinner";
 import { toast } from "react-toastify";
 
 const RootLayout = () => {
 	const location = useLocation();
 	const navigate = useNavigate();
-	const { user, showRootSpinner, handleRootSpinner } = useAuthContext();
+	const { user, showRootSpinner, handleRootSpinner, data } = useAuthContext();
+	const { setData, fetchData } = useEditorContext();
 
 	useEffect(() => {
 		if (user) {
 			toast.success(`Welcome ${user.name}`);
 			setTimeout(() => {
 				navigate("/notes");
-			}, 1000);
+			}, 1500);
 		} else {
 			setTimeout(() => {
 				handleRootSpinner();
-			}, 1100);
+			}, 1600);
 		}
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [user]);
@@ -29,6 +31,13 @@ const RootLayout = () => {
 	useEffect(() => {
 		if (!user) {
 			navigate("/");
+		}
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [user]);
+
+	useEffect(() => {
+		if (user && !data) {
+			fetchData(user);
 		}
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [user]);

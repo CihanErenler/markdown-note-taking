@@ -6,6 +6,7 @@ import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
 import { useAuthContext } from "../../Context/AuthContext";
 import { useNavigate } from "react-router-dom";
+import { defaultState } from "./defaultState";
 
 const initialState = {
 	name: { value: "", danger: false },
@@ -45,6 +46,7 @@ const RegisterContent = () => {
 			lastname: registerState.lastname.value,
 			email: registerState.email.value,
 			password: registerState.password.value,
+			data: defaultState,
 		};
 		const response = await createUser(user);
 		console.log(response);

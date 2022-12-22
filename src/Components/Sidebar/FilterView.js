@@ -3,7 +3,7 @@ import styled from "styled-components";
 import Input from "../Input";
 import File from "./File";
 import { AiOutlineFileAdd } from "react-icons/ai";
-import { BiFilterAlt } from "react-icons/bi";
+// import { BiFilterAlt } from "react-icons/bi";
 import { useEditorContext } from "../../Context/EditorContext";
 import { IoEllipsisVertical } from "react-icons/io5";
 import FolderOptions from "./FolderOptions";
@@ -17,8 +17,9 @@ const Filter = () => {
 	const ref = useRef(null);
 
 	useEffect(() => {
+		console.log(files);
 		if (parent) {
-			const temp = files.items.find((file) => file.id === parent);
+			const temp = files.items.find((file) => file.id === String(parent));
 			setSelectedParent(temp);
 			setNotes(temp.items);
 			return;
@@ -73,7 +74,7 @@ const Filter = () => {
 					<ul>
 						{notes.map((note, index) => {
 							return (
-								<File key={note.id} index={index}>
+								<File key={note.id} index={index} id={note.id}>
 									{note.name}
 								</File>
 							);

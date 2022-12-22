@@ -22,6 +22,7 @@ export const CLOSE_SHORCUTS_MODAL = "CLOSE_SHORCUTS_MODAL";
 export const OPEN_SHORCUTS_MODAL = "OPEN_SHORCUTS_MODAL";
 export const TOGGLE_SIDEBAR = "TOGGLE_SIDEBAR";
 export const TOGGLE_AVATAR_DROPDOWN = "TOGGLE_AVATAR_DROPDOWN";
+export const SET_DATA = "SET_DATA";
 
 const editorReducer = (state, action) => {
 	if (action.type === UPDATE_CODE) {
@@ -110,7 +111,7 @@ const editorReducer = (state, action) => {
 	}
 
 	if (action.type === UPDATE_CURRENT_FILE) {
-		const newState = { ...state, currentlyOpenFile: action.payload };
+		const newState = { ...state, currentlySelectedFile: action.payload };
 		return newState;
 	}
 
@@ -149,6 +150,17 @@ const editorReducer = (state, action) => {
 		const newState = {
 			...state,
 			showAvatarDropdown: action.payload,
+		};
+		return newState;
+	}
+
+	if (action.type === SET_DATA) {
+		const { totalAmount, files, tags } = action.payload;
+		const newState = {
+			...state,
+			totalAmount,
+			files,
+			tags,
 		};
 		return newState;
 	}

@@ -9,7 +9,9 @@ function Folder({ explorer }) {
 	return (
 		<StyledFolder key={explorer.id}>
 			<div
-				className={`parent-wrapper ${parent === explorer.id ? "selected" : ""}`}
+				className={`parent-wrapper ${
+					String(parent) === explorer.id ? "selected" : ""
+				}`}
 				onClick={() => selectParent(explorer.id)}
 			>
 				<div className="title">
