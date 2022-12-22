@@ -1,10 +1,12 @@
 import React from "react";
-import hero from "../Assets/images/hero.svg";
+import hero from "../Assets/images/hero.png";
 import Button from "../Components/Button";
 import styled from "styled-components";
 import { useNavigate } from "react-router";
+import { useAuthContext } from "../Context/AuthContext";
 
 const WelcomePage = () => {
+	const { user } = useAuthContext();
 	const navigate = useNavigate();
 
 	const handleClick = (type) => {
@@ -18,25 +20,28 @@ const WelcomePage = () => {
 	return (
 		<StyledWelcomePage>
 			<div className="container">
-				<h1>
-					Write <span>down </span> what you think
-				</h1>
+				<h1>Write down what you think</h1>
 				<p>
 					NoteDock is a markdown note-taking application that helps you take
-					notes quickly. It renders markdown real-time to give you preview of
-					what you write down.
+					notes quickly. It renders markdown in real-time to give you a preview
+					of what you write down.
 				</p>
+
 				<div className="button-container">
 					<Button width="200px" action={() => handleClick("notes")}>
 						Start taking note
 					</Button>
-					<Button
-						width="200px"
-						variant="outlined"
-						action={() => handleClick("register")}
-					>
-						Register
-					</Button>
+					{user ? (
+						""
+					) : (
+						<Button
+							width="200px"
+							variant="outlined"
+							action={() => handleClick("register")}
+						>
+							Register
+						</Button>
+					)}
 				</div>
 				<img className="hero" src={hero} alt="hero-img" />
 			</div>
@@ -59,6 +64,7 @@ const StyledWelcomePage = styled.div`
 
 		h1 {
 			font-size: 55px;
+			font-weight: 900;
 
 			span {
 				color: dodgerblue;
@@ -68,6 +74,7 @@ const StyledWelcomePage = styled.div`
 		p {
 			font-size: 20px;
 			max-width: 600px;
+			font-weight: 300;
 			margin: auto;
 		}
 
@@ -84,10 +91,10 @@ const StyledWelcomePage = styled.div`
 		width: 80%;
 		box-shadow: rgba(50, 50, 93, 0.25) 0px 13px 27px -5px,
 			rgba(0, 0, 0, 0.3) 0px 8px 16px -8px;
-		border-radius: 50px;
+		border-radius: 20px;
 		opacity: 0.9;
 		position: absolute;
-		bottom: -200px;
+		bottom: -400px;
 		left: 50%;
 		transform: translateX(-50%);
 	}

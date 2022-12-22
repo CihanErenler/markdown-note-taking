@@ -37,7 +37,6 @@ const Modal = () => {
 
 	const handleKeyPress = useCallback(
 		(e) => {
-			console.log("buraya girdii");
 			if (e.key === "Enter" && isModalOpen) {
 				handleClick();
 			}

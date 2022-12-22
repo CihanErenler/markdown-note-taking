@@ -3,7 +3,7 @@ import styled from "styled-components";
 import Input from "../Input";
 import File from "./File";
 import { AiOutlineFileAdd } from "react-icons/ai";
-import { BiFilterAlt } from "react-icons/bi";
+// import { BiFilterAlt } from "react-icons/bi";
 import { useEditorContext } from "../../Context/EditorContext";
 import { IoEllipsisVertical } from "react-icons/io5";
 import FolderOptions from "./FolderOptions";
@@ -17,8 +17,9 @@ const Filter = () => {
 	const ref = useRef(null);
 
 	useEffect(() => {
+		console.log(files);
 		if (parent) {
-			const temp = files.items.find((file) => file.id === parent);
+			const temp = files.items.find((file) => file.id === String(parent));
 			setSelectedParent(temp);
 			setNotes(temp.items);
 			return;
@@ -30,13 +31,10 @@ const Filter = () => {
 		<StyledFilterView>
 			<div className="search-wrapper">
 				<div className="filter-view-header">
-					<button>
+					{/* <button>
 						<BiFilterAlt size={22} />
-					</button>
+					</button> */}
 					<h3>Notes</h3>
-					<button onClick={() => openModal("", "create", "create-file")}>
-						<AiOutlineFileAdd size={22} />
-					</button>
 				</div>
 				<Input
 					value={value}
@@ -48,9 +46,16 @@ const Filter = () => {
 			{selectedParent ? (
 				<div className="folder-name">
 					<h3>{selectedParent.name}</h3>
-					<span onClick={() => setShowOps(!showOps)} ref={ref}>
-						<IoEllipsisVertical />
-					</span>
+					<div className="folder-buttons-wrapper">
+						<div>
+							<button onClick={() => openModal("", "create", "create-file")}>
+								<AiOutlineFileAdd size={20} />
+							</button>
+						</div>
+						<div onClick={() => setShowOps(!showOps)} ref={ref}>
+							<IoEllipsisVertical />
+						</div>
+					</div>
 					{showOps ? (
 						<FolderOptions
 							showOps={showOps}
@@ -69,7 +74,7 @@ const Filter = () => {
 					<ul>
 						{notes.map((note, index) => {
 							return (
-								<File key={note.id} index={index}>
+								<File key={note.id} index={index} id={note.id}>
 									{note.name}
 								</File>
 							);
@@ -96,27 +101,41 @@ const StyledFilterView = styled.section`
 		align-items: center;
 		justify-content: space-between;
 		padding: 3px 10px;
-		/* border-bottom: 1px solid ${(props) => props.theme.inputBorder}; */
 		margin-bottom: 8px;
 		position: relative;
 		text-transform: capitalize;
+
+		.folder-buttons-wrapper {
+			display: flex;
+			align-items: center;
+			justify-content: center;
+
+			> div {
+				display: grid;
+				place-items: center;
+
+				button {
+					display: grid;
+					place-items: center;
+				}
+			}
+
+			svg {
+				fill: ${(props) => props.theme.textColor};
+				cursor: pointer;
+				transition: all 0.3s ease;
+
+				:hover {
+					fill: ${(props) => props.theme.primary};
+				}
+			}
+		}
 
 		h3 {
 			font-size: 16px;
 			color: ${(props) => props.theme.textColor};
 			font-weight: 500;
-		}
-
-		span {
-			cursor: pointer;
-			:hover svg {
-				fill: ${(props) => props.theme.primary};
-			}
-
-			svg {
-				transition: all 0.3s ease;
-				pointer-events: none;
-			}
+			text-align: center;
 		}
 	}
 
@@ -126,7 +145,7 @@ const StyledFilterView = styled.section`
 		.filter-view-header {
 			display: flex;
 			align-items: center;
-			justify-content: space-between;
+			justify-content: center;
 			margin: 10px 0;
 
 			h3 {

@@ -26,6 +26,8 @@ const theme = {
 		sidebarActive: "#eff3fd",
 		textSelect: "#67AAF9",
 		seperator: "#C4E0F9",
+		amountBg: "#343942",
+		amountColor: "#c9d1d9",
 	},
 	dark: {},
 };

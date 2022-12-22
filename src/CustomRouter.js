@@ -6,6 +6,7 @@ import {
 	Route,
 } from "react-router-dom";
 import { Root, NotFound, Welcome, User, About, Login, Register } from "./Pages";
+import ProtectedAuthRoute from "./Components/ProtectedRoute";
 
 const router = createBrowserRouter(
 	createRoutesFromElements(
