@@ -3,6 +3,14 @@ import styled from "styled-components";
 export const StyledFolderTree = styled.section`
 	position: relative;
 
+	.all-notes {
+		cursor: pointer;
+		border-radius: 6px;
+		:hover {
+			background-color: ${(props) => props.theme.sidebarHover};
+		}
+	}
+
 	.folder-tree-title {
 		display: flex;
 		align-items: center;

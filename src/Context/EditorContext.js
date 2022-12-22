@@ -20,45 +20,32 @@ import reducer, {
 	OPEN_SHORCUTS_MODAL,
 	TOGGLE_SIDEBAR,
 	TOGGLE_AVATAR_DROPDOWN,
+	SET_DATA,
 } from "../Reducers/EditorReducer";
 import { UPDATE_CODE } from "../Reducers/EditorReducer";
 import { v4 as uuidv4 } from "uuid";
-import {
-	selectFile,
-	unselectAll,
-	// findItem,
-} from "../helpers";
 import { toast } from "react-toastify";
+import { db } from "../db/db";
+import axios from "axios";
 
 const EditorContext = React.createContext();
 
 const initialStates = {
-	code: "",
+	code: "### Title",
 	isModalOpen: false,
 	isShortcutsOpen: false,
 	isSidebarVisible: true,
 	files: {
 		id: 1,
 		name: "Folders",
-		isOpen: false,
 		items: [
 			{
 				id: 2,
 				name: "New folder",
-				isOpen: false,
 				items: [
 					{
 						id: 3,
-						name: "Loop logic",
-						isOpen: false,
-						isSelected: true,
-						tags: [],
-					},
-					{
-						id: 4,
-						name: "Something to do",
-						isOpen: false,
-						isSelected: true,
+						name: "New note",
 						tags: [],
 					},
 				],
@@ -71,17 +58,17 @@ const initialStates = {
 	newFolderName: "",
 	parent: null,
 	modalValue: "",
-	currentlyOpenFile: 3,
+	currentlySelectedFile: null,
 	currentlySelectedTag: null,
 	tags: [
-		// { selected: false, name: "Blue", color: "#2676ff" },
-		// { selected: false, name: "Green", color: "green" },
-		// { selected: false, name: "Grey", color: "grey" },
-		// { selected: false, name: "Important", color: "red" },
-		// { selected: false, name: "Orange", color: "orange" },
-		// { selected: false, name: "Purple", color: "purple" },
-		// { selected: false, name: "Work", color: "yellow" },
-		// { selected: false, name: "Development", color: "dodgerblue" },
+		{ name: "Blue", color: "#2676ff" },
+		{ name: "Green", color: "green" },
+		{ name: "Grey", color: "grey" },
+		{ name: "Important", color: "red" },
+		{ name: "Orange", color: "orange" },
+		{ name: "Purple", color: "purple" },
+		{ name: "Work", color: "yellow" },
+		{ name: "Development", color: "dodgerblue" },
 	],
 	tagInput: "",
 	totalAmount: 0,
@@ -148,9 +135,7 @@ const EditorProvider = ({ children }) => {
 			const newFile = {
 				id: newId,
 				name: newValue,
-				isOpen: false,
 				content: "### Title",
-				isSelected: true,
 				tags: [],
 			};
 
@@ -219,17 +204,13 @@ const EditorProvider = ({ children }) => {
 		toast.success(`Item deleted`);
 	};
 
-	const handleSelectFile = (id) => {
-		const tempFiles = state.files;
-		unselectAll(tempFiles.items);
-		selectFile(tempFiles.items, id);
-		dispatch({ type: UPDATE_CURRENT_FILE, id });
-		dispatch({ type: APPEND_CHILD, payload: tempFiles });
+	const updateSelectedFile = (id) => {
+		dispatch({ type: UPDATE_CURRENT_FILE, payload: id });
 	};
 
 	const assignCode = () => {
 		// const tempFiles = state.files;
-		// const item = findItem(tempFiles.items, state.currentlyOpenFile);
+		// const item = findItem(tempFiles.items, state.currentlySelectedFile);
 		// console.log(item);
 		// dispatch({ type: ASSIGN_CODE, payload: item });
 	};
@@ -292,6 +273,27 @@ const EditorProvider = ({ children }) => {
 		dispatch({ type: TOGGLE_AVATAR_DROPDOWN, payload: val });
 	};
 
+	const setData = (data) => {
+		dispatch({ type: SET_DATA, payload: data });
+	};
+
+	const fetchData = async (user) => {
+		try {
+			const response = await axios.post(
+				`${process.env.REACT_APP_BASEURL}/editor/data`,
+				{ email: user.email },
+				{
+					headers: {
+						authorization: `bearer ${user.token}`,
+					},
+				}
+			);
+			dispatch({ type: SET_DATA, payload: response.data });
+		} catch (error) {
+			toast.error("Something went wrong");
+		}
+	};
+
 	return (
 		<EditorContext.Provider
 			value={{
@@ -305,7 +307,7 @@ const EditorProvider = ({ children }) => {
 				updateModalValue,
 				rename,
 				handleDelete,
-				handleSelectFile,
+				updateSelectedFile,
 				assignCode,
 				addNewTag,
 				updateTagInput,
@@ -318,6 +320,8 @@ const EditorProvider = ({ children }) => {
 				openShortcutsModal,
 				toggleSidebar,
 				setShowAvatarDropdown,
+				setData,
+				fetchData,
 			}}
 		>
 			{children}
