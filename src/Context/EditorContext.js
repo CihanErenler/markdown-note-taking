@@ -36,15 +36,15 @@ const initialStates = {
 	isShortcutsOpen: false,
 	isSidebarVisible: true,
 	files: {
-		id: 1,
+		id: "1",
 		name: "Folders",
 		items: [
 			{
-				id: 2,
+				id: "2",
 				name: "New folder",
 				items: [
 					{
-						id: 3,
+						id: "3",
 						name: "New note",
 						tags: [],
 					},

@@ -32,8 +32,9 @@ const StyledLoginPage = styled.div`
 	position: relative;
 
 	.area {
-		background: linear-gradient(180deg, #ffffff 0%, #83aade 100%);
-		background: -webkit-linear-gradient(to left, #8f94fb, #4e54c8);
+		background: #6396ca;
+		background: -webkit-linear-gradient(to bottom, #fff, #6396ca);
+		background: linear-gradient(to bottom, #fff, #6396ca);
 		width: 100vw;
 		height: 100%;
 	}
