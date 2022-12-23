@@ -41,7 +41,6 @@ export const AuthProvider = ({ children }) => {
 	const loginUser = async (user) => {
 		try {
 			const response = await db.post("/user/login", user);
-			console.log(response);
 			if (response.status === 200) {
 				dispatch({ type: USER_LOGGED_IN, payload: response.data.user });
 				dispatch({ type: SET_LOCALSTORAGE, payload: response.data.user });

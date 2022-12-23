@@ -38,7 +38,7 @@ const Preview = () => {
 					},
 				}}
 			>
-				{code}
+				{code.code}
 			</ReactMarkdown>
 		</StyledPreview>
 	);
