@@ -21,6 +21,8 @@ import reducer, {
 	TOGGLE_SIDEBAR,
 	TOGGLE_AVATAR_DROPDOWN,
 	SET_DATA,
+	CODE_LOADING,
+	ASSIGN_CODE,
 } from "../Reducers/EditorReducer";
 import { UPDATE_CODE } from "../Reducers/EditorReducer";
 import { v4 as uuidv4 } from "uuid";
@@ -31,7 +33,13 @@ import axios from "axios";
 const EditorContext = React.createContext();
 
 const initialStates = {
-	code: "### Title",
+	code: {
+		dataId: "3",
+		title: "New note",
+		code: "### Title",
+		tags: [],
+	},
+	isCodeLoading: false,
 	isModalOpen: false,
 	isShortcutsOpen: false,
 	isSidebarVisible: true,
@@ -83,7 +91,6 @@ const EditorProvider = ({ children }) => {
 	};
 
 	const openModal = (id, mode, type) => {
-		console.log(type);
 		if (mode === "create") {
 			dispatch({ type: OPEN_MODAL, payload: type });
 		}
@@ -190,8 +197,6 @@ const EditorProvider = ({ children }) => {
 			if (parents.length === index) {
 				index -= 1;
 			}
-
-			console.log("index ==> ", index);
 		}
 		tempFiles.items = parents;
 		const tempState = { ...state, files: tempFiles };
@@ -208,11 +213,22 @@ const EditorProvider = ({ children }) => {
 		dispatch({ type: UPDATE_CURRENT_FILE, payload: id });
 	};
 
-	const assignCode = () => {
-		// const tempFiles = state.files;
-		// const item = findItem(tempFiles.items, state.currentlySelectedFile);
-		// console.log(item);
-		// dispatch({ type: ASSIGN_CODE, payload: item });
+	const assignCode = async (user) => {
+		dispatch({ type: CODE_LOADING, payload: true });
+		try {
+			const response = await axios.get(
+				`${process.env.REACT_APP_BASEURL}/editor/code/${state.currentlySelectedFile}`,
+				{
+					headers: {
+						authorization: `bearer ${user.token}`,
+					},
+				}
+			);
+			const code = response.data.data[0];
+			dispatch({ type: CODE_LOADING, payload: false });
+			dispatch({ type: ASSIGN_CODE, payload: code });
+			console.log(response);
+		} catch (error) {}
 	};
 
 	const selectParent = (id) => {

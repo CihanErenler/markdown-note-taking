@@ -1,14 +1,16 @@
+import { v4 as uuidv4 } from "uuid";
+
 export const defaultState = {
 	totalAmount: 1,
 	files: {
 		id: "1",
 		name: "Folders",
 		items: {
-			id: "2",
+			id: uuidv4(),
 			name: "New Folder",
 			items: [
 				{
-					id: "3",
+					id: uuidv4(),
 					name: "New File",
 					tags: [],
 				},
@@ -25,4 +27,9 @@ export const defaultState = {
 		{ name: "Work", color: "yellow" },
 		{ name: "Development", color: "dodgerblue" },
 	],
+};
+
+export const defaultCode = {
+	code: "",
+	tags: [],
 };
