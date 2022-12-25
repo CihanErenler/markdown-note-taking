@@ -31,6 +31,7 @@ const editorReducer = (state, action) => {
     const newState = {
       ...state,
       code: action.payload,
+      codeSnapshot: action.payload,
     };
     return newState;
   }
