@@ -124,27 +124,30 @@ const EditorProvider = ({ children }) => {
 
       try {
         tempFiles.items.unshift(newFolder);
-        const data = { email: user.email, data: tempFiles };
-        const response = await axios.post(
-          `${process.env.REACT_APP_BASEURL}/editor/folders`,
-          data,
-          {
-            headers: {
-              authorization: `bearer ${user.token}`,
-            },
+        if (user) {
+          const data = { email: user.email, data: tempFiles };
+          const response = await axios.post(
+            `${process.env.REACT_APP_BASEURL}/editor/folders`,
+            data,
+            {
+              headers: {
+                authorization: `bearer ${user.token}`,
+              },
+            }
+          );
+          if (response.status !== 200) {
+            toast.success("Oops, something went wrong");
           }
-        );
-        if (response.status === 200) {
-          console.log("user updated ==> ", response);
-          const tempState = { ...state, files: tempFiles };
-          dispatch({ type: APPEND_CHILD, payload: tempState });
-          dispatch({ type: UPDATE_PARENT, payload: newId });
-          dispatch({ type: CLOSE_MODAL });
-          toast.success(`Folder "${newValue}" was created`);
-        } else {
-          toast.success("Oops, something went wrong");
         }
-      } catch (error) {}
+
+        const tempState = { ...state, files: tempFiles };
+        dispatch({ type: APPEND_CHILD, payload: tempState });
+        dispatch({ type: UPDATE_PARENT, payload: newId });
+        dispatch({ type: CLOSE_MODAL });
+        toast.success(`Folder "${newValue}" was created`);
+      } catch (error) {
+        toast.success("Oops, something went wrong");
+      }
     } else {
       toast.error("Please enter a folder name");
     }
