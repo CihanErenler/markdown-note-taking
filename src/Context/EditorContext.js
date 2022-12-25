@@ -138,6 +138,7 @@ const EditorProvider = ({ children }) => {
           );
           if (response.status !== 200) {
             toast.success("Oops, something went wrong");
+            return;
           }
         }
 
@@ -154,7 +155,7 @@ const EditorProvider = ({ children }) => {
     }
   };
 
-  const createFile = () => {
+  const createFile = async (user) => {
     const tempFiles = { ...state.files };
     const newId = uuidv4();
     const newValue = state.modalValue.trim();
@@ -163,7 +164,6 @@ const EditorProvider = ({ children }) => {
       const newFile = {
         id: newId,
         name: newValue,
-        content: "### Title",
         tags: [],
       };
 
@@ -172,6 +172,29 @@ const EditorProvider = ({ children }) => {
       );
 
       tempFiles.items[index].items.unshift(newFile);
+      if (user) {
+        const data = {
+          email: user.email,
+          data: tempFiles,
+          dataId: newFile.id,
+          title: newFile.name,
+        };
+        console.log(data);
+        const response = await axios.post(
+          `${process.env.REACT_APP_BASEURL}/editor/files`,
+          data,
+          {
+            headers: {
+              authorization: `bearer ${user.token}`,
+            },
+          }
+        );
+        if (response.status !== 200) {
+          toast.success("Oops, something went wrong");
+          return;
+        }
+      }
+
       const tempState = { ...state, files: tempFiles };
       dispatch({ type: APPEND_CHILD, payload: tempState });
       dispatch({ type: CLOSE_MODAL });
@@ -318,6 +341,12 @@ const EditorProvider = ({ children }) => {
   const clearState = () => {
     const newState = {
       ...state,
+      code: {
+        dataId: "3",
+        title: "New note",
+        code: "### Title",
+        tags: [],
+      },
       files: {
         id: "1",
         name: "Folders",

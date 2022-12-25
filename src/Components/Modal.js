@@ -32,7 +32,7 @@ const Modal = () => {
 
   const handleClick = useCallback(async () => {
     if (modalMode === "create-folder") createFolder(user);
-    if (modalMode === "create-file") createFile();
+    if (modalMode === "create-file") createFile(user);
     if (modalMode === "delete-item") handleDelete();
     if (modalMode === "edit-folder" || modalMode === "edit-file") rename();
   }, [createFile, createFolder, handleDelete, modalMode, rename]);
