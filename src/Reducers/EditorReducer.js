@@ -23,10 +23,14 @@ export const OPEN_SHORCUTS_MODAL = "OPEN_SHORCUTS_MODAL";
 export const TOGGLE_SIDEBAR = "TOGGLE_SIDEBAR";
 export const TOGGLE_AVATAR_DROPDOWN = "TOGGLE_AVATAR_DROPDOWN";
 export const SET_DATA = "SET_DATA";
+export const CODE_LOADING = "CODE_LOADING";
 
 const editorReducer = (state, action) => {
-	if (action.type === UPDATE_CODE) {
-		const newState = { ...state, code: action.payload };
+	if (action.type === ASSIGN_CODE) {
+		const newState = {
+			...state,
+			code: action.payload,
+		};
 		return newState;
 	}
 
@@ -96,8 +100,11 @@ const editorReducer = (state, action) => {
 		return newState;
 	}
 
-	if (action.type === ASSIGN_CODE) {
-		const newState = { ...state, code: action.payload.content };
+	if (action.type === UPDATE_CODE) {
+		const newState = {
+			...state,
+			code: { ...state.code, code: action.payload },
+		};
 		return newState;
 	}
 
@@ -146,6 +153,11 @@ const editorReducer = (state, action) => {
 		return newState;
 	}
 
+	if (action.type === CODE_LOADING) {
+		const newState = { ...state, isCodeLoading: action.payload };
+		return newState;
+	}
+
 	if (action.type === TOGGLE_AVATAR_DROPDOWN) {
 		const newState = {
 			...state,
@@ -174,7 +186,6 @@ const editorReducer = (state, action) => {
 			}
 			return tag;
 		});
-		console.log(newTags);
 		const newState = { ...state, tags: newTags };
 		return newState;
 	}

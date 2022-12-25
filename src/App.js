@@ -30,7 +30,7 @@ function App() {
 	}, [files]);
 
 	useEffect(() => {
-		if (parent) {
+		if (parent && files) {
 			if (files.items[0].items.length > 0)
 				updateSelectedFile(files.items[0].items[0].id);
 		}

@@ -10,6 +10,7 @@ const Editor = () => {
 	const { code, updateCode, fullscreen, toggleFullscreen } = useEditorContext();
 
 	const handleChange = (value, viewUpdate) => {
+		console.log(value);
 		updateCode(value);
 	};
 
@@ -23,7 +24,7 @@ const Editor = () => {
 				)}
 			</span>
 			<CodeMirror
-				value={code}
+				value={code.code}
 				extensions={[markdown({ base: markdownLanguage })]}
 				onChange={handleChange}
 				height="100%"

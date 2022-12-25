@@ -17,8 +17,7 @@ const Filter = () => {
 	const ref = useRef(null);
 
 	useEffect(() => {
-		console.log(files);
-		if (parent) {
+		if (parent && files) {
 			const temp = files.items.find((file) => file.id === String(parent));
 			setSelectedParent(temp);
 			setNotes(temp.items);

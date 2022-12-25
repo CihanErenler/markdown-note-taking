@@ -6,12 +6,16 @@ import ViewHeader from "./ViewHeader/ViewHeader.js";
 import Split from "react-split";
 import "../Split.css";
 import { useEditorContext } from "../Context/EditorContext.js";
+import { useAuthContext } from "../Context/AuthContext.js";
 
 const PreviewContainer = () => {
 	const { fullscreen, currentlySelectedFile, assignCode } = useEditorContext();
+	const { user } = useAuthContext();
 
 	useEffect(() => {
-		assignCode();
+		if (user) {
+			assignCode(user);
+		}
 	}, [currentlySelectedFile]);
 
 	if (fullscreen === "preview") {

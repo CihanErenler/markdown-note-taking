@@ -4,6 +4,7 @@ import Button from "../Components/Button";
 import styled from "styled-components";
 import { useNavigate } from "react-router";
 import { useAuthContext } from "../Context/AuthContext";
+import heroBg from "../Assets/images/herobg.svg";
 
 const WelcomePage = () => {
 	const { user } = useAuthContext();
@@ -43,6 +44,7 @@ const WelcomePage = () => {
 						</Button>
 					)}
 				</div>
+
 				<img className="hero" src={hero} alt="hero-img" />
 			</div>
 		</StyledWelcomePage>
@@ -51,7 +53,9 @@ const WelcomePage = () => {
 
 const StyledWelcomePage = styled.div`
 	height: 100%;
-	background: linear-gradient(180deg, #ffffff 0%, #83aade 100%);
+	background: #6396ca;
+	background: -webkit-linear-gradient(to bottom, #fff, #6396ca);
+	background: linear-gradient(to bottom, #fff, #6396ca);
 	position: relative;
 	overflow: hidden;
 
@@ -65,6 +69,10 @@ const StyledWelcomePage = styled.div`
 		h1 {
 			font-size: 55px;
 			font-weight: 900;
+
+			@media (max-width: 1499px) {
+				font-size: 46px;
+			}
 
 			span {
 				color: dodgerblue;
@@ -88,15 +96,20 @@ const StyledWelcomePage = styled.div`
 	}
 
 	.hero {
+		position: relative;
+		z-index: 99;
 		width: 80%;
-		box-shadow: rgba(50, 50, 93, 0.25) 0px 13px 27px -5px,
+		box-shadow: rgba(41, 50, 93, 0.25) 0px 13px 27px -5px,
 			rgba(0, 0, 0, 0.3) 0px 8px 16px -8px;
 		border-radius: 20px;
-		opacity: 0.9;
 		position: absolute;
-		bottom: -400px;
+		top: 50%;
 		left: 50%;
 		transform: translateX(-50%);
+
+		@media (max-width: 1499px) {
+			bottom: -350px;
+		}
 	}
 `;
 

@@ -19,6 +19,7 @@ const RootLayout = () => {
 			toast.success(`Welcome ${user.name}`);
 			setTimeout(() => {
 				navigate("/notes");
+				handleRootSpinner();
 			}, 1500);
 		} else {
 			setTimeout(() => {
@@ -38,9 +39,11 @@ const RootLayout = () => {
 	useEffect(() => {
 		if (user && !data) {
 			fetchData(user);
+		} else if (data) {
+			setData(data);
 		}
 		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [user]);
+	}, [user, data]);
 
 	if (showRootSpinner) {
 		return <AuthSpinner />;
