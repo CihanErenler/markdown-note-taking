@@ -39,6 +39,7 @@ const initialStates = {
     code: "### Title",
     tags: [],
   },
+  codeSnapshot: null,
   isCodeLoading: false,
   isModalOpen: false,
   isShortcutsOpen: false,
@@ -231,6 +232,7 @@ const EditorProvider = ({ children }) => {
   };
 
   const assignCode = async (user) => {
+    console.log("buraya da girdi");
     dispatch({ type: CODE_LOADING, payload: true });
     try {
       const response = await axios.get(
@@ -310,6 +312,30 @@ const EditorProvider = ({ children }) => {
     dispatch({ type: SET_DATA, payload: data });
   };
 
+  const clearState = () => {
+    const newState = {
+      ...state,
+      files: {
+        id: "1",
+        name: "Folders",
+        items: [
+          {
+            id: "2",
+            name: "New folder",
+            items: [
+              {
+                id: "3",
+                name: "New note",
+                tags: [],
+              },
+            ],
+          },
+        ],
+      },
+    };
+    dispatch({ type: APPEND_CHILD, payload: newState });
+  };
+
   const fetchData = async (user) => {
     try {
       const response = await axios.post(
@@ -355,6 +381,7 @@ const EditorProvider = ({ children }) => {
         setShowAvatarDropdown,
         setData,
         fetchData,
+        clearState,
       }}
     >
       {children}
