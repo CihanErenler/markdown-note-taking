@@ -3,13 +3,27 @@ import Tags from "./Tags";
 import AvatarWrapper from "../Avatar/AvatarWrapper";
 import { useNavigate } from "react-router";
 import { useAuthContext } from "../../Context/AuthContext";
+import { useEditorContext } from "../../Context/EditorContext";
 import Button from "../Button";
 
 const ViewHeader = () => {
   const { user } = useAuthContext();
   const navigate = useNavigate();
+  const { code, codeSnapshot } = useEditorContext();
   const handleClick = () => {
     navigate("/login");
+  };
+
+  const compare = () => {
+    let isIttheSame = false;
+    if (code && codeSnapshot) {
+      isIttheSame =
+        code.code === codeSnapshot.code &&
+        code.title === codeSnapshot.title &&
+        code.tag.length === codeSnapshot.tag.length;
+    }
+
+    return isIttheSame;
   };
   return (
     <StyledViewHeader>
@@ -20,10 +34,12 @@ const ViewHeader = () => {
         <Tags />
       </div>
       {user ? (
-        <>
-          <Button>Save</Button>
+        <div className="save-btn">
+          <Button variant="small" disabled={compare()}>
+            Save
+          </Button>
           <AvatarWrapper />
-        </>
+        </div>
       ) : (
         <Button variant="small" action={handleClick}>
           Login
@@ -43,6 +59,13 @@ const StyledViewHeader = styled.nav`
   justify-content: space-between;
   line-height: 1.2;
   background-color: #f9f9f9;
+
+  .save-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+  }
 
   .doc-info {
     display: flex;

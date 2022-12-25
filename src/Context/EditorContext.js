@@ -39,6 +39,7 @@ const initialStates = {
     code: "### Title",
     tags: [],
   },
+  codeSnapshot: null,
   isCodeLoading: false,
   isModalOpen: false,
   isShortcutsOpen: false,
