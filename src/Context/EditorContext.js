@@ -23,6 +23,8 @@ import reducer, {
   SET_DATA,
   CODE_LOADING,
   ASSIGN_CODE,
+  RESET_SNAPSHOT,
+  SET_UPDATED,
 } from "../Reducers/EditorReducer";
 import { UPDATE_CODE } from "../Reducers/EditorReducer";
 import { v4 as uuidv4 } from "uuid";
@@ -61,6 +63,7 @@ const initialStates = {
       },
     ],
   },
+  filesUpdated: 0,
   toBeDeleted: null,
   fullscreen: "",
   modalMode: "",
@@ -258,7 +261,6 @@ const EditorProvider = ({ children }) => {
   };
 
   const assignCode = async (user) => {
-    console.log("buraya da girdi");
     dispatch({ type: CODE_LOADING, payload: true });
     try {
       const response = await axios.get(
@@ -272,7 +274,6 @@ const EditorProvider = ({ children }) => {
       const code = response.data.data[0];
       dispatch({ type: CODE_LOADING, payload: false });
       dispatch({ type: ASSIGN_CODE, payload: code });
-      console.log(response);
     } catch (error) {}
   };
 
@@ -303,6 +304,27 @@ const EditorProvider = ({ children }) => {
         dispatch({ type: ADD_NEW_TAG, payload: tag });
         clearTagInput();
       }
+    }
+  };
+
+  const saveCode = async (user) => {
+    try {
+      const data = { email: user.email, code: state.code };
+      const response = await axios.patch(
+        `${process.env.REACT_APP_BASEURL}/editor/code/update`,
+        data,
+        {
+          headers: {
+            authorization: `bearer ${user.token}`,
+          },
+        }
+      );
+      if (response.status === 200) {
+        dispatch({ type: RESET_SNAPSHOT });
+        toast.success("Note updated");
+      }
+    } catch (error) {
+      toast.error("Oops, something went wrong");
     }
   };
 
@@ -366,6 +388,7 @@ const EditorProvider = ({ children }) => {
       },
     };
     dispatch({ type: APPEND_CHILD, payload: newState });
+    dispatch({ type: SET_UPDATED });
   };
 
   const fetchData = async (user) => {
@@ -380,6 +403,7 @@ const EditorProvider = ({ children }) => {
         }
       );
       dispatch({ type: SET_DATA, payload: response.data });
+      dispatch({ type: SET_UPDATED });
     } catch (error) {
       toast.error("Something went wrong");
     }
@@ -414,6 +438,7 @@ const EditorProvider = ({ children }) => {
         setData,
         fetchData,
         clearState,
+        saveCode,
       }}
     >
       {children}

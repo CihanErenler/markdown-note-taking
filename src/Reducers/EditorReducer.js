@@ -25,6 +25,8 @@ export const TOGGLE_AVATAR_DROPDOWN = "TOGGLE_AVATAR_DROPDOWN";
 export const SET_DATA = "SET_DATA";
 export const CODE_LOADING = "CODE_LOADING";
 export const CLEAR_STATE = "CLEAR_STATE";
+export const RESET_SNAPSHOT = "RESET_SNAPSHOT";
+export const SET_UPDATED = "SET_UPDATED";
 
 const editorReducer = (state, action) => {
   if (action.type === ASSIGN_CODE) {
@@ -129,6 +131,11 @@ const editorReducer = (state, action) => {
     return newState;
   }
 
+  if (action.type === SET_UPDATED) {
+    const newState = { ...state, filesUpdated: state.filesUpdated + 1 };
+    return newState;
+  }
+
   if (action.type === ADD_NEW_TAG) {
     const tagArray = [...state.tags, action.payload];
     const newState = { ...state, tags: tagArray };
@@ -137,6 +144,11 @@ const editorReducer = (state, action) => {
 
   if (action.type === CLEAR_TAG_INPUT) {
     const newState = { ...state, tagInput: "" };
+    return newState;
+  }
+
+  if (action.type === CURRENTY_OPEN_FILE) {
+    const newState = { ...state, currentlySelectedFile: action.payload };
     return newState;
   }
 
@@ -157,6 +169,12 @@ const editorReducer = (state, action) => {
 
   if (action.type === CODE_LOADING) {
     const newState = { ...state, isCodeLoading: action.payload };
+    return newState;
+  }
+
+  if (action.type === RESET_SNAPSHOT) {
+    console.log(state.code);
+    const newState = { ...state, codeSnapshot: state.code };
     return newState;
   }
 

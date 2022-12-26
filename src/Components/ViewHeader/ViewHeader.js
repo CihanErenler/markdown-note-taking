@@ -9,7 +9,7 @@ import Button from "../Button";
 const ViewHeader = () => {
   const { user } = useAuthContext();
   const navigate = useNavigate();
-  const { code, codeSnapshot } = useEditorContext();
+  const { code, codeSnapshot, saveCode } = useEditorContext();
   const handleClick = () => {
     navigate("/login");
   };
@@ -29,13 +29,17 @@ const ViewHeader = () => {
     <StyledViewHeader>
       <div className="doc-info">
         <div>
-          <h2>Herkese selamlar</h2>
+          <h2>{code.title}</h2>
         </div>
         <Tags />
       </div>
       {user ? (
         <div className="save-btn">
-          <Button variant="small" disabled={compare()}>
+          <Button
+            variant="small"
+            disabled={compare()}
+            action={() => saveCode(user)}
+          >
             Save
           </Button>
           <AvatarWrapper />
@@ -77,6 +81,7 @@ const StyledViewHeader = styled.nav`
       font-weight: 500;
       font-size: 18px;
       padding-bottom: 6px;
+      text-transform: capitalize;
     }
   }
 `;
