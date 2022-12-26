@@ -15,7 +15,7 @@ function App() {
   const [currentTheme, setCurrentTheme] = useState(false);
   const { files, selectParent, parent, updateSelectedFile } =
     useEditorContext();
-  const { getUserFromLocalStorage } = useAuthContext();
+  const { getUserFromLocalStorage, user } = useAuthContext();
 
   useEffect(() => {
     getUserFromLocalStorage();
@@ -23,27 +23,19 @@ function App() {
   }, []);
 
   useEffect(() => {
+    let selected = false;
     if (files && files.items.length > 0) {
       files.items.forEach((item) => {
-        if (item.items.length > 0) {
+        if (item.items.length > 0 && !selected) {
           selectParent(item.id);
           updateSelectedFile(item.items[0].id);
+          selected = true;
         }
       });
     }
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [files]);
-
-  // useEffect(() => {
-  //   if (parent && files) {
-  // 		files.items.forEach(item => {
-  // 			if (item.length > 0)
-  //         updateSelectedFile(item[0].id);
-  // 		})
-
-  //   }
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, [files]);
+  }, [files, user]);
 
   return (
     <Main>
