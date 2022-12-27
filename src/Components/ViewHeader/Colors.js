@@ -1,9 +1,34 @@
+import { useEffect, useCallback, useRef } from "react";
 import colors from "../../colors";
 import styled from "styled-components";
 
-const Colors = ({ selected, setCurrent, setShowColors }) => {
+const Colors = ({
+	selected,
+	setCurrent,
+	setShowColors,
+	container,
+	showColors,
+}) => {
+	const colorsRef = useRef(null);
+	const handleClick = useCallback(
+		(e) => {
+			if (colorsRef.current && !colorsRef.current.contains(e.target)) {
+				setShowColors(!showColors);
+			}
+		},
+		[setShowColors, showColors]
+	);
+
+	useEffect(() => {
+		const tempContainer = container.current;
+		tempContainer.addEventListener("click", handleClick);
+
+		return () => {
+			tempContainer.removeEventListener("click", handleClick);
+		};
+	}, [container, handleClick]);
 	return (
-		<StyledColors>
+		<StyledColors ref={colorsRef}>
 			<div>
 				{colors.map((color) => (
 					<span

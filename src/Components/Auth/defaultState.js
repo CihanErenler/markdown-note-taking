@@ -18,14 +18,14 @@ export const defaultState = {
 		},
 	},
 	tags: [
-		{ name: "Blue", color: "#2676ff" },
-		{ name: "Green", color: "green" },
-		{ name: "Grey", color: "grey" },
-		{ name: "Important", color: "red" },
-		{ name: "Orange", color: "orange" },
-		{ name: "Purple", color: "purple" },
-		{ name: "Work", color: "yellow" },
-		{ name: "Development", color: "dodgerblue" },
+		{ id: "1", name: "Blue", color: "#2676ff" },
+		{ id: "2", name: "Green", color: "green" },
+		{ id: "3", name: "Grey", color: "grey" },
+		{ id: "4", name: "Important", color: "red" },
+		{ id: "5", name: "Orange", color: "orange" },
+		{ id: "6", name: "Purple", color: "purple" },
+		{ id: "7", name: "Work", color: "yellow" },
+		{ id: "8", name: "Development", color: "dodgerblue" },
 	],
 };
 
