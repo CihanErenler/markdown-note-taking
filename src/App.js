@@ -12,57 +12,72 @@ import "react-toastify/dist/ReactToastify.css";
 import "./Split.css";
 
 function App() {
-  const [currentTheme, setCurrentTheme] = useState(false);
-  const { files, selectParent, parent, updateSelectedFile } =
-    useEditorContext();
-  const { getUserFromLocalStorage, user } = useAuthContext();
+	// eslint-disable-next-line no-unused-vars
+	const [currentTheme, setCurrentTheme] = useState(false);
+	const { files, selectParent, parent, updateSelectedFile } =
+		useEditorContext();
+	const { getUserFromLocalStorage, user } = useAuthContext();
 
-  useEffect(() => {
-    getUserFromLocalStorage();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+	const selectParentAndFile = () => {
+		let selected = false;
+		files.items.forEach((item) => {
+			if (item.items.length > 0 && !selected) {
+				selectParent(item.id);
+				updateSelectedFile(item.items[0].id);
+				selected = true;
+			}
+		});
+	};
+	useEffect(() => {
+		getUserFromLocalStorage();
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, []);
 
-  useEffect(() => {
-    let selected = false;
-    if (files && files.items.length > 0) {
-      files.items.forEach((item) => {
-        if (item.items.length > 0 && !selected) {
-          selectParent(item.id);
-          updateSelectedFile(item.items[0].id);
-          selected = true;
-        }
-      });
-    }
+	useEffect(() => {
+		if (parent === null) {
+			if (files && files.items.length > 0) {
+				selectParentAndFile();
+			}
+		} else if (user) {
+			let isTherePerent = false;
+			files.items.forEach((folder) => {
+				if (parent === folder.id) isTherePerent = true;
+			});
 
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [files, user]);
+			if (!isTherePerent) {
+				selectParentAndFile();
+			}
+		}
 
-  return (
-    <Main>
-      <GlobalStyles />
-      <ThemeProvider theme={currentTheme ? themes.dark : themes.default}>
-        <AuthWrapper>
-          <CustomRouter />
-        </AuthWrapper>
-      </ThemeProvider>
-      <ToastContainer
-        position="bottom-right"
-        autoClose={5000}
-        hideProgressBar={false}
-        newestOnTop={true}
-        transition={Slide}
-        rtl={false}
-        closeOnClick
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-      />
-    </Main>
-  );
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [files, user]);
+
+	return (
+		<Main>
+			<GlobalStyles />
+			<ThemeProvider theme={currentTheme ? themes.dark : themes.default}>
+				<AuthWrapper>
+					<CustomRouter />
+				</AuthWrapper>
+			</ThemeProvider>
+			<ToastContainer
+				position="bottom-right"
+				autoClose={5000}
+				hideProgressBar={false}
+				newestOnTop={true}
+				transition={Slide}
+				rtl={false}
+				closeOnClick
+				pauseOnFocusLoss
+				draggable
+				pauseOnHover
+			/>
+		</Main>
+	);
 }
 
 const Main = styled.main`
-  height: 100vh;
+	height: 100vh;
 `;
 
 export default App;
