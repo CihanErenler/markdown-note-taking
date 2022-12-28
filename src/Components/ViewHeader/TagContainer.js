@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
 import { GrClose } from "react-icons/gr";
 import { useEditorContext } from "../../Context/EditorContext";
 import styled from "styled-components";
@@ -9,8 +9,14 @@ import colors from "../../colors";
 const TagContainer = ({ close, showContainer }) => {
 	const [showColors, setShowColors] = useState(false);
 	const [currentColor, setCurrentColor] = useState(colors[0]);
-	const { tags, addNewTag, tagInput, updateTagInput, clearTagInput } =
+	const container = useRef(null);
+	const { tags, addNewTag, tagInput, updateTagInput, clearTagInput, code } =
 		useEditorContext();
+
+	const isSelected = (id) => {
+		const selected = code.tags.includes(id);
+		return selected;
+	};
 
 	const handleKeyPress = useCallback(
 		(e) => {
@@ -26,12 +32,28 @@ const TagContainer = ({ close, showContainer }) => {
 		[close, showColors, showContainer]
 	);
 
+	const handleClick = useCallback(
+		(e) => {
+			if (
+				container.current &&
+				!container.current.contains(e.target) &&
+				!e.target.classList.contains("add-button") &&
+				!e.target.classList.contains("tag-close-btn")
+			) {
+				close(!showContainer);
+			}
+		},
+		[close, showContainer]
+	);
+
 	useEffect(() => {
 		window.addEventListener("keyup", handleKeyPress);
+		window.addEventListener("click", handleClick);
 		return () => {
 			window.removeEventListener("keyup", handleKeyPress);
+			window.removeEventListener("click", handleClick);
 		};
-	}, [handleKeyPress]);
+	}, [handleKeyPress, handleClick]);
 
 	useEffect(() => {
 		clearTagInput();
@@ -39,7 +61,7 @@ const TagContainer = ({ close, showContainer }) => {
 	}, []);
 
 	return (
-		<StyledTagContainer>
+		<StyledTagContainer ref={container}>
 			<span className="close-btn" onClick={() => close(false)}>
 				<GrClose size={16} />
 			</span>
@@ -47,24 +69,26 @@ const TagContainer = ({ close, showContainer }) => {
 			<div className="tags">
 				{tags.map((tag) => (
 					<Tag
-						key={tag.name}
+						key={tag.id}
 						tagName={tag.name}
 						color={tag.color}
-						isSelected={tag.selected}
+						isSelected={isSelected(tag.id)}
+						id={tag.id}
 					/>
 				))}
 			</div>
 			<hr />
-			<input
-				type="text"
-				placeholder="Add a new tag"
-				onChange={updateTagInput}
-				value={tagInput}
-			/>
-			<div className="colors-button" onClick={() => setShowColors(true)}>
-				<span>Color</span>
-				<div>
-					<span style={{ backgroundColor: currentColor }}></span>
+			<div className="pick-color-wrapper">
+				<input
+					type="text"
+					placeholder="Enter a tag name..."
+					onChange={updateTagInput}
+					value={tagInput}
+				/>
+				<div className="colors-button" onClick={() => setShowColors(true)}>
+					<div>
+						<span style={{ backgroundColor: currentColor }}></span>
+					</div>
 				</div>
 			</div>
 			{showColors ? (
@@ -72,6 +96,8 @@ const TagContainer = ({ close, showContainer }) => {
 					selected={currentColor}
 					setCurrent={setCurrentColor}
 					setShowColors={setShowColors}
+					showColors={showColors}
+					container={container}
 				/>
 			) : (
 				""
@@ -114,6 +140,12 @@ const StyledTagContainer = styled.div`
 		cursor: pointer;
 	}
 
+	.pick-color-wrapper {
+		display: flex;
+		flex-direction: row-reverse;
+		gap: 6px;
+	}
+
 	h5 {
 		font-weight: 500;
 		margin-bottom: 10px;
@@ -135,6 +167,15 @@ const StyledTagContainer = styled.div`
 		padding: 0 10px;
 		background-color: ${(props) => props.theme.inputBg};
 		margin: 10px 0;
+		transition: all 0.3s ease;
+
+		:focus {
+			outline: none;
+			border-color: ${(props) => props.theme.primary};
+			box-shadow: 0px 0px 0px 3px ${(props) => props.theme.inputBorderFocus};
+			background-color: ${(props) =>
+				props.type === "search" ? props.theme.bg1 : props.theme.inputBg};
+		}
 	}
 
 	.colors-button {
