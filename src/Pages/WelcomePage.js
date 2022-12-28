@@ -103,7 +103,7 @@ const StyledWelcomePage = styled.div`
 			rgba(0, 0, 0, 0.3) 0px 8px 16px -8px;
 		border-radius: 20px;
 		position: absolute;
-		top: 50%;
+		top: 45%;
 		left: 50%;
 		transform: translateX(-50%);
 
