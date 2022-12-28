@@ -9,7 +9,6 @@ export const UPDATE_PARENT = "UPDATE_PARENT";
 export const UPDATE_MODAL = "UPDATE_MODAL";
 export const APPEND_CHILD = "APPEND_CHILD";
 export const CURRENTY_OPEN_FILE = "CURRENTLY_OPEN_FILE";
-export const UPDATE_TOBEDELETED = "UPDATE_TOBEDELETED";
 export const ASSIGN_CODE = "ASSIGN_CODE";
 export const UPDATE_CURRENT_FILE = "UPDATE_CURRENT_FILE";
 export const ADD_NEW_TAG = "ADD_NEW_TAG";
@@ -96,12 +95,6 @@ const editorReducer = (state, action) => {
 	if (action.type === FIND_ITEM) {
 		const parent = state.files.items.find((item) => item.id === state.parent);
 		const newState = { ...state, modalValue: parent.name };
-		return newState;
-	}
-
-	if (action.type === UPDATE_TOBEDELETED) {
-		const id = action.payload;
-		const newState = { ...state, toBeDeleted: id };
 		return newState;
 	}
 

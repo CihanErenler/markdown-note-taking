@@ -8,7 +8,6 @@ import reducer, {
 	UPDATE_PARENT,
 	APPEND_CHILD,
 	CURRENTY_OPEN_FILE,
-	UPDATE_TOBEDELETED,
 	UPDATE_CURRENT_FILE,
 	ADD_NEW_TAG,
 	UPDATE_TAG_VALUE,
@@ -30,7 +29,6 @@ import reducer, {
 import { UPDATE_CODE } from "../Reducers/EditorReducer";
 import { v4 as uuidv4 } from "uuid";
 import { toast } from "react-toastify";
-import { db } from "../db/db";
 import axios from "axios";
 
 const EditorContext = React.createContext();
@@ -65,7 +63,6 @@ const initialStates = {
 		],
 	},
 	filesUpdated: 0,
-	toBeDeleted: null,
 	fullscreen: "",
 	modalMode: "",
 	newFolderName: "",
@@ -104,7 +101,6 @@ const EditorProvider = ({ children }) => {
 			dispatch({ type: OPEN_MODAL, payload: type });
 		}
 		if (mode === "delete") {
-			dispatch({ type: UPDATE_TOBEDELETED, payload: id });
 			dispatch({ type: OPEN_MODAL, payload: type });
 		}
 	};
@@ -235,7 +231,7 @@ const EditorProvider = ({ children }) => {
 		}
 	};
 
-	const handleDelete = () => {
+	const handleDelete = async (user) => {
 		let index = null;
 		const tempFiles = { ...state.files };
 		const parents = tempFiles.items.filter((item) => item.id !== state.parent);
@@ -247,14 +243,51 @@ const EditorProvider = ({ children }) => {
 			}
 		}
 		tempFiles.items = parents;
-		const tempState = { ...state, files: tempFiles };
-		dispatch({ type: APPEND_CHILD, payload: tempState });
-		dispatch({ type: CLOSE_MODAL });
-		dispatch({
-			type: UPDATE_PARENT,
-			payload: index !== null ? parents[index].id : null,
-		});
-		toast.success(`Item deleted`);
+
+		try {
+			if (user) {
+				console.log(user);
+				const data = { email: user.email, data: tempFiles };
+				const response = await axios.post(
+					`${process.env.REACT_APP_BASEURL}/editor/folders`,
+					data,
+					{
+						headers: {
+							authorization: `bearer ${user.token}`,
+						},
+					}
+				);
+				if (response.status !== 200) {
+					toast.error("Oops, something went wrong");
+					return;
+				}
+			}
+
+			const tempState = { ...state, files: tempFiles };
+			dispatch({ type: APPEND_CHILD, payload: tempState });
+			dispatch({ type: CLOSE_MODAL });
+			const parentId = index !== null ? parents[index].id : null;
+			if (parentId) {
+				tempFiles.items.forEach((item) => {
+					if (item.id === parentId) {
+						if (item.items.length > 0) {
+							dispatch({
+								type: UPDATE_CURRENT_FILE,
+								payload: item.items[0].id,
+							});
+						}
+					}
+				});
+			}
+			dispatch({
+				type: UPDATE_PARENT,
+				payload: index !== null ? parents[index].id : null,
+			});
+			toast.success(`Item deleted`);
+		} catch (error) {
+			console.log(error.message);
+			toast.error("Oops, something went wrong");
+		}
 	};
 
 	const updateSelectedFile = (id) => {

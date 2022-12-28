@@ -33,7 +33,7 @@ const Modal = () => {
 	const handleClick = useCallback(async () => {
 		if (modalMode === "create-folder") createFolder(user);
 		if (modalMode === "create-file") createFile(user);
-		if (modalMode === "delete-item") handleDelete();
+		if (modalMode === "delete-item") handleDelete(user);
 		if (modalMode === "edit-folder" || modalMode === "edit-file") rename();
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [createFile, createFolder, handleDelete, modalMode, rename]);
@@ -97,7 +97,7 @@ const Modal = () => {
 						<Button variant="secondary" action={closeModal}>
 							Cancel
 						</Button>
-						<Button variant="danger" action={handleDelete}>
+						<Button variant="danger" action={() => handleDelete(user)}>
 							Delete
 						</Button>
 					</section>
