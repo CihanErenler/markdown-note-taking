@@ -9,7 +9,7 @@ import Button from "../Button";
 const ViewHeader = () => {
 	const { user } = useAuthContext();
 	const navigate = useNavigate();
-	const { code, codeSnapshot, saveCode } = useEditorContext();
+	const { code, codeSnapshot, saveCode, noFile } = useEditorContext();
 	const handleClick = () => {
 		navigate("/login");
 	};
@@ -28,10 +28,14 @@ const ViewHeader = () => {
 	return (
 		<StyledViewHeader>
 			<div className="doc-info">
-				<div>
-					<h2>{code.title}</h2>
-				</div>
-				<Tags />
+				{!noFile && (
+					<>
+						<div>
+							<h2>{code.title}</h2>
+						</div>
+						<Tags />
+					</>
+				)}
 			</div>
 			{user ? (
 				<div className="save-btn">

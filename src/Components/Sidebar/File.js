@@ -19,7 +19,7 @@ const File = ({ children, index, id }) => {
 					</span>
 					<span
 						className="delete-btn"
-						onClick={() => openModal(null, "delete", "delete-item")}
+						onClick={() => openModal(null, "delete", "delete-file")}
 					>
 						<RiDeleteBinLine size={16} />
 					</span>

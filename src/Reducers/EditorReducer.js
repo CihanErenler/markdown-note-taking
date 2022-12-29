@@ -8,7 +8,6 @@ export const FIND_ITEM = "FIND_ITEM";
 export const UPDATE_PARENT = "UPDATE_PARENT";
 export const UPDATE_MODAL = "UPDATE_MODAL";
 export const APPEND_CHILD = "APPEND_CHILD";
-export const CURRENTY_OPEN_FILE = "CURRENTLY_OPEN_FILE";
 export const ASSIGN_CODE = "ASSIGN_CODE";
 export const UPDATE_CURRENT_FILE = "UPDATE_CURRENT_FILE";
 export const ADD_NEW_TAG = "ADD_NEW_TAG";
@@ -27,6 +26,7 @@ export const CLEAR_STATE = "CLEAR_STATE";
 export const RESET_SNAPSHOT = "RESET_SNAPSHOT";
 export const SET_UPDATED = "SET_UPDATED";
 export const REMOVE_TAG = "REMOVE_TAG";
+export const SET_NOFILE = "SET_NOFILE";
 
 const editorReducer = (state, action) => {
 	if (action.type === ASSIGN_CODE) {
@@ -120,6 +120,11 @@ const editorReducer = (state, action) => {
 		return newState;
 	}
 
+	if (action.type === SET_NOFILE) {
+		const newState = { ...state, noFile: action.payload };
+		return newState;
+	}
+
 	if (action.type === UPDATE_TAG_VALUE) {
 		const newState = { ...state, tagInput: action.payload };
 		return newState;
@@ -138,11 +143,6 @@ const editorReducer = (state, action) => {
 
 	if (action.type === CLEAR_TAG_INPUT) {
 		const newState = { ...state, tagInput: "" };
-		return newState;
-	}
-
-	if (action.type === CURRENTY_OPEN_FILE) {
-		const newState = { ...state, currentlySelectedFile: action.payload };
 		return newState;
 	}
 
@@ -174,7 +174,6 @@ const editorReducer = (state, action) => {
 	}
 
 	if (action.type === RESET_SNAPSHOT) {
-		console.log(state.code);
 		const newState = { ...state, codeSnapshot: state.code };
 		return newState;
 	}
@@ -189,11 +188,37 @@ const editorReducer = (state, action) => {
 
 	if (action.type === SET_DATA) {
 		const { totalAmount, files, tags } = action.payload;
+		let parent = null;
+		let child = null;
+		let selected = false;
+		let isThereFolders = files.items.length > 0;
+		let noFile = false;
+
+		if (isThereFolders) {
+			files.items.forEach((folder) => {
+				if (folder.items.length > 0) {
+					parent = folder.id;
+					child = folder.items[0].id;
+					selected = true;
+				}
+			});
+
+			if (!selected) {
+				parent = files.items[0].id;
+				noFile = true;
+			}
+		} else {
+			noFile = true;
+		}
+
 		const newState = {
 			...state,
 			totalAmount,
 			files,
 			tags,
+			currentlySelectedFile: child,
+			parent,
+			noFile,
 		};
 		return newState;
 	}

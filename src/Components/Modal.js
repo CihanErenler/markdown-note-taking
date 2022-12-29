@@ -18,6 +18,7 @@ const Modal = () => {
 		rename,
 		isModalOpen,
 		handleDelete,
+		deleteFile,
 	} = useEditorContext();
 	const element = useRef(null);
 	const { user } = useAuthContext();
@@ -34,6 +35,7 @@ const Modal = () => {
 		if (modalMode === "create-folder") createFolder(user);
 		if (modalMode === "create-file") createFile(user);
 		if (modalMode === "delete-item") handleDelete(user);
+		if (modalMode === "delete-file") deleteFile(user);
 		if (modalMode === "edit-folder" || modalMode === "edit-file") rename();
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [createFile, createFolder, handleDelete, modalMode, rename]);
@@ -75,7 +77,7 @@ const Modal = () => {
 
 	return (
 		<StyledModal className="modal" ref={element}>
-			{modalMode !== "delete-item" ? (
+			{modalMode !== "delete-item" && modalMode !== "delete-file" ? (
 				<InnerModal>
 					<h1>{generatedTitle}</h1>
 					<Input value={modalValue} action={updateModalValue} focused={true} />
@@ -97,7 +99,14 @@ const Modal = () => {
 						<Button variant="secondary" action={closeModal}>
 							Cancel
 						</Button>
-						<Button variant="danger" action={() => handleDelete(user)}>
+						<Button
+							variant="danger"
+							action={() =>
+								modalMode === "delete-item"
+									? handleDelete(user)
+									: deleteFile(user)
+							}
+						>
 							Delete
 						</Button>
 					</section>
