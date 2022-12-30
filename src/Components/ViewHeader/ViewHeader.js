@@ -5,6 +5,7 @@ import { useNavigate } from "react-router";
 import { useAuthContext } from "../../Context/AuthContext";
 import { useEditorContext } from "../../Context/EditorContext";
 import Button from "../Button";
+import FileOptions from "./FileOptions";
 
 const ViewHeader = () => {
 	const { user } = useAuthContext();
@@ -39,6 +40,7 @@ const ViewHeader = () => {
 			</div>
 			{user ? (
 				<div className="save-btn">
+					<FileOptions />
 					<Button
 						variant="small"
 						disabled={compare()}

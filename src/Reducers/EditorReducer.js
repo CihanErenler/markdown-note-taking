@@ -93,8 +93,14 @@ const editorReducer = (state, action) => {
 	}
 
 	if (action.type === FIND_ITEM) {
-		const parent = state.files.items.find((item) => item.id === state.parent);
-		const newState = { ...state, modalValue: parent.name };
+		let val;
+		if (action.payload === "edit-folder") {
+			val = state.files.items.find((item) => item.id === state.parent).name;
+		} else {
+			val = state.code.title;
+			console.log("val ==> ", val);
+		}
+		const newState = { ...state, modalValue: val };
 		return newState;
 	}
 

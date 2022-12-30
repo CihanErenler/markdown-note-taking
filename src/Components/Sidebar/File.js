@@ -13,8 +13,11 @@ const File = ({ children, index, id }) => {
 				className={currentlySelectedFile === id ? "selected" : ""}
 			>
 				{index + 1} - {children}
-				<div>
-					<span className="edit-btn">
+				{/* <div>
+					<span
+						className="edit-btn"
+						onClick={() => openModal(null, "edit", "edit-file")}
+					>
 						<RiEdit2Line size={16} />
 					</span>
 					<span
@@ -23,7 +26,7 @@ const File = ({ children, index, id }) => {
 					>
 						<RiDeleteBinLine size={16} />
 					</span>
-				</div>
+				</div> */}
 			</div>
 		</StyledFile>
 	);

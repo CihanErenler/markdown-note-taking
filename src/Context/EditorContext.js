@@ -94,11 +94,12 @@ const EditorProvider = ({ children }) => {
 	};
 
 	const openModal = (id, mode, type) => {
+		console.log(type);
 		if (mode === "create") {
 			dispatch({ type: OPEN_MODAL, payload: type });
 		}
 		if (mode === "edit") {
-			dispatch({ type: FIND_ITEM });
+			dispatch({ type: FIND_ITEM, payload: type });
 			dispatch({ type: OPEN_MODAL, payload: type });
 		}
 		if (mode === "delete") {
@@ -421,7 +422,13 @@ const EditorProvider = ({ children }) => {
 
 	const saveCode = async (user) => {
 		try {
-			const data = { email: user.email, code: state.code };
+			const date = new Date();
+			const newCode = { ...state.code, updatedAt: date };
+			const data = {
+				email: user.email,
+				code: newCode,
+			};
+
 			const response = await axios.post(
 				`${process.env.REACT_APP_BASEURL}/editor/code/update`,
 				data,
@@ -432,7 +439,7 @@ const EditorProvider = ({ children }) => {
 				}
 			);
 			if (response.status === 200) {
-				dispatch({ type: RESET_SNAPSHOT });
+				dispatch({ type: ASSIGN_CODE, payload: newCode });
 				toast.success("Note updated");
 			}
 		} catch (error) {
