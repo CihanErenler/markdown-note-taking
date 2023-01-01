@@ -5,11 +5,12 @@ import { useNavigate } from "react-router";
 import { useAuthContext } from "../../Context/AuthContext";
 import { useEditorContext } from "../../Context/EditorContext";
 import Button from "../Button";
+import FileOptions from "./FileOptions";
 
 const ViewHeader = () => {
 	const { user } = useAuthContext();
 	const navigate = useNavigate();
-	const { code, codeSnapshot, saveCode } = useEditorContext();
+	const { code, codeSnapshot, saveCode, noFile } = useEditorContext();
 	const handleClick = () => {
 		navigate("/login");
 	};
@@ -28,13 +29,18 @@ const ViewHeader = () => {
 	return (
 		<StyledViewHeader>
 			<div className="doc-info">
-				<div>
-					<h2>{code.title}</h2>
-				</div>
-				<Tags />
+				{!noFile && (
+					<>
+						<div>
+							<h2>{code.title}</h2>
+						</div>
+						<Tags />
+					</>
+				)}
 			</div>
 			{user ? (
 				<div className="save-btn">
+					<FileOptions />
 					<Button
 						variant="small"
 						disabled={compare()}

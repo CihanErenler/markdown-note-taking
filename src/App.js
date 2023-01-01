@@ -4,7 +4,6 @@ import { ThemeProvider } from "styled-components";
 import themes from "./theme";
 import styled from "styled-components";
 import { ToastContainer, Slide } from "react-toastify";
-import { useEditorContext } from "./Context/EditorContext";
 import { useAuthContext } from "./Context/AuthContext";
 import CustomRouter from "./CustomRouter";
 import AuthWrapper from "./Components/Auth/AuthWrapper.js";
@@ -14,43 +13,12 @@ import "./Split.css";
 function App() {
 	// eslint-disable-next-line no-unused-vars
 	const [currentTheme, setCurrentTheme] = useState(false);
-	const { files, selectParent, parent, updateSelectedFile } =
-		useEditorContext();
-	const { getUserFromLocalStorage, user } = useAuthContext();
+	const { getUserFromLocalStorage } = useAuthContext();
 
-	const selectParentAndFile = () => {
-		let selected = false;
-		files.items.forEach((item) => {
-			if (item.items.length > 0 && !selected) {
-				selectParent(item.id);
-				updateSelectedFile(item.items[0].id);
-				selected = true;
-			}
-		});
-	};
 	useEffect(() => {
 		getUserFromLocalStorage();
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
-
-	useEffect(() => {
-		if (parent === null) {
-			if (files && files.items.length > 0) {
-				selectParentAndFile();
-			}
-		} else if (user) {
-			let isTherePerent = false;
-			files.items.forEach((folder) => {
-				if (parent === folder.id) isTherePerent = true;
-			});
-
-			if (!isTherePerent) {
-				selectParentAndFile();
-			}
-		}
-
-		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [files, user]);
 
 	return (
 		<Main>

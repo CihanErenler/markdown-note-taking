@@ -7,16 +7,29 @@ import Split from "react-split";
 import "../Split.css";
 import { useEditorContext } from "../Context/EditorContext.js";
 import { useAuthContext } from "../Context/AuthContext.js";
+import logo from "../Assets/logo-black&white.svg";
 
 const PreviewContainer = () => {
-	const { fullscreen, currentlySelectedFile, assignCode } = useEditorContext();
+	const { fullscreen, currentlySelectedFile, assignCode, noFile } =
+		useEditorContext();
 	const { user } = useAuthContext();
 
 	useEffect(() => {
-		if (user) {
+		if (user && currentlySelectedFile) {
 			assignCode(user);
 		}
 	}, [currentlySelectedFile]);
+
+	if (noFile) {
+		return (
+			<StyledPreviewContainer>
+				<ViewHeader />
+				<div className="no-file">
+					<img src={logo} alt="black&white" />
+				</div>
+			</StyledPreviewContainer>
+		);
+	}
 
 	if (fullscreen === "preview") {
 		return (
@@ -56,6 +69,18 @@ const StyledPreviewContainer = styled.section`
 	flex: 1;
 	height: 100vh;
 	overflow: hidden;
+
+	.no-file {
+		width: 100%;
+		height: 100%;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+
+		img {
+			width: 300px;
+		}
+	}
 `;
 
 const StyledWrapper = styled.div`

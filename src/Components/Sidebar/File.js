@@ -4,7 +4,8 @@ import { RiDeleteBinLine, RiEdit2Line } from "react-icons/ri";
 import { useEditorContext } from "../../Context/EditorContext";
 
 const File = ({ children, index, id }) => {
-	const { updateSelectedFile, currentlySelectedFile } = useEditorContext();
+	const { updateSelectedFile, currentlySelectedFile, openModal } =
+		useEditorContext();
 	return (
 		<StyledFile>
 			<div
@@ -12,10 +13,20 @@ const File = ({ children, index, id }) => {
 				className={currentlySelectedFile === id ? "selected" : ""}
 			>
 				{index + 1} - {children}
-				<div>
-					<RiEdit2Line size={16} />
-					<RiDeleteBinLine size={16} />
-				</div>
+				{/* <div>
+					<span
+						className="edit-btn"
+						onClick={() => openModal(null, "edit", "edit-file")}
+					>
+						<RiEdit2Line size={16} />
+					</span>
+					<span
+						className="delete-btn"
+						onClick={() => openModal(null, "delete", "delete-file")}
+					>
+						<RiDeleteBinLine size={16} />
+					</span>
+				</div> */}
 			</div>
 		</StyledFile>
 	);
@@ -23,6 +34,26 @@ const File = ({ children, index, id }) => {
 
 const StyledFile = styled.li`
 	margin: 2px 5px;
+
+	svg {
+		transition: all 0.3s ease;
+	}
+
+	.edit-btn {
+		svg {
+			:hover {
+				color: ${(props) => props.theme.primary};
+			}
+		}
+	}
+
+	.delete-btn {
+		svg {
+			:hover {
+				color: ${(props) => props.theme.danger};
+			}
+		}
+	}
 
 	> div {
 		font-size: 14px;
