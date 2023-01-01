@@ -311,7 +311,7 @@ const EditorProvider = ({ children }) => {
 			temp = index;
 			return false;
 		});
-		const length = newChildList.length;
+		const length = currentParent.items.length;
 		currentParent.items = newChildList;
 		tempFiles.items.forEach((item, index) => {
 			if (item.id === state.parent) tempFiles.items[index] = currentParent;
@@ -358,6 +358,8 @@ const EditorProvider = ({ children }) => {
 			let id = null;
 
 			id = tempIndex ? newChildList[tempIndex].id : null;
+			console.log("length ==> ", length);
+			console.log("id ==> ", id, "temp ===> ", temp);
 
 			dispatch({ type: APPEND_CHILD, payload: tempState });
 			dispatch({ type: CLOSE_MODAL });

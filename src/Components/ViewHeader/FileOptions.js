@@ -8,7 +8,7 @@ const FileOptions = () => {
 	const [showFileOptions, setShowFileOptions] = useState(false);
 	const [showInfo, setShowInfo] = useState(false);
 	const options = useRef(null);
-	const { code } = useEditorContext();
+	const { code, openModal } = useEditorContext();
 
 	const handleIconClick = (type) => {
 		if (type === "info") {
@@ -61,8 +61,15 @@ const FileOptions = () => {
 			{showFileOptions ? (
 				<section className="file-options">
 					<ul>
-						<li>Rename File</li>
-						<li className="delete-file">Delete File</li>
+						<li onClick={() => openModal(null, "edit", "edit-file")}>
+							Rename File
+						</li>
+						<li
+							className="delete-file"
+							onClick={() => openModal(null, "delete", "delete-file")}
+						>
+							Delete File
+						</li>
 					</ul>
 				</section>
 			) : (
