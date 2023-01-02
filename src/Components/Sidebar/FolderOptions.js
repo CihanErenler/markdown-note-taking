@@ -2,9 +2,20 @@ import React, { useRef, useEffect } from "react";
 import styled from "styled-components";
 import { useEditorContext } from "../../Context/EditorContext";
 
-const FolderOptions = ({ showOps, setShowOps, buttonRef }) => {
+const FolderOptions = ({ buttonRef }) => {
 	const ref = useRef(null);
-	const { openModal, parent } = useEditorContext();
+	const { openModal, parent, setFolderOptions, showFolderOptions } =
+		useEditorContext();
+
+	const handleRename = () => {
+		setFolderOptions(false);
+		openModal(parent, "edit", "edit-folder");
+	};
+
+	const handleDelete = () => {
+		setFolderOptions(false);
+		openModal(parent, "delete", "delete-item");
+	};
 
 	useEffect(() => {
 		function handleClickOutside(event) {
@@ -13,23 +24,29 @@ const FolderOptions = ({ showOps, setShowOps, buttonRef }) => {
 				!ref.current.contains(event.target) &&
 				buttonRef.current !== event.target
 			) {
-				setShowOps(!showOps);
+				setFolderOptions(!showFolderOptions);
 			}
 		}
+
+		function handleKeypress(event) {
+			if (event.key === "Escape") {
+				setFolderOptions(false);
+			}
+		}
+
 		document.addEventListener("mousedown", handleClickOutside);
+		document.addEventListener("keydown", handleKeypress);
 
 		return () => {
 			document.removeEventListener("mousedown", handleClickOutside);
+			document.removeEventListener("keydown", handleKeypress);
 		};
-	}, [buttonRef, setShowOps, showOps]);
+	}, [buttonRef, setFolderOptions, showFolderOptions]);
 
 	return (
 		<StyledFolderOption ref={ref}>
-			<div onClick={() => openModal(parent, "edit", "edit-folder")}>Rename</div>
-			<div
-				className="delete"
-				onClick={() => openModal(parent, "delete", "delete-item")}
-			>
+			<div onClick={handleRename}>Rename</div>
+			<div className="delete" onClick={handleDelete}>
 				Delete
 			</div>
 		</StyledFolderOption>

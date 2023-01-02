@@ -10,11 +10,17 @@ import { IoEllipsisVertical } from "react-icons/io5";
 import FolderOptions from "./FolderOptions";
 
 const Filter = () => {
-	const [showOps, setShowOps] = useState(false);
 	const [notes, setNotes] = useState([]);
 	const [selectedParent, setSelectedParent] = useState(null);
 	const [value, setValue] = useState("");
-	const { parent, currentlySelectedTag, files, openModal } = useEditorContext();
+	const {
+		parent,
+		currentlySelectedTag,
+		files,
+		openModal,
+		setFolderOptions,
+		showFolderOptions,
+	} = useEditorContext();
 	const { user } = useAuthContext();
 	const ref = useRef(null);
 
@@ -54,19 +60,11 @@ const Filter = () => {
 								<AiOutlineFileAdd size={20} />
 							</button>
 						</div>
-						<div onClick={() => setShowOps(!showOps)} ref={ref}>
+						<div onClick={() => setFolderOptions(!showFolderOptions)} ref={ref}>
 							<IoEllipsisVertical />
 						</div>
 					</div>
-					{showOps ? (
-						<FolderOptions
-							showOps={showOps}
-							setShowOps={setShowOps}
-							buttonRef={ref}
-						/>
-					) : (
-						""
-					)}
+					{showFolderOptions ? <FolderOptions buttonRef={ref} /> : ""}
 				</div>
 			) : (
 				""

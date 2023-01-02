@@ -25,6 +25,8 @@ import reducer, {
 	SET_UPDATED,
 	REMOVE_TAG,
 	SET_NOFILE,
+	SET_FOLDER_OPTIONS,
+	SET_FILE_OPTIONS,
 } from "../Reducers/EditorReducer";
 import { UPDATE_CODE } from "../Reducers/EditorReducer";
 import { v4 as uuidv4 } from "uuid";
@@ -84,6 +86,8 @@ const initialStates = {
 	totalAmount: 0,
 	showAvatarDropdown: false,
 	noFile: false,
+	showFolderOptions: false,
+	showFileOptions: false,
 };
 
 const EditorProvider = ({ children }) => {
@@ -621,6 +625,14 @@ const EditorProvider = ({ children }) => {
 		}
 	};
 
+	const setFolderOptions = (val) => {
+		dispatch({ type: SET_FOLDER_OPTIONS, payload: val });
+	};
+
+	const setFileOptions = (val) => {
+		dispatch({ type: SET_FILE_OPTIONS, payload: val });
+	};
+
 	return (
 		<EditorContext.Provider
 			value={{
@@ -654,6 +666,8 @@ const EditorProvider = ({ children }) => {
 				removeTag,
 				deleteFile,
 				renameFolder,
+				setFolderOptions,
+				setFileOptions,
 			}}
 		>
 			{children}
