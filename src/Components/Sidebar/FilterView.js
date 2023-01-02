@@ -8,6 +8,7 @@ import { useEditorContext } from "../../Context/EditorContext";
 import { useAuthContext } from "../../Context/AuthContext";
 import { IoEllipsisVertical } from "react-icons/io5";
 import FolderOptions from "./FolderOptions";
+import { HiOutlineFolderPlus } from "react-icons/hi2";
 
 const Filter = () => {
 	const [notes, setNotes] = useState([]);
@@ -82,12 +83,24 @@ const Filter = () => {
 									);
 								})
 							) : (
-								<h4 className="placeholder">The folder is empty</h4>
+								<div className="empty-msg">
+									<h4 className="placeholder">The folder is empty</h4>
+									<AiOutlineFileAdd
+										size={50}
+										onClick={() => openModal("", "create", "create-file")}
+									/>
+								</div>
 							)}
 						</ul>
 					</>
 				) : (
-					<h4 className="placeholder">No item to show</h4>
+					<div className="empty-msg">
+						<h4 className="placeholder">No item to show</h4>
+						<HiOutlineFolderPlus
+							size={50}
+							onClick={() => openModal(1, "create", "create-folder")}
+						/>
+					</div>
 				)}
 			</section>
 		</StyledFilterView>
@@ -179,10 +192,24 @@ const StyledFilterView = styled.section`
 	}
 
 	.title-list {
-		.placeholder {
-			padding-top: 30px;
-			text-align: center;
-			color: #c1c1c1;
+		.empty-msg {
+			.placeholder {
+				padding-top: 30px;
+				text-align: center;
+				color: #c1c1c1;
+			}
+
+			svg {
+				color: #c1c1c1;
+				display: block;
+				margin: 20px auto;
+				transition: all 0.3s ease;
+				cursor: pointer;
+
+				:hover {
+					color: dodgerblue;
+				}
+			}
 		}
 	}
 `;

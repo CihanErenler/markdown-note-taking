@@ -68,7 +68,7 @@ const AvatarDropdown = ({
 
 const StyledAvatarDropdown = styled.section`
 	position: absolute;
-	top: 22px;
+	top: 26px;
 	right: -10px;
 	background-color: ${(props) => props.theme.bg1};
 	border-radius: 6px;
@@ -76,6 +76,7 @@ const StyledAvatarDropdown = styled.section`
 	box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
 	animation: fade-in 0.3s ease;
 	transform-origin: top right;
+	width: fit-content;
 
 	@keyframes fade-in {
 		from {

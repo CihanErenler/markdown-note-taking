@@ -43,7 +43,7 @@ const StyledAvatarWrapper = styled.section`
 	display: flex;
 	align-items: center;
 	position: relative;
-	margin-left: ${(props) => (props.location === "/" ? "40px" : 0)};
+	margin-left: ${(props) => (props.location !== "/notes" ? "30px" : 0)};
 
 	.name-wrapper {
 		display: flex;
@@ -55,7 +55,9 @@ const StyledAvatarWrapper = styled.section`
 			transition: color 0.3s ease;
 			pointer-events: none;
 			color: ${(props) =>
-				props.location === "/" ? props.theme.bg1 : props.theme.textColor};
+				props.location === "/notes" || props.location === "/about"
+					? props.theme.textColor
+					: props.theme.bg1};
 		}
 
 		h3 {
@@ -63,7 +65,9 @@ const StyledAvatarWrapper = styled.section`
 			font-weight: 500;
 			text-transform: capitalize;
 			color: ${(props) =>
-				props.location === "/" ? props.theme.bg1 : props.theme.textColor};
+				props.location === "/notes" || props.location === "/about"
+					? props.theme.textColor
+					: props.theme.bg1};
 			pointer-events: none;
 		}
 
