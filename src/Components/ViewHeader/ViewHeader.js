@@ -40,14 +40,20 @@ const ViewHeader = () => {
 			</div>
 			{user ? (
 				<div className="save-btn">
-					<FileOptions />
-					<Button
-						variant="small"
-						disabled={compare()}
-						action={() => saveCode(user)}
-					>
-						Save
-					</Button>
+					{!noFile ? (
+						<>
+							<FileOptions />
+							<Button
+								variant="small"
+								disabled={compare()}
+								action={() => saveCode(user)}
+							>
+								Save
+							</Button>
+						</>
+					) : (
+						""
+					)}
 					<AvatarWrapper />
 				</div>
 			) : (

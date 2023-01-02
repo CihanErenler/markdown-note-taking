@@ -386,7 +386,7 @@ const EditorProvider = ({ children }) => {
 	};
 
 	const deleteFile = async (user) => {
-		let temp = null;
+		let deletedIndex = null;
 		const tempFiles = { ...state.files };
 		const currentParent = tempFiles.items.find(
 			(item) => item.id === state.parent
@@ -396,58 +396,58 @@ const EditorProvider = ({ children }) => {
 				return true;
 			}
 
-			temp = index;
+			deletedIndex = index;
 			return false;
 		});
+
 		const length = currentParent.items.length;
 		currentParent.items = newChildList;
-		tempFiles.items.forEach((item, index) => {
-			if (item.id === state.parent) tempFiles.items[index] = currentParent;
+
+		tempFiles.items.forEach((folder, index) => {
+			if (folder.id === state.parent) tempFiles.items[index] = currentParent;
 		});
 
 		try {
-			if (user) {
-				const data = { email: user.email, data: tempFiles };
-				const response = await axios.post(
-					`${process.env.REACT_APP_BASEURL}/editor/folders`,
-					data,
-					{
-						headers: {
-							authorization: `bearer ${user.token}`,
-						},
-					}
-				);
-				const response2 = await axios.delete(
-					`${process.env.REACT_APP_BASEURL}/editor/code/${state.currentlySelectedFile}`,
-					{
-						headers: {
-							authorization: `bearer ${user.token}`,
-						},
-					}
-				);
-				if (response.status !== 200 && response2.status !== 200) {
-					toast.error("Oops, something went wrong");
-					return;
+			const data = { email: user.email, data: tempFiles };
+			const response = await axios.post(
+				`${process.env.REACT_APP_BASEURL}/editor/folders`,
+				data,
+				{
+					headers: {
+						authorization: `bearer ${user.token}`,
+					},
 				}
+			);
+			const response2 = await axios.delete(
+				`${process.env.REACT_APP_BASEURL}/editor/code/${state.currentlySelectedFile}`,
+				{
+					headers: {
+						authorization: `bearer ${user.token}`,
+					},
+				}
+			);
+			if (response.status !== 200 && response2.status !== 200) {
+				toast.error("Oops, something went wrong");
+				return;
 			}
-			const noFile =
-				tempFiles.items.find((item) => item.id === state.parent).items
-					.length === 0;
+
+			const noFile = length === 1;
 			const tempState = { ...state, files: tempFiles, noFile };
-			let tempIndex = null;
-			if (length > 1) {
-				if (temp === 0) {
-					tempIndex = 0;
+
+			let selectedIndex = null;
+			if (length >= 1) {
+				if (deletedIndex === 0) {
+					if (length !== 1) {
+						selectedIndex = 0;
+					}
 				} else {
-					tempIndex = temp - 1;
+					selectedIndex = deletedIndex - 1;
 				}
 			}
 
 			let id = null;
 
-			id = tempIndex ? newChildList[tempIndex].id : null;
-			console.log("length ==> ", length);
-			console.log("id ==> ", id, "temp ===> ", temp);
+			id = selectedIndex !== null ? newChildList[selectedIndex].id : null;
 
 			dispatch({ type: APPEND_CHILD, payload: tempState });
 			dispatch({ type: CLOSE_MODAL });
