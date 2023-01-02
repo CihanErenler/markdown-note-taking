@@ -5,35 +5,59 @@ import { BsInfoCircle } from "react-icons/bs";
 import { useEditorContext } from "../../Context/EditorContext";
 
 const FileOptions = () => {
-	const [showFileOptions, setShowFileOptions] = useState(false);
 	const [showInfo, setShowInfo] = useState(false);
 	const options = useRef(null);
-	const { code, openModal } = useEditorContext();
+	const { code, openModal, setFileOptions, showFileOptions } =
+		useEditorContext();
+
+	const handleRename = () => {
+		setFileOptions(false);
+		openModal(null, "edit", "edit-file");
+	};
+
+	const handleDelete = () => {
+		setFileOptions(false);
+		openModal(null, "delete", "delete-file");
+	};
 
 	const handleIconClick = (type) => {
 		if (type === "info") {
 			setShowInfo(!showInfo);
-			setShowFileOptions(false);
+			setFileOptions(false);
 			return;
 		}
 		setShowInfo(false);
-		setShowFileOptions(!showFileOptions);
+		setFileOptions(!showFileOptions);
 	};
 
-	const handleClick = useCallback((e) => {
-		if (options.current && !options.current.contains(e.target)) {
-			setShowFileOptions(false);
-			setShowInfo(false);
-		}
-	}, []);
+	const handleClick = useCallback(
+		(e) => {
+			if (options.current && !options.current.contains(e.target)) {
+				setFileOptions(false);
+				setShowInfo(false);
+			}
+		},
+		[setFileOptions]
+	);
+
+	const handleKeypress = useCallback(
+		(e) => {
+			if (e.key === "Escape") {
+				setFileOptions(false);
+			}
+		},
+		[setFileOptions]
+	);
 
 	useEffect(() => {
 		document.addEventListener("click", handleClick);
+		document.addEventListener("keydown", handleKeypress);
 
 		return () => {
 			document.removeEventListener("click", handleClick);
+			document.removeEventListener("keydown", handleKeypress);
 		};
-	}, [handleClick]);
+	}, [handleClick, handleKeypress]);
 
 	const dateOptions = {
 		// timeZone: "UTC",
@@ -61,13 +85,8 @@ const FileOptions = () => {
 			{showFileOptions ? (
 				<section className="file-options">
 					<ul>
-						<li onClick={() => openModal(null, "edit", "edit-file")}>
-							Rename File
-						</li>
-						<li
-							className="delete-file"
-							onClick={() => openModal(null, "delete", "delete-file")}
-						>
+						<li onClick={handleRename}>Rename File</li>
+						<li className="delete-file" onClick={handleDelete}>
 							Delete File
 						</li>
 					</ul>

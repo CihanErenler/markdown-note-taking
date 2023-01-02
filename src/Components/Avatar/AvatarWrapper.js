@@ -4,13 +4,19 @@ import AvatarDropdown from "./AvatarDropdown";
 import { FiSettings } from "react-icons/fi";
 import { useAuthContext } from "../../Context/AuthContext";
 import { useEditorContext } from "../../Context/EditorContext";
+import { useLocation } from "react-router";
 
 const AvatarWrapper = () => {
 	const { showAvatarDropdown, setShowAvatarDropdown } = useEditorContext();
 	const { user } = useAuthContext();
 	const wrapper = useRef(null);
+	const location = useLocation();
+
 	return (
-		<StyledAvatarWrapper>
+		<StyledAvatarWrapper
+			user={user ? true : false}
+			location={location.pathname}
+		>
 			<div
 				className="name-wrapper"
 				onClick={() => setShowAvatarDropdown(!showAvatarDropdown)}
@@ -37,6 +43,7 @@ const StyledAvatarWrapper = styled.section`
 	display: flex;
 	align-items: center;
 	position: relative;
+	margin-left: ${(props) => (props.location !== "/notes" ? "30px" : 0)};
 
 	.name-wrapper {
 		display: flex;
@@ -47,13 +54,20 @@ const StyledAvatarWrapper = styled.section`
 			margin-left: 4px;
 			transition: color 0.3s ease;
 			pointer-events: none;
+			color: ${(props) =>
+				props.location === "/notes" || props.location === "/about"
+					? props.theme.textColor
+					: props.theme.bg1};
 		}
 
 		h3 {
 			font-size: 16px;
 			font-weight: 500;
 			text-transform: capitalize;
-			color: ${(props) => props.theme.textColor};
+			color: ${(props) =>
+				props.location === "/notes" || props.location === "/about"
+					? props.theme.textColor
+					: props.theme.bg1};
 			pointer-events: none;
 		}
 

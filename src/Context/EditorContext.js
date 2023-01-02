@@ -25,6 +25,8 @@ import reducer, {
 	SET_UPDATED,
 	REMOVE_TAG,
 	SET_NOFILE,
+	SET_FOLDER_OPTIONS,
+	SET_FILE_OPTIONS,
 } from "../Reducers/EditorReducer";
 import { UPDATE_CODE } from "../Reducers/EditorReducer";
 import { v4 as uuidv4 } from "uuid";
@@ -84,6 +86,8 @@ const initialStates = {
 	totalAmount: 0,
 	showAvatarDropdown: false,
 	noFile: false,
+	showFolderOptions: false,
+	showFileOptions: false,
 };
 
 const EditorProvider = ({ children }) => {
@@ -215,7 +219,71 @@ const EditorProvider = ({ children }) => {
 		dispatch({ type: UPDATE_MODAL, payload: e.target.value });
 	};
 
-	const rename = () => {
+	const rename = async (user) => {
+		const tempFiles = { ...state.files };
+		const newValue = state.modalValue.trim();
+		if (newValue) {
+			tempFiles.items.forEach((item) => {
+				if (item.id === state.parent) {
+					item.items.forEach((file) => {
+						if (file.id === state.currentlySelectedFile) {
+							file.name = newValue;
+						}
+					});
+				}
+			});
+			try {
+				const data = { email: user.email, data: tempFiles };
+				const response = await axios.post(
+					`${process.env.REACT_APP_BASEURL}/editor/folders`,
+					data,
+					{
+						headers: {
+							authorization: `bearer ${user.token}`,
+						},
+					}
+				);
+				if (response.status !== 200) {
+					toast.success("Oops, something went wrong");
+					return;
+				} else {
+					const tempState = { ...state, files: tempFiles };
+					dispatch({ type: APPEND_CHILD, payload: tempState });
+				}
+
+				const date = new Date();
+				const newCode = { ...state.code, updatedAt: date, title: newValue };
+				const data2 = {
+					email: user.email,
+					code: newCode,
+				};
+				const response2 = await axios.post(
+					`${process.env.REACT_APP_BASEURL}/editor/code/update`,
+					data2,
+					{
+						headers: {
+							authorization: `bearer ${user.token}`,
+						},
+					}
+				);
+				if (response2.status !== 200) {
+					toast.success("Oops, something went wrong");
+					return;
+				} else {
+					dispatch({ type: ASSIGN_CODE, payload: newCode });
+				}
+
+				dispatch({ type: CLOSE_MODAL });
+				toast.success(`Name changed to "${newValue}"`);
+			} catch (error) {
+				toast.error("Oops, something went wrong");
+			}
+		} else {
+			toast.warn("Please enter a name");
+		}
+	};
+
+	const renameFolder = async (user) => {
 		const tempFiles = { ...state.files };
 		const newValue = state.modalValue.trim();
 		if (newValue) {
@@ -224,10 +292,30 @@ const EditorProvider = ({ children }) => {
 					item.name = newValue;
 				}
 			});
-			const tempState = { ...state, files: tempFiles };
-			dispatch({ type: APPEND_CHILD, payload: tempState });
-			dispatch({ type: CLOSE_MODAL });
-			toast.success(`Name changed to "${newValue}"`);
+			try {
+				const data = { email: user.email, data: tempFiles };
+				const response = await axios.post(
+					`${process.env.REACT_APP_BASEURL}/editor/folders`,
+					data,
+					{
+						headers: {
+							authorization: `bearer ${user.token}`,
+						},
+					}
+				);
+				if (response.status !== 200) {
+					toast.success("Oops, something went wrong");
+					return;
+				} else {
+					const tempState = { ...state, files: tempFiles };
+					dispatch({ type: APPEND_CHILD, payload: tempState });
+				}
+
+				dispatch({ type: CLOSE_MODAL });
+				toast.success(`Name changed to "${newValue}"`);
+			} catch (error) {
+				toast.error("Oops, something went wrong");
+			}
 		} else {
 			toast.warn("Please enter a name");
 		}
@@ -298,7 +386,7 @@ const EditorProvider = ({ children }) => {
 	};
 
 	const deleteFile = async (user) => {
-		let temp = null;
+		let deletedIndex = null;
 		const tempFiles = { ...state.files };
 		const currentParent = tempFiles.items.find(
 			(item) => item.id === state.parent
@@ -308,58 +396,58 @@ const EditorProvider = ({ children }) => {
 				return true;
 			}
 
-			temp = index;
+			deletedIndex = index;
 			return false;
 		});
+
 		const length = currentParent.items.length;
 		currentParent.items = newChildList;
-		tempFiles.items.forEach((item, index) => {
-			if (item.id === state.parent) tempFiles.items[index] = currentParent;
+
+		tempFiles.items.forEach((folder, index) => {
+			if (folder.id === state.parent) tempFiles.items[index] = currentParent;
 		});
 
 		try {
-			if (user) {
-				const data = { email: user.email, data: tempFiles };
-				const response = await axios.post(
-					`${process.env.REACT_APP_BASEURL}/editor/folders`,
-					data,
-					{
-						headers: {
-							authorization: `bearer ${user.token}`,
-						},
-					}
-				);
-				const response2 = await axios.delete(
-					`${process.env.REACT_APP_BASEURL}/editor/code/${state.currentlySelectedFile}`,
-					{
-						headers: {
-							authorization: `bearer ${user.token}`,
-						},
-					}
-				);
-				if (response.status !== 200 && response2.status !== 200) {
-					toast.error("Oops, something went wrong");
-					return;
+			const data = { email: user.email, data: tempFiles };
+			const response = await axios.post(
+				`${process.env.REACT_APP_BASEURL}/editor/folders`,
+				data,
+				{
+					headers: {
+						authorization: `bearer ${user.token}`,
+					},
 				}
+			);
+			const response2 = await axios.delete(
+				`${process.env.REACT_APP_BASEURL}/editor/code/${state.currentlySelectedFile}`,
+				{
+					headers: {
+						authorization: `bearer ${user.token}`,
+					},
+				}
+			);
+			if (response.status !== 200 && response2.status !== 200) {
+				toast.error("Oops, something went wrong");
+				return;
 			}
-			const noFile =
-				tempFiles.items.find((item) => item.id === state.parent).items
-					.length === 0;
+
+			const noFile = length === 1;
 			const tempState = { ...state, files: tempFiles, noFile };
-			let tempIndex = null;
-			if (length > 1) {
-				if (temp === 0) {
-					tempIndex = 0;
+
+			let selectedIndex = null;
+			if (length >= 1) {
+				if (deletedIndex === 0) {
+					if (length !== 1) {
+						selectedIndex = 0;
+					}
 				} else {
-					tempIndex = temp - 1;
+					selectedIndex = deletedIndex - 1;
 				}
 			}
 
 			let id = null;
 
-			id = tempIndex ? newChildList[tempIndex].id : null;
-			console.log("length ==> ", length);
-			console.log("id ==> ", id, "temp ===> ", temp);
+			id = selectedIndex !== null ? newChildList[selectedIndex].id : null;
 
 			dispatch({ type: APPEND_CHILD, payload: tempState });
 			dispatch({ type: CLOSE_MODAL });
@@ -537,6 +625,14 @@ const EditorProvider = ({ children }) => {
 		}
 	};
 
+	const setFolderOptions = (val) => {
+		dispatch({ type: SET_FOLDER_OPTIONS, payload: val });
+	};
+
+	const setFileOptions = (val) => {
+		dispatch({ type: SET_FILE_OPTIONS, payload: val });
+	};
+
 	return (
 		<EditorContext.Provider
 			value={{
@@ -569,6 +665,9 @@ const EditorProvider = ({ children }) => {
 				saveCode,
 				removeTag,
 				deleteFile,
+				renameFolder,
+				setFolderOptions,
+				setFileOptions,
 			}}
 		>
 			{children}

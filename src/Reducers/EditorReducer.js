@@ -27,6 +27,8 @@ export const RESET_SNAPSHOT = "RESET_SNAPSHOT";
 export const SET_UPDATED = "SET_UPDATED";
 export const REMOVE_TAG = "REMOVE_TAG";
 export const SET_NOFILE = "SET_NOFILE";
+export const SET_FOLDER_OPTIONS = "SET_FOLDER_OPTIONS";
+export const SET_FILE_OPTIONS = "SET_FILE_OPTIONS";
 
 const editorReducer = (state, action) => {
 	if (action.type === ASSIGN_CODE) {
@@ -154,6 +156,14 @@ const editorReducer = (state, action) => {
 
 	if (action.type === CLOSE_SHORCUTS_MODAL) {
 		const newState = { ...state, isShortcutsOpen: false };
+		return newState;
+	}
+	if (action.type === SET_FOLDER_OPTIONS) {
+		const newState = { ...state, showFolderOptions: action.payload };
+		return newState;
+	}
+	if (action.type === SET_FILE_OPTIONS) {
+		const newState = { ...state, showFileOptions: action.payload };
 		return newState;
 	}
 
