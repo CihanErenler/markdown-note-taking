@@ -77,7 +77,7 @@ const StyledHeader = styled.header`
 		transition: all 0.3s ease;
 
 		:last-child {
-			padding-left: 15px;
+			padding-left: 40px;
 		}
 
 		:hover {
