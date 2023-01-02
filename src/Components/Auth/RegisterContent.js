@@ -57,7 +57,7 @@ const RegisterContent = () => {
 	return (
 		<StyledRegisterContent>
 			<form>
-				<h1>Register</h1>
+				<h1>Sign up</h1>
 				<Input
 					placeholder="Name"
 					value={registerState.name.value}
@@ -91,11 +91,11 @@ const RegisterContent = () => {
 					type="password"
 				/>
 				<Button variant="full" action={handleClick}>
-					Register
+					Sign up
 				</Button>
 			</form>
 			<p>
-				Already have an account? <Link to="/login">Login</Link>
+				Already have an account? <Link to="/login">Sign in</Link>
 			</p>
 		</StyledRegisterContent>
 	);
