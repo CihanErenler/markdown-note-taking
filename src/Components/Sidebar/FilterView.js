@@ -29,8 +29,6 @@ const Filter = () => {
 		setSelectedParent(null);
 	}, [parent, user, files]);
 
-	console.log("notes ==> ", notes);
-
 	return (
 		<StyledFilterView>
 			<div className="search-wrapper">

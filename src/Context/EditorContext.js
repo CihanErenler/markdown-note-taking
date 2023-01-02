@@ -279,6 +279,44 @@ const EditorProvider = ({ children }) => {
 		}
 	};
 
+	const renameFolder = async (user) => {
+		const tempFiles = { ...state.files };
+		const newValue = state.modalValue.trim();
+		if (newValue) {
+			tempFiles.items.forEach((item) => {
+				if (item.id === state.parent) {
+					item.name = newValue;
+				}
+			});
+			try {
+				const data = { email: user.email, data: tempFiles };
+				const response = await axios.post(
+					`${process.env.REACT_APP_BASEURL}/editor/folders`,
+					data,
+					{
+						headers: {
+							authorization: `bearer ${user.token}`,
+						},
+					}
+				);
+				if (response.status !== 200) {
+					toast.success("Oops, something went wrong");
+					return;
+				} else {
+					const tempState = { ...state, files: tempFiles };
+					dispatch({ type: APPEND_CHILD, payload: tempState });
+				}
+
+				dispatch({ type: CLOSE_MODAL });
+				toast.success(`Name changed to "${newValue}"`);
+			} catch (error) {
+				toast.error("Oops, something went wrong");
+			}
+		} else {
+			toast.warn("Please enter a name");
+		}
+	};
+
 	const handleDelete = async (user) => {
 		let index = null;
 		const tempFiles = { ...state.files };
@@ -615,6 +653,7 @@ const EditorProvider = ({ children }) => {
 				saveCode,
 				removeTag,
 				deleteFile,
+				renameFolder,
 			}}
 		>
 			{children}

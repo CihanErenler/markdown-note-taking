@@ -19,6 +19,7 @@ const Modal = () => {
 		isModalOpen,
 		handleDelete,
 		deleteFile,
+		renameFolder,
 	} = useEditorContext();
 	const element = useRef(null);
 	const { user } = useAuthContext();
@@ -36,7 +37,8 @@ const Modal = () => {
 		if (modalMode === "create-file") createFile(user);
 		if (modalMode === "delete-item") handleDelete(user);
 		if (modalMode === "delete-file") deleteFile(user);
-		if (modalMode === "edit-folder" || modalMode === "edit-file") rename(user);
+		if (modalMode === "edit-folder") renameFolder(user);
+		if (modalMode === "edit-file") rename(user);
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [createFile, createFolder, handleDelete, modalMode, rename]);
 
