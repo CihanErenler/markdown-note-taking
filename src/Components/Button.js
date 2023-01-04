@@ -49,9 +49,9 @@ const Button = ({ children, variant, type, disabled, action, width }) => {
 
 	if (variant === "small-full") {
 		return (
-			<StyledDanger disabled={disabled} onClick={action} width={width}>
+			<StyledSmallFull disabled={disabled} onClick={action} width={width}>
 				{children}
-			</StyledDanger>
+			</StyledSmallFull>
 		);
 	}
 

@@ -17,7 +17,6 @@ const Filter = () => {
 	const [value, setValue] = useState("");
 	const {
 		parent,
-		currentlySelectedTag,
 		files,
 		openModal,
 		setFolderOptions,

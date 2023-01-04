@@ -1,6 +1,5 @@
 import React from "react";
 import styled from "styled-components";
-// import { GrClose } from "react-icons/gr";
 import { IoCloseCircle } from "react-icons/io5";
 import { useEditorContext } from "../../Context/EditorContext";
 import { IconContext } from "react-icons";

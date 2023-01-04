@@ -18,6 +18,7 @@ const PreviewContainer = () => {
 		if (user && currentlySelectedFile) {
 			assignCode(user);
 		}
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [currentlySelectedFile]);
 
 	if (noFile) {
@@ -82,11 +83,4 @@ const StyledPreviewContainer = styled.section`
 		}
 	}
 `;
-
-const StyledWrapper = styled.div`
-	display: grid;
-	grid-template-columns: repeat(2, 1fr);
-	height: 100%;
-`;
-
 export default PreviewContainer;
