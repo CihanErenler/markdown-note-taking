@@ -1,11 +1,9 @@
 import React from "react";
 import styled from "styled-components";
-import { RiDeleteBinLine, RiEdit2Line } from "react-icons/ri";
 import { useEditorContext } from "../../Context/EditorContext";
 
 const File = ({ children, index, id }) => {
-	const { updateSelectedFile, currentlySelectedFile, openModal } =
-		useEditorContext();
+	const { updateSelectedFile, currentlySelectedFile } = useEditorContext();
 	return (
 		<StyledFile>
 			<div

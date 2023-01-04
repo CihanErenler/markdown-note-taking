@@ -20,7 +20,7 @@ const Input = ({
 		if (focused) {
 			input.current.select();
 		}
-	}, []);
+	}, [focused]);
 
 	return (
 		<StyledInput type={type}>
