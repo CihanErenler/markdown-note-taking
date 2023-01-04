@@ -27,6 +27,7 @@ import reducer, {
 	SET_NOFILE,
 	SET_FOLDER_OPTIONS,
 	SET_FILE_OPTIONS,
+	TOGGLE_TAG_FILTER,
 } from "../Reducers/EditorReducer";
 import { UPDATE_CODE } from "../Reducers/EditorReducer";
 import { v4 as uuidv4 } from "uuid";
@@ -88,6 +89,7 @@ const initialStates = {
 	noFile: false,
 	showFolderOptions: false,
 	showFileOptions: false,
+	showTagFilter: false,
 };
 
 const EditorProvider = ({ children }) => {
@@ -387,10 +389,20 @@ const EditorProvider = ({ children }) => {
 
 	const deleteFile = async (user) => {
 		let deletedIndex = null;
+		let parent;
 		const tempFiles = { ...state.files };
-		const currentParent = tempFiles.items.find(
-			(item) => item.id === state.parent
-		);
+		if (state.showTagFilter) {
+			state.files.items.forEach((folder) => {
+				folder.items.forEach((file) => {
+					if (file.id === state.currentlySelectedFile) {
+						parent = folder.id;
+					}
+				});
+			});
+		} else {
+			parent = state.parent;
+		}
+		const currentParent = tempFiles.items.find((item) => item.id === parent);
 		const newChildList = currentParent.items.filter((item, index) => {
 			if (item.id !== state.currentlySelectedFile) {
 				return true;
@@ -404,7 +416,7 @@ const EditorProvider = ({ children }) => {
 		currentParent.items = newChildList;
 
 		tempFiles.items.forEach((folder, index) => {
-			if (folder.id === state.parent) tempFiles.items[index] = currentParent;
+			if (folder.id === parent) tempFiles.items[index] = currentParent;
 		});
 
 		try {
@@ -460,6 +472,7 @@ const EditorProvider = ({ children }) => {
 	};
 
 	const updateSelectedFile = (id) => {
+		// toggleTagFilter(false);
 		dispatch({ type: UPDATE_CURRENT_FILE, payload: id });
 	};
 
@@ -481,11 +494,15 @@ const EditorProvider = ({ children }) => {
 	};
 
 	const selectParent = (id) => {
+		toggleTagFilter(false);
 		dispatch({ type: UPDATE_PARENT, payload: id });
 	};
 
 	const selectTag = (id) => {
 		dispatch({ type: UPDATE_TAG, payload: id });
+		if (!state.showTagFilter) {
+			toggleTagFilter(true);
+		}
 	};
 
 	const updateTagInput = (e) => {
@@ -499,7 +516,9 @@ const EditorProvider = ({ children }) => {
 		if (value === "") {
 			toast.error(`Please add a tag name`);
 		} else {
-			const item = state.tags.find((item) => item.name === value);
+			const item = state.tags.find(
+				(item) => item.name.toLowerCase() === value.toLowerCase()
+			);
 			if (item) {
 				toast.warn(`A tag exists with the name "${value}"`);
 			} else {
@@ -528,6 +547,23 @@ const EditorProvider = ({ children }) => {
 					},
 				}
 			);
+			if (state.code.tags.length !== state.codeSnapshot.tags.length) {
+				const tempTags = [...state.tags];
+				const data = { email: user.email, data: tempTags };
+				const response = await axios.post(
+					`${process.env.REACT_APP_BASEURL}/editor/tags`,
+					data,
+					{
+						headers: {
+							authorization: `bearer ${user.token}`,
+						},
+					}
+				);
+				if (response.status !== 200) {
+					toast.success("Oops, something went wrong");
+					return;
+				}
+			}
 			if (response.status === 200) {
 				dispatch({ type: ASSIGN_CODE, payload: newCode });
 				toast.success("Note updated");
@@ -570,7 +606,14 @@ const EditorProvider = ({ children }) => {
 	};
 
 	const removeTag = (id) => {
-		console.log(id);
+		const tags = [...state.tags];
+		const tag = tags.find((tag) => tag.id === id);
+		const index = tag.items.findIndex(
+			(item) => item === state.currentlySelectedFile
+		);
+		tag.items.splice(index, 1);
+		const newState = { ...state, tags };
+		dispatch({ type: APPEND_CHILD, payload: newState });
 		dispatch({ type: REMOVE_TAG, payload: id });
 	};
 
@@ -633,6 +676,10 @@ const EditorProvider = ({ children }) => {
 		dispatch({ type: SET_FILE_OPTIONS, payload: val });
 	};
 
+	const toggleTagFilter = (val) => {
+		dispatch({ type: TOGGLE_TAG_FILTER, payload: val });
+	};
+
 	return (
 		<EditorContext.Provider
 			value={{
@@ -668,6 +715,7 @@ const EditorProvider = ({ children }) => {
 				renameFolder,
 				setFolderOptions,
 				setFileOptions,
+				toggleTagFilter,
 			}}
 		>
 			{children}

@@ -9,6 +9,7 @@ import { useAuthContext } from "../../Context/AuthContext";
 import { IoEllipsisVertical } from "react-icons/io5";
 import FolderOptions from "./FolderOptions";
 import { HiOutlineFolderPlus } from "react-icons/hi2";
+import TagFilter from "./TagFilter";
 
 const Filter = () => {
 	const [notes, setNotes] = useState([]);
@@ -21,6 +22,7 @@ const Filter = () => {
 		openModal,
 		setFolderOptions,
 		showFolderOptions,
+		showTagFilter,
 	} = useEditorContext();
 	const { user } = useAuthContext();
 	const ref = useRef(null);
@@ -52,57 +54,68 @@ const Filter = () => {
 					type="search"
 				/>
 			</div>
-			{selectedParent ? (
-				<div className="folder-name">
-					<h3>{selectedParent.name}</h3>
-					<div className="folder-buttons-wrapper">
-						<div>
-							<button onClick={() => openModal("", "create", "create-file")}>
-								<AiOutlineFileAdd size={20} />
-							</button>
-						</div>
-						<div onClick={() => setFolderOptions(!showFolderOptions)} ref={ref}>
-							<IoEllipsisVertical />
-						</div>
-					</div>
-					{showFolderOptions ? <FolderOptions buttonRef={ref} /> : ""}
-				</div>
+			{showTagFilter ? (
+				<TagFilter />
 			) : (
-				""
-			)}
-			<section className="title-list">
-				{selectedParent ? (
-					<>
-						<ul>
-							{notes.length > 0 ? (
-								notes.map((note, index) => {
-									return (
-										<File key={note.id} index={index} id={note.id}>
-											{note.name}
-										</File>
-									);
-								})
-							) : (
-								<div className="empty-msg">
-									<h4 className="placeholder">The folder is empty</h4>
-									<AiOutlineFileAdd
-										size={50}
+				<>
+					{selectedParent ? (
+						<div className="folder-name">
+							<h3>{selectedParent.name}</h3>
+							<div className="folder-buttons-wrapper">
+								<div>
+									<button
 										onClick={() => openModal("", "create", "create-file")}
-									/>
+									>
+										<AiOutlineFileAdd size={20} />
+									</button>
 								</div>
-							)}
-						</ul>
-					</>
-				) : (
-					<div className="empty-msg">
-						<h4 className="placeholder">No item to show</h4>
-						<HiOutlineFolderPlus
-							size={50}
-							onClick={() => openModal(1, "create", "create-folder")}
-						/>
-					</div>
-				)}
-			</section>
+								<div
+									onClick={() => setFolderOptions(!showFolderOptions)}
+									ref={ref}
+								>
+									<IoEllipsisVertical />
+								</div>
+							</div>
+							{showFolderOptions ? <FolderOptions buttonRef={ref} /> : ""}
+						</div>
+					) : (
+						""
+					)}
+					<section className="title-list">
+						{selectedParent ? (
+							<>
+								<ul>
+									{notes.length > 0 ? (
+										notes.map((note, index) => {
+											return (
+												<File key={note.id} index={index} id={note.id}>
+													{note.name}
+												</File>
+											);
+										})
+									) : (
+										<div className="empty-msg">
+											<h4 className="placeholder">The folder is empty</h4>
+											<AiOutlineFileAdd
+												size={50}
+												onClick={() => openModal("", "create", "create-file")}
+											/>
+										</div>
+									)}
+								</ul>
+							</>
+						) : (
+							<div className="empty-msg">
+								<h4 className="placeholder">No item to show</h4>
+								<HiOutlineFolderPlus
+									size={50}
+									onClick={() => openModal(1, "create", "create-folder")}
+								/>
+							</div>
+						)}
+					</section>
+				</>
+			)}
 		</StyledFilterView>
 	);
 };
