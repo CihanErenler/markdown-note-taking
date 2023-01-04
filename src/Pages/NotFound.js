@@ -1,12 +1,10 @@
 import React from "react";
-// import { useRouteError } from "react-router-dom";
 import styled from "styled-components";
 import notFound from "../Assets/not_found.svg";
 import Button from "../Components/Button";
 import { useNavigate } from "react-router-dom";
 
 const NotFound = () => {
-	// const error = useRouteError();
 	const navigate = useNavigate();
 
 	const handleBackHome = () => {

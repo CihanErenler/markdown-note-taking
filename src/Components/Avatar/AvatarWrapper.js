@@ -1,4 +1,4 @@
-import { useState, useRef } from "react";
+import { useRef } from "react";
 import styled from "styled-components";
 import AvatarDropdown from "./AvatarDropdown";
 import { FiSettings } from "react-icons/fi";

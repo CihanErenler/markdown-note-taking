@@ -7,7 +7,6 @@ import {
 } from "react-router-dom";
 import { Root, NotFound, Welcome, User, About, Login, Register } from "./Pages";
 import ProtectedAuthRoute from "./Components/ProtectedRoute";
-import ReverseProtectedRoute from "./Components/ReverseProtectedRoute";
 
 const router = createBrowserRouter(
 	createRoutesFromElements(
