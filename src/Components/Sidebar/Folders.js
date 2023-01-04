@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import logo from "../../Assets/logo.svg";
+import logo from "../../Assets/logo-light.svg";
 import FolderTree from "../Folders/FolderTree";
 import { Link } from "react-router-dom";
 import { useEditorContext } from "../../Context/EditorContext";

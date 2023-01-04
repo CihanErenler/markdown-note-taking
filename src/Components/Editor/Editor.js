@@ -1,5 +1,6 @@
 import CodeMirror from "@uiw/react-codemirror";
 import { markdown, markdownLanguage } from "@codemirror/lang-markdown";
+// eslint-disable-next-line no-unused-vars
 import { githubLight, githubDark } from "@uiw/codemirror-theme-github";
 import "./Editor.css";
 import { useEditorContext } from "../../Context/EditorContext";
@@ -10,7 +11,6 @@ const Editor = () => {
 	const { code, updateCode, fullscreen, toggleFullscreen } = useEditorContext();
 
 	const handleChange = (value, viewUpdate) => {
-		console.log(value);
 		updateCode(value);
 	};
 

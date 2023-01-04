@@ -8,8 +8,6 @@ export const FIND_ITEM = "FIND_ITEM";
 export const UPDATE_PARENT = "UPDATE_PARENT";
 export const UPDATE_MODAL = "UPDATE_MODAL";
 export const APPEND_CHILD = "APPEND_CHILD";
-export const CURRENTY_OPEN_FILE = "CURRENTLY_OPEN_FILE";
-export const UPDATE_TOBEDELETED = "UPDATE_TOBEDELETED";
 export const ASSIGN_CODE = "ASSIGN_CODE";
 export const UPDATE_CURRENT_FILE = "UPDATE_CURRENT_FILE";
 export const ADD_NEW_TAG = "ADD_NEW_TAG";
@@ -24,12 +22,21 @@ export const TOGGLE_SIDEBAR = "TOGGLE_SIDEBAR";
 export const TOGGLE_AVATAR_DROPDOWN = "TOGGLE_AVATAR_DROPDOWN";
 export const SET_DATA = "SET_DATA";
 export const CODE_LOADING = "CODE_LOADING";
+export const CLEAR_STATE = "CLEAR_STATE";
+export const RESET_SNAPSHOT = "RESET_SNAPSHOT";
+export const SET_UPDATED = "SET_UPDATED";
+export const REMOVE_TAG = "REMOVE_TAG";
+export const SET_NOFILE = "SET_NOFILE";
+export const SET_FOLDER_OPTIONS = "SET_FOLDER_OPTIONS";
+export const SET_FILE_OPTIONS = "SET_FILE_OPTIONS";
+export const TOGGLE_TAG_FILTER = "TOGGLE_TAG_FILTER";
 
 const editorReducer = (state, action) => {
 	if (action.type === ASSIGN_CODE) {
 		const newState = {
 			...state,
 			code: action.payload,
+			codeSnapshot: action.payload,
 		};
 		return newState;
 	}
@@ -89,14 +96,14 @@ const editorReducer = (state, action) => {
 	}
 
 	if (action.type === FIND_ITEM) {
-		const parent = state.files.items.find((item) => item.id === state.parent);
-		const newState = { ...state, modalValue: parent.name };
-		return newState;
-	}
-
-	if (action.type === UPDATE_TOBEDELETED) {
-		const id = action.payload;
-		const newState = { ...state, toBeDeleted: id };
+		let val;
+		if (action.payload === "edit-folder") {
+			val = state.files.items.find((item) => item.id === state.parent).name;
+		} else {
+			val = state.code.title;
+			console.log("val ==> ", val);
+		}
+		const newState = { ...state, modalValue: val };
 		return newState;
 	}
 
@@ -122,8 +129,18 @@ const editorReducer = (state, action) => {
 		return newState;
 	}
 
+	if (action.type === SET_NOFILE) {
+		const newState = { ...state, noFile: action.payload };
+		return newState;
+	}
+
 	if (action.type === UPDATE_TAG_VALUE) {
 		const newState = { ...state, tagInput: action.payload };
+		return newState;
+	}
+
+	if (action.type === SET_UPDATED) {
+		const newState = { ...state, filesUpdated: state.filesUpdated + 1 };
 		return newState;
 	}
 
@@ -142,6 +159,14 @@ const editorReducer = (state, action) => {
 		const newState = { ...state, isShortcutsOpen: false };
 		return newState;
 	}
+	if (action.type === SET_FOLDER_OPTIONS) {
+		const newState = { ...state, showFolderOptions: action.payload };
+		return newState;
+	}
+	if (action.type === SET_FILE_OPTIONS) {
+		const newState = { ...state, showFileOptions: action.payload };
+		return newState;
+	}
 
 	if (action.type === OPEN_SHORCUTS_MODAL) {
 		const newState = { ...state, isShortcutsOpen: true };
@@ -152,9 +177,25 @@ const editorReducer = (state, action) => {
 		const newState = { ...state, isSidebarVisible: !state.isSidebarVisible };
 		return newState;
 	}
+	if (action.type === TOGGLE_TAG_FILTER) {
+		const newState = { ...state, showTagFilter: action.payload };
+		return newState;
+	}
 
 	if (action.type === CODE_LOADING) {
 		const newState = { ...state, isCodeLoading: action.payload };
+		return newState;
+	}
+
+	if (action.type === REMOVE_TAG) {
+		const tempCode = [...state.code.tags];
+		const newList = tempCode.filter((code) => code !== action.payload);
+		const newState = { ...state, code: { ...state.code, tags: newList } };
+		return newState;
+	}
+
+	if (action.type === RESET_SNAPSHOT) {
+		const newState = { ...state, codeSnapshot: state.code };
 		return newState;
 	}
 
@@ -168,25 +209,52 @@ const editorReducer = (state, action) => {
 
 	if (action.type === SET_DATA) {
 		const { totalAmount, files, tags } = action.payload;
+		let parent = null;
+		let child = null;
+		let selected = false;
+		let isThereFolders = files.items.length > 0;
+		let noFile = false;
+
+		if (isThereFolders) {
+			files.items.forEach((folder) => {
+				if (folder.items.length > 0) {
+					parent = folder.id;
+					child = folder.items[0].id;
+					selected = true;
+				}
+			});
+
+			if (!selected) {
+				parent = files.items[0].id;
+				noFile = true;
+			}
+		} else {
+			noFile = true;
+		}
+
 		const newState = {
 			...state,
 			totalAmount,
 			files,
 			tags,
+			currentlySelectedFile: child,
+			parent,
+			noFile,
 		};
 		return newState;
 	}
 
 	if (action.type === TOGGLE_TAG) {
-		const temp = [...state.tags];
-		const newTags = temp.map((tag) => {
-			if (tag.name === action.payload) {
-				const newTag = { ...tag, selected: !tag.selected };
-				return newTag;
+		const code = { ...state.code };
+		const tempTags = [...state.tags];
+		const id = action.payload;
+		code.tags = [...code.tags, id];
+		tempTags.forEach((tag) => {
+			if (tag.id === id) {
+				tag.items.push(state.currentlySelectedFile);
 			}
-			return tag;
 		});
-		const newState = { ...state, tags: newTags };
+		const newState = { ...state, code, tags: tempTags };
 		return newState;
 	}
 

@@ -5,26 +5,38 @@ import File from "./File";
 import { AiOutlineFileAdd } from "react-icons/ai";
 // import { BiFilterAlt } from "react-icons/bi";
 import { useEditorContext } from "../../Context/EditorContext";
+import { useAuthContext } from "../../Context/AuthContext";
 import { IoEllipsisVertical } from "react-icons/io5";
 import FolderOptions from "./FolderOptions";
+import { HiOutlineFolderPlus } from "react-icons/hi2";
+import TagFilter from "./TagFilter";
 
 const Filter = () => {
-	const [showOps, setShowOps] = useState(false);
 	const [notes, setNotes] = useState([]);
 	const [selectedParent, setSelectedParent] = useState(null);
 	const [value, setValue] = useState("");
-	const { parent, currentlySelectedTag, files, openModal } = useEditorContext();
+	const {
+		parent,
+		currentlySelectedTag,
+		files,
+		openModal,
+		setFolderOptions,
+		showFolderOptions,
+		showTagFilter,
+	} = useEditorContext();
+	const { user } = useAuthContext();
 	const ref = useRef(null);
 
 	useEffect(() => {
 		if (parent && files) {
-			const temp = files.items.find((file) => file.id === String(parent));
+			console.log(files, parent);
+			const temp = files.items.find((file) => file.id === parent);
 			setSelectedParent(temp);
 			setNotes(temp.items);
 			return;
 		}
 		setSelectedParent(null);
-	}, [parent, currentlySelectedTag, files, selectedParent]);
+	}, [parent, user, files]);
 
 	return (
 		<StyledFilterView>
@@ -42,47 +54,68 @@ const Filter = () => {
 					type="search"
 				/>
 			</div>
-			{selectedParent ? (
-				<div className="folder-name">
-					<h3>{selectedParent.name}</h3>
-					<div className="folder-buttons-wrapper">
-						<div>
-							<button onClick={() => openModal("", "create", "create-file")}>
-								<AiOutlineFileAdd size={20} />
-							</button>
+			{showTagFilter ? (
+				<TagFilter />
+			) : (
+				<>
+					{selectedParent ? (
+						<div className="folder-name">
+							<h3>{selectedParent.name}</h3>
+							<div className="folder-buttons-wrapper">
+								<div>
+									<button
+										onClick={() => openModal("", "create", "create-file")}
+									>
+										<AiOutlineFileAdd size={20} />
+									</button>
+								</div>
+								<div
+									onClick={() => setFolderOptions(!showFolderOptions)}
+									ref={ref}
+								>
+									<IoEllipsisVertical />
+								</div>
+							</div>
+							{showFolderOptions ? <FolderOptions buttonRef={ref} /> : ""}
 						</div>
-						<div onClick={() => setShowOps(!showOps)} ref={ref}>
-							<IoEllipsisVertical />
-						</div>
-					</div>
-					{showOps ? (
-						<FolderOptions
-							showOps={showOps}
-							setShowOps={setShowOps}
-							buttonRef={ref}
-						/>
 					) : (
 						""
 					)}
-				</div>
-			) : (
-				""
+					<section className="title-list">
+						{selectedParent ? (
+							<>
+								<ul>
+									{notes.length > 0 ? (
+										notes.map((note, index) => {
+											return (
+												<File key={note.id} index={index} id={note.id}>
+													{note.name}
+												</File>
+											);
+										})
+									) : (
+										<div className="empty-msg">
+											<h4 className="placeholder">The folder is empty</h4>
+											<AiOutlineFileAdd
+												size={50}
+												onClick={() => openModal("", "create", "create-file")}
+											/>
+										</div>
+									)}
+								</ul>
+							</>
+						) : (
+							<div className="empty-msg">
+								<h4 className="placeholder">No item to show</h4>
+								<HiOutlineFolderPlus
+									size={50}
+									onClick={() => openModal(1, "create", "create-folder")}
+								/>
+							</div>
+						)}
+					</section>
+				</>
 			)}
-			<section className="title-list">
-				{selectedParent ? (
-					<ul>
-						{notes.map((note, index) => {
-							return (
-								<File key={note.id} index={index} id={note.id}>
-									{note.name}
-								</File>
-							);
-						})}
-					</ul>
-				) : (
-					<h4 className="placeholder">No item to show</h4>
-				)}
-			</section>
 		</StyledFilterView>
 	);
 };
@@ -172,9 +205,24 @@ const StyledFilterView = styled.section`
 	}
 
 	.title-list {
-		.placeholder {
-			text-align: center;
-			color: gray;
+		.empty-msg {
+			.placeholder {
+				padding-top: 30px;
+				text-align: center;
+				color: #c1c1c1;
+			}
+
+			svg {
+				color: #c1c1c1;
+				display: block;
+				margin: 20px auto;
+				transition: all 0.3s ease;
+				cursor: pointer;
+
+				:hover {
+					color: dodgerblue;
+				}
+			}
 		}
 	}
 `;

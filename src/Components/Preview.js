@@ -1,6 +1,6 @@
 import ReactMarkdown from "react-markdown";
 import { useEditorContext } from "../Context/EditorContext";
-import remarkGfm from "https://esm.sh/remark-gfm@3";
+import remarkGfm from "remark-gfm";
 import styled from "styled-components";
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 import dark from "react-syntax-highlighter/dist/esm/styles/prism/coldark-dark";

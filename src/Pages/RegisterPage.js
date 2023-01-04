@@ -2,10 +2,12 @@ import React from "react";
 import styled from "styled-components";
 import AuthCard from "../Components/Auth/AuthCard";
 import RegisterContent from "../Components/Auth/RegisterContent";
+import bg from "../Assets/bg.svg";
 
 const LoginPage = () => {
 	return (
 		<StyledLoginPage>
+			<img className="bg" src={bg} alt="bg" />
 			<AuthCard>
 				<RegisterContent />
 			</AuthCard>
@@ -30,11 +32,10 @@ const LoginPage = () => {
 const StyledLoginPage = styled.div`
 	height: 100%;
 	position: relative;
+	background-color: #0d1117;
+	overflow: hidden;
 
 	.area {
-		background: #6396ca;
-		background: -webkit-linear-gradient(to bottom, #fff, #6396ca);
-		background: linear-gradient(to bottom, #fff, #6396ca);
 		width: 100vw;
 		height: 100%;
 	}
@@ -54,7 +55,7 @@ const StyledLoginPage = styled.div`
 		list-style: none;
 		width: 20px;
 		height: 20px;
-		background: rgba(255, 255, 255, 0.5);
+		background: rgba(153, 193, 232, 0.15);
 		animation: animate 25s linear infinite;
 		bottom: -150px;
 	}

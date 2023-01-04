@@ -1,6 +1,7 @@
 import React from "react";
 import styled from "styled-components";
-import logo from "../Assets/logo-light.svg";
+import logoLight from "../Assets/logo-light.svg";
+import logo from "../Assets/logo.svg";
 import { Link, NavLink, useLocation } from "react-router-dom";
 import { useAuthContext } from "../Context/AuthContext";
 import AvatarWrapper from "./Avatar/AvatarWrapper";
@@ -11,7 +12,10 @@ const Header = () => {
 	return (
 		<StyledHeader pathname={location.pathname}>
 			<Link to="/">
-				<img src={logo} alt="header-logo" />
+				<img
+					src={location.pathname === "/about" ? logo : logoLight}
+					alt="header-logo"
+				/>
 			</Link>
 			<nav className="navigation">
 				<ul className="navbar-list">
@@ -25,9 +29,9 @@ const Header = () => {
 					) : (
 						<li className="navbar-list-item">
 							{location.pathname === "/login" ? (
-								<NavLink to="/register">Register</NavLink>
+								<NavLink to="/register">Sign up</NavLink>
 							) : (
-								<NavLink to="/login">Login</NavLink>
+								<NavLink to="/login">Sign in</NavLink>
 							)}
 						</li>
 					)}
@@ -38,19 +42,20 @@ const Header = () => {
 };
 
 const StyledHeader = styled.header`
-	padding: 0 20px;
+	padding: 0 100px;
 	display: flex;
 	align-items: center;
+	width: 100%;
 	justify-content: space-between;
 	height: 60px;
-	position: relative;
+	position: absolute;
 	border-bottom: 1px solid
 		${(props) =>
 			props.pathname === "/" ||
 			props.pathname === "/login" ||
 			props.pathname === "/register" ||
 			props.pathname === "/about"
-				? props.theme.bg1
+				? "transparent"
 				: props.theme.inputBorder};
 	z-index: 9999;
 
@@ -67,9 +72,13 @@ const StyledHeader = styled.header`
 	a {
 		text-decoration: none;
 		font-weight: 500;
-		color: ${(props) => props.theme.textColor};
+		color: ${(props) =>
+			props.pathname === "/about" ? props.theme.textColor : props.theme.bg1};
 		transition: all 0.3s ease;
-		padding: 0 15px;
+
+		:last-child {
+			padding-left: 40px;
+		}
 
 		:hover {
 			color: ${(props) => props.theme.primary};

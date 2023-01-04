@@ -1,12 +1,20 @@
 import React from "react";
 import styled from "styled-components";
-import { GrClose } from "react-icons/gr";
+// import { GrClose } from "react-icons/gr";
 import { IoCloseCircle } from "react-icons/io5";
 import { useEditorContext } from "../../Context/EditorContext";
 import { IconContext } from "react-icons";
 
-const Tag = ({ tagName, color, isSelected, closable }) => {
-	const { toggleTags } = useEditorContext();
+const Tag = ({ id, tagName, color, isSelected, closable }) => {
+	const { toggleTags, removeTag } = useEditorContext();
+
+	const handleClick = (id, isSelected) => {
+		if (isSelected) {
+			removeTag(id);
+			return;
+		}
+		toggleTags(id);
+	};
 
 	if (closable) {
 		return (
@@ -14,7 +22,10 @@ const Tag = ({ tagName, color, isSelected, closable }) => {
 				<div></div>
 				{tagName}
 				<IconContext.Provider value={{ fill: "white" }}>
-					<span onClick={() => toggleTags(tagName)} className="tag-close-btn">
+					<span
+						onClick={() => handleClick(id, isSelected)}
+						className="tag-close-btn"
+					>
 						<IoCloseCircle size={18} color={"tomato"} />
 					</span>
 				</IconContext.Provider>
@@ -25,7 +36,7 @@ const Tag = ({ tagName, color, isSelected, closable }) => {
 	return (
 		<StyledTag
 			color={color}
-			onClick={() => toggleTags(tagName)}
+			onClick={() => handleClick(id, isSelected)}
 			isSelected={isSelected}
 		>
 			<div></div>
@@ -71,6 +82,10 @@ const StyledTag = styled.div`
 		margin-left: 5px;
 		margin-right: 0;
 		box-shadow: inset 0px 0px 0px 3px #c4e0f9;
+
+		svg {
+			pointer-events: none;
+		}
 	}
 `;
 
