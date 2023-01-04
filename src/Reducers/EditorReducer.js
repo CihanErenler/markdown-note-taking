@@ -29,6 +29,7 @@ export const REMOVE_TAG = "REMOVE_TAG";
 export const SET_NOFILE = "SET_NOFILE";
 export const SET_FOLDER_OPTIONS = "SET_FOLDER_OPTIONS";
 export const SET_FILE_OPTIONS = "SET_FILE_OPTIONS";
+export const TOGGLE_TAG_FILTER = "TOGGLE_TAG_FILTER";
 
 const editorReducer = (state, action) => {
 	if (action.type === ASSIGN_CODE) {
@@ -176,6 +177,10 @@ const editorReducer = (state, action) => {
 		const newState = { ...state, isSidebarVisible: !state.isSidebarVisible };
 		return newState;
 	}
+	if (action.type === TOGGLE_TAG_FILTER) {
+		const newState = { ...state, showTagFilter: action.payload };
+		return newState;
+	}
 
 	if (action.type === CODE_LOADING) {
 		const newState = { ...state, isCodeLoading: action.payload };
@@ -241,10 +246,15 @@ const editorReducer = (state, action) => {
 
 	if (action.type === TOGGLE_TAG) {
 		const code = { ...state.code };
+		const tempTags = [...state.tags];
 		const id = action.payload;
 		code.tags = [...code.tags, id];
-		const newState = { ...state, code };
-
+		tempTags.forEach((tag) => {
+			if (tag.id === id) {
+				tag.items.push(state.currentlySelectedFile);
+			}
+		});
+		const newState = { ...state, code, tags: tempTags };
 		return newState;
 	}
 
